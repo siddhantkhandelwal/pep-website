@@ -1,5 +1,8 @@
-from django.shortcuts import render
-from django.http import HttpResponse
+from django.shortcuts import render, reverse
+from django.http import HttpResponse, HttpResponseRedirect
+from .forms import UserForm, UserProfileForm
+from django.contrib.auth import authenticate, login
+
 
 
 def index(request):
@@ -32,3 +35,22 @@ def register(request):
 		{'user_form': user_form,
 		'profile_form': profile_form,
 		'registered': registered})
+
+def user_login(request):
+	if request.method == 'POST':
+		username = request.POST.get('username')
+		password = request.POST.get('password')
+
+		user = authenticate(username=username, password=password)
+
+		if user:
+			if user.is_active:
+				login(request, user)
+				return HttpResponseRedirect(reverse('index'))
+
+			else:
+				return HttpResponse("Your account is disabled.")
+		else:
+			return HttpResponse("Invalid Login Details Supplied.")
+	else:
+		return render(request, 'main/login.html', {})

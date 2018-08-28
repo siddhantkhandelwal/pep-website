@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 class UserProfile(models.Model):
 	user = models.OneToOneField(User)
 	is_professor = models.BooleanField('Is Professor?', default=False)
-	phone = models.IntegerField('Phone')
+	phone = models.BigIntegerField('Phone')
 
 	def __str__(self):
 		return self.user.username
