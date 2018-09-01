@@ -13,7 +13,7 @@ class UserProfile(models.Model):
 
 class Paper(models.Model):
 	title = models.CharField('Paper Title', max_length=200)
-	submission_date = models.DateTimeField('Date Submitted')
+	submission_date = models.DateTimeField('Date Submitted', auto_now_add=True)
 	uid = models.IntegerField('UID', primary_key=True)
 	author1 = models.CharField('Author 1', max_length=100, blank=True)
 	author2 = models.CharField('Author 2', max_length=100, blank=True)
@@ -23,6 +23,29 @@ class Paper(models.Model):
 		('AC', 'Abstract Checked'),
 		('PS', 'Paper Submitted'),
 		('PC', 'Paper Checked'),
+		)
+	status = models.CharField(
+		max_length=2,
+		choices=status_choices,
+		default='AS') 
+
+	class Meta:
+		ordering = ['uid']
+
+	def __str__(self):
+		return self.title + '-' + self.author1
+
+
+class Abstract(models.Model):
+	title = models.CharField('Abstract Title', max_length=200)
+	submission_date = models.DateTimeField('Date Submitted', auto_now_add=True)
+	uid = models.IntegerField('UID', primary_key=True)
+	author1 = models.CharField('Author 1', max_length=100, blank=True)
+	author2 = models.CharField('Author 2', max_length=100, blank=True)
+	document = models.FileField(upload_to='documents/')
+	status_choices = (
+		('AS', 'Abstract Submitted'),
+		('AC', 'Abstract Checked'),
 		)
 	status = models.CharField(
 		max_length=2,

@@ -1,8 +1,7 @@
 from django.shortcuts import render, reverse
 from django.http import HttpResponse, HttpResponseRedirect
-from .forms import UserForm, UserProfileForm
+from .forms import UserForm, UserProfileForm, AbstractForm
 from django.contrib.auth import authenticate, login, logout
-
 
 
 def index(request):
@@ -36,6 +35,7 @@ def register(request):
 		'profile_form': profile_form,
 		'registered': registered})
 
+
 def user_login(request):
 	if request.method == 'POST':
 		username = request.POST.get('username')
@@ -59,3 +59,14 @@ def user_login(request):
 def user_logout(request):
 	logout(request)
 	return HttpResponseRedirect(reverse('user_login'))
+
+def abstract_submission(request):
+	if request.method == 'POST':
+		abstract_form = AbstractForm(request.POST, request.FILES)
+		if abstract_form.is_valid():
+			abstract_form.save()
+			return HttpResponseRedirect(reverse('index'))
+	else:
+		abstract_form = AbstractForm()
+	return render(request, 'main/abstract-upload.html', {'abstract_form': abstract_form})
+
