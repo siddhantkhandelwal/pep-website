@@ -1,7 +1,7 @@
 from django.shortcuts import render, reverse
 from django.http import HttpResponse, HttpResponseRedirect
 from .forms import UserForm, UserProfileForm
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 
 
 
@@ -54,3 +54,8 @@ def user_login(request):
 			return HttpResponse("Invalid Login Details Supplied.")
 	else:
 		return render(request, 'main/login.html', {})
+
+
+def user_logout(request):
+	logout(request)
+	return HttpResponseRedirect(reverse('user_login'))
