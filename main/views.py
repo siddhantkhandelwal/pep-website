@@ -2,6 +2,7 @@ from django.shortcuts import render, reverse
 from django.http import HttpResponse, HttpResponseRedirect
 from .forms import UserForm, UserProfileForm, AbstractForm, PaperForm
 from django.contrib.auth import authenticate, login, logout
+from .models import Abstract, Paper
 
 
 def index(request):
@@ -80,3 +81,9 @@ def paper_submission(request):
 		paper_form = PaperForm()
 	return render(request, 'main/paper-upload.html', {'paper_form': paper_form})
 
+def dashboard(request):
+	abstract_count = Abstract.objects.count()
+	paper_count = Paper.objects.count()
+
+	return render(request, 'main/dashboard.html', {'abstract_count': abstract_count,
+													'paper_count': paper_count})
