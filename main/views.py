@@ -1,6 +1,6 @@
 from django.shortcuts import render, reverse
 from django.http import HttpResponse, HttpResponseRedirect
-from .forms import UserForm, UserProfileForm, AbstractForm
+from .forms import UserForm, UserProfileForm, AbstractForm, PaperForm
 from django.contrib.auth import authenticate, login, logout
 
 
@@ -69,4 +69,14 @@ def abstract_submission(request):
 	else:
 		abstract_form = AbstractForm()
 	return render(request, 'main/abstract-upload.html', {'abstract_form': abstract_form})
+
+def paper_submission(request):
+	if request.method == 'POST':
+		paper_form = PaperForm(request.POST, request.FILES)
+		if papaer_form.is_valid():
+			paper_form.save()
+			return HttpResponseRedirect(reverse('index'))
+	else:
+		paper_form = PaperForm()
+	return render(request, 'main/paper-upload.html', {'paper_form': paper_form})
 

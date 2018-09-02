@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from .models import UserProfile, Abstract
+from .models import UserProfile, Abstract, Paper
 
 
 
@@ -19,4 +19,9 @@ class UserProfileForm(forms.ModelForm):
 class AbstractForm(forms.ModelForm):
 	class Meta:
 		model = Abstract
+		fields = ('title', 'author1', 'author2', 'document')
+
+class PaperForm(forms.ModelForm):
+	class Meta:
+		model = Paper
 		fields = ('title', 'author1', 'author2', 'document')

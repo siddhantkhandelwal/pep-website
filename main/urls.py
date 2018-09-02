@@ -7,4 +7,5 @@ urlpatterns = [
 	url(r'^login', views.user_login, name='user_login'),
 	url(r'^logout', views.user_logout, name='user_logout'),
 	url(r'^abstract_submission', views.abstract_submission, name='abstract_submission'),
+	url(r'^paper_submission', views.paper_submission, name='paper_submission'),
 ]

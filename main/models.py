@@ -17,6 +17,7 @@ class Paper(models.Model):
 	uid = models.IntegerField('UID', primary_key=True)
 	author1 = models.CharField('Author 1', max_length=100, blank=True)
 	author2 = models.CharField('Author 2', max_length=100, blank=True)
+	document = models.FileField(upload_to='documents/papers/')
 	#professor = models.ForeignKey('UserProfile', on_delete=models.CASCADE)
 	status_choices = (
 		('AS', 'Abstract Submitted'),
@@ -42,7 +43,7 @@ class Abstract(models.Model):
 	uid = models.IntegerField('UID', primary_key=True)
 	author1 = models.CharField('Author 1', max_length=100, blank=True)
 	author2 = models.CharField('Author 2', max_length=100, blank=True)
-	document = models.FileField(upload_to='documents/')
+	document = models.FileField(upload_to='documents/abstracts/')
 	status_choices = (
 		('AS', 'Abstract Submitted'),
 		('AC', 'Abstract Checked'),
