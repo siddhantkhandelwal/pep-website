@@ -2,7 +2,7 @@ from django.shortcuts import render, reverse
 from django.http import HttpResponse, HttpResponseRedirect
 from .forms import UserForm, UserProfileForm, AbstractForm, PaperForm
 from django.contrib.auth import authenticate, login, logout
-from .models import Abstract, Paper
+from .models import Abstract, Paper, UserProfile
 from django.contrib.auth.decorators import login_required
 
 
@@ -81,8 +81,9 @@ def paper_submission(request):
 
 @login_required
 def dashboard(request):
-	abstract_count = Abstract.objects.count()
-	paper_count = Paper.objects.count()
-
-	return render(request, 'main/dashboard.html', {'abstract_count': abstract_count,
-													'paper_count': paper_count})
+	if request.user.is_superuser:
+		return HttpResponseRedirect('/admin')
+	user_profile = UserProfile.objects.get(user = request.user)
+	abstracts_allotted = Abstract.objects.filter(professor=user_profile)
+	return render(request, 'main/dashboard.html', {'user_profile': user_profile,
+													'abstracts_allotted': abstracts_allotted})

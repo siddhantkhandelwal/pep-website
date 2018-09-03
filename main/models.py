@@ -16,6 +16,7 @@ class Category(models.Model):
 
 class UserProfile(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE)
+	display_name = models.CharField('Display Name', max_length=200, null=True)
 	phone = models.BigIntegerField('Phone')
 	category = models.OneToOneField(Category, on_delete=models.SET_NULL, null=True)
 
