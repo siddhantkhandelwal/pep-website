@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Paper</title>
+  <title>Paper Submission</title>
 </head>
 <body>
-	<form method="post" enctype="multipart/form-data">
-    	{% csrf_token %}
-    	{{ paper_form.as_p }}
-    	<button type="submit">Submit</button>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ paper_form.as_p }}
+    <button type="submit">Submit</button>
   </form>
 </body>
 </html>

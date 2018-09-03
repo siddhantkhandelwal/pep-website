@@ -3,7 +3,6 @@ from django.contrib.auth.models import User
 from .models import UserProfile, Abstract, Paper
 
 
-
 class UserForm(forms.ModelForm):
 	password = forms.CharField(widget=forms.PasswordInput())
 
@@ -14,14 +13,14 @@ class UserForm(forms.ModelForm):
 class UserProfileForm(forms.ModelForm):
 	class Meta:
 		model = UserProfile
-		fields = ('is_professor', 'phone')
+		fields = ('phone', 'category')
 
 class AbstractForm(forms.ModelForm):
 	class Meta:
 		model = Abstract
-		fields = ('title', 'author1', 'author2', 'document')
+		fields = ('title', 'author1', 'author2', 'document', 'category')
 
 class PaperForm(forms.ModelForm):
 	class Meta:
 		model = Paper
-		fields = ('title', 'author1', 'author2', 'document')
+		fields = ('document', 'abstract')

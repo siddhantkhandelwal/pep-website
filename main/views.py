@@ -36,7 +36,6 @@ def register(request):
 		'profile_form': profile_form,
 		'registered': registered})
 
-
 def user_login(request):
 	if request.method == 'POST':
 		username = request.POST.get('username')
@@ -55,7 +54,6 @@ def user_login(request):
 			return HttpResponse("Invalid Login Details Supplied.")
 	else:
 		return render(request, 'main/login.html', {})
-
 
 def user_logout(request):
 	logout(request)
@@ -80,7 +78,6 @@ def paper_submission(request):
 	else:
 		paper_form = PaperForm()
 	return render(request, 'main/paper-upload.html', {'paper_form': paper_form})
-
 
 @login_required
 def dashboard(request):
