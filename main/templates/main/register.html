@@ -8,7 +8,7 @@
 		</title>
 	</head>
 	<body>
-		<form id="user_form" method="post" action='/main/register/'>
+		<form id="user_form" method="post" action='/accounts/register/'>
 			{% csrf_token %}
 			{{ user_form.as_p }}
 			{{ profile_form.as_p }}

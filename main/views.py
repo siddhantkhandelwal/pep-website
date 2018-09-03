@@ -3,13 +3,13 @@ from django.http import HttpResponse, HttpResponseRedirect
 from .forms import UserForm, UserProfileForm, AbstractForm, PaperForm
 from django.contrib.auth import authenticate, login, logout
 from .models import Abstract, Paper
+from django.contrib.auth.decorators import login_required
 
 
 def index(request):
 	return HttpResponse("Hello!")
 
 def register(request):
-	registered = False
 	if request.method == 'POST':
 		user_form = UserForm(data=request.POST)
 		profile_form = UserProfileForm(data=request.POST)
@@ -23,7 +23,7 @@ def register(request):
 			profile.user = user
 
 			profile.save()
-			registered = True
+			return HttpResponseRedirect(reverse('user_login'))
 		else:
 			print(user_form.errors, profile_form.errors)
 	else:
@@ -47,7 +47,7 @@ def user_login(request):
 		if user:
 			if user.is_active:
 				login(request, user)
-				return HttpResponseRedirect(reverse('index'))
+				return HttpResponseRedirect(reverse('dashboard'))
 
 			else:
 				return HttpResponse("Your account is disabled.")
@@ -81,6 +81,8 @@ def paper_submission(request):
 		paper_form = PaperForm()
 	return render(request, 'main/paper-upload.html', {'paper_form': paper_form})
 
+
+@login_required
 def dashboard(request):
 	abstract_count = Abstract.objects.count()
 	paper_count = Paper.objects.count()
