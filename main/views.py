@@ -1,4 +1,4 @@
-from django.shortcuts import render, reverse
+from django.shortcuts import render, reverse, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from .forms import UserForm, UserProfileForm, AbstractForm, PaperForm
 from django.contrib.auth import authenticate, login, logout
@@ -87,3 +87,23 @@ def dashboard(request):
 	abstracts_allotted = Abstract.objects.filter(professor=user_profile)
 	return render(request, 'main/dashboard.html', {'user_profile': user_profile,
 													'abstracts_allotted': abstracts_allotted})
+@login_required
+def abstract_review(request, pk):
+	abstract = get_object_or_404(Abstract, pk=pk)
+	if request.method == 'POST':
+		review = request.POST.review
+		abstract.review = review
+		abstract.save()
+		return HttpResponseRedirect('dashboard')
+	return render(request, 'main/abstract-review.html', {'abstract': abstract})
+
+@login_required
+def paper_review(request, pk):
+	abstract = abstract = get_object_or_404(Abstract, pk=pk)
+	paper = get_object_or_404(Paper, abstract = abstract)
+	if request.method == 'POST':
+		review = request.POST.review
+		paper.review = paper
+		paper.save()
+		return HttpResponseRedirect('dashboard')
+	return render(request, 'main/paper-review.html', {'paper': paper})

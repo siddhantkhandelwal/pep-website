@@ -37,6 +37,7 @@ class Abstract(models.Model):
 	document = models.FileField(upload_to='documents/abstracts/')
 	category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
 	professor = models.ForeignKey(UserProfile, on_delete=models.SET_NULL, null=True)
+	review = models.TextField(null=True)
 	status_choices = (
 		('AS', 'Abstract Submitted'),
 		('AC', 'Abstract Checked'),
@@ -57,6 +58,7 @@ class Paper(models.Model):
 	abstract = models.OneToOneField(Abstract, on_delete=models.CASCADE)
 	submission_date = models.DateTimeField('Date Submitted', auto_now_add=True)
 	document = models.FileField(upload_to='documents/papers/')
+	review = models.TextField(null=True)
 	status_choices = (
 		('PS', 'Paper Submitted'),
 		('PC', 'Paper Checked'),
