@@ -18,7 +18,7 @@ class UserProfileForm(forms.ModelForm):
 class AbstractForm(forms.ModelForm):
 	class Meta:
 		model = Abstract
-		fields = ('title', 'author1', 'author2', 'document', 'category')
+		fields = ('title', 'author1', 'author2', 'document', 'category', 'professor')
 
 class PaperForm(forms.ModelForm):
 	class Meta:

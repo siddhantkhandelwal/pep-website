@@ -26,8 +26,11 @@ class UserProfile(models.Model):
 
 class Abstract(models.Model):
 	def generate_uid():
-		random.seed(datetime.now()) 
-		return random.randint(0, 1000)
+		random.seed(datetime.now())
+		temp_uid = random.randint(0, 1000)
+		while(uid(temp_uid) == False):
+			temp_uid = random.randint(0, 1000)
+		return temp_uid
 
 	title = models.CharField('Abstract Title', max_length=200)
 	submission_date = models.DateTimeField('Date Submitted', auto_now_add=True)
@@ -70,3 +73,10 @@ class Paper(models.Model):
 
 	def __str__(self):
 		return self.abstract.title + '-' + self.abstract.author1
+
+
+def uid(temp_uid):
+	abstracts = Abstract.objects.all()
+	for abstract in abstracts:
+		if abstract.uid == temp_uid:
+			return False

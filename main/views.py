@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 
 
 def index(request):
-	return HttpResponse("Hello!")
+	return render(request, 'main/index.html', {})
 
 def register(request):
 	if request.method == 'POST':
@@ -72,7 +72,7 @@ def abstract_submission(request):
 def paper_submission(request):
 	if request.method == 'POST':
 		paper_form = PaperForm(request.POST, request.FILES)
-		if papaer_form.is_valid():
+		if paper_form.is_valid():
 			paper_form.save()
 			return HttpResponseRedirect(reverse('index'))
 	else:
