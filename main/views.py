@@ -1,6 +1,6 @@
 from django.shortcuts import render, reverse, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
-from .forms import UserForm, UserProfileForm, AbstractForm, PaperForm
+from .forms import UserForm, UserProfileForm, AbstractForm, PaperForm, AbstractReviewForm, PaperReviewForm
 from django.contrib.auth import authenticate, login, logout
 from .models import Abstract, Paper, UserProfile
 from django.contrib.auth.decorators import login_required
@@ -91,19 +91,26 @@ def dashboard(request):
 def abstract_review(request, pk):
 	abstract = get_object_or_404(Abstract, pk=pk)
 	if request.method == 'POST':
-		review = request.POST.review
-		abstract.review = review
-		abstract.save()
-		return HttpResponseRedirect('dashboard')
-	return render(request, 'main/abstract-review.html', {'abstract': abstract})
+		abstract_review_form = AbstractReviewForm(request.POST, instance=abstract)
+		if abstract_review_form.is_valid():
+			abstract = abstract_review_form.save(commit=False)
+			abstract.status = 'AC'
+			abstract.save()
+			return HttpResponseRedirect(reverse('dashboard'))
+	else:
+		abstract_review_form = AbstractReviewForm()
+	return render(request, 'main/abstract-review.html', {'abstract_review_form': abstract_review_form})
 
-@login_required
 def paper_review(request, pk):
-	abstract = abstract = get_object_or_404(Abstract, pk=pk)
-	paper = get_object_or_404(Paper, abstract = abstract)
+	abstract = get_object_or_404(Abstract, pk=pk)
+	paper = get_object_or_404(Paper, abstract=abstract)
 	if request.method == 'POST':
-		review = request.POST.review
-		paper.review = paper
-		paper.save()
-		return HttpResponseRedirect('dashboard')
-	return render(request, 'main/paper-review.html', {'paper': paper})
+		paper_review_form = PaperReviewForm(request.POST, instance=paper)
+		if paper_review_form.is_valid():
+			paper = paper_review_form.save(commit=False)
+			paper.status = 'PC'
+			paper.save()
+			return HttpResponseRedirect(reverse('dashboard'))
+	else:
+		paper_review_form = PaperReviewForm()
+	return render(request, 'main/paper-review.html', {'paper_review_form': paper_review_form})

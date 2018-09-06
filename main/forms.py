@@ -24,3 +24,19 @@ class PaperForm(forms.ModelForm):
 	class Meta:
 		model = Paper
 		fields = ('document', 'abstract')
+
+class AbstractReviewForm(forms.ModelForm):
+	class Meta:
+		model = Abstract
+		fields = ('review',)
+		widgets = {
+            'review': forms.Textarea(attrs={'cols': 80, 'rows': 3}),
+        }
+	
+class PaperReviewForm(forms.ModelForm):
+	class Meta:
+		model = Paper
+		fields = ('review',)
+		widgets = {
+            'review': forms.Textarea(attrs={'cols': 80, 'rows': 3}),
+        }

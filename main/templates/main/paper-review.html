@@ -1,11 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Paper - {{ paper.abstract.title }}</title>
+  <title>Abstract</title>
 </head>
 <body>
-  {{ paper.abstract.title }}
-  {{ paper.abstract.uid }}
-  {{ paper.status }}
+  <form method="post">
+    {% csrf_token %}
+    {{ paper_review_form.as_p }}
+    <button type="submit">
+      Submit
+    </button>
+  </form>
 </body>
 </html>
