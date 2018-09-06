@@ -18,10 +18,13 @@ class UserProfile(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE)
 	display_name = models.CharField('Display Name', max_length=200, null=True)
 	phone = models.BigIntegerField('Phone')
-	category = models.OneToOneField(Category, on_delete=models.SET_NULL, null=True)
+	category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
 
 	def __str__(self):
-		return self.user.username
+		return self.display_name + ' - ' + self.category.name
+
+	class Meta:
+		ordering = ['category']
 
 
 class Abstract(models.Model):

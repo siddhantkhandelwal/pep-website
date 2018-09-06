@@ -5,11 +5,14 @@
 </head>
 <body>
   {{ user_profile.display_name }} - {{ user_profile.category }}<br><br>
-  {% for abstract in abstracts_allotted %}
-  	Abstract Title: {{ abstract.title }}<br>
-  	Abstract UID: {{ abstract.uid }}<br>
-  	Status: {{ abstract.status }}<br><br>
-  {% endfor %}
-
+  {% if not abstracts_allotted  %}
+  	No abstracts/papers allotted as of now.
+  {% else %}
+	  {% for abstract in abstracts_allotted %}
+	  	Abstract Title: {{ abstract.title }}<br>
+	  	Abstract UID: {{ abstract.uid }}<br>
+	  	Status: {{ abstract.status }}<br><br>
+	  {% endfor %}
+  {% endif %}
 </body>
 </html>

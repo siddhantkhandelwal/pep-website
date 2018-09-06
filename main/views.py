@@ -34,7 +34,7 @@ def register(request):
 		'main/register.html',
 		{'user_form': user_form,
 		'profile_form': profile_form,
-		'registered': registered})
+		})
 
 def user_login(request):
 	if request.method == 'POST':
