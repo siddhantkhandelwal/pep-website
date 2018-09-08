@@ -9,7 +9,12 @@ from django.contrib.auth.decorators import login_required
 def think_again(request):
 	return render(request, 'main/think-again.html', {})
 
+def paper_presentation(request):
+	return render(request, 'main/paper-presentation.html', {})
+
 def register(request):
+	if request.user.is_authenticated():
+		return HttpResponseRedirect(reverse('dashboard'))
 	if request.method == 'POST':
 		user_form = UserForm(data=request.POST)
 		profile_form = UserProfileForm(data=request.POST)
@@ -37,6 +42,8 @@ def register(request):
 		})
 
 def user_login(request):
+	if request.user.is_authenticated():
+		return HttpResponseRedirect(reverse('dashboard'))
 	if request.method == 'POST':
 		username = request.POST.get('username')
 		password = request.POST.get('password')
