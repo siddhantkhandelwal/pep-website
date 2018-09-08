@@ -6,8 +6,8 @@ from .models import Abstract, Paper, UserProfile
 from django.contrib.auth.decorators import login_required
 
 
-def index(request):
-	return render(request, 'main/index.html', {})
+def think_again(request):
+	return render(request, 'main/think-again.html', {})
 
 def register(request):
 	if request.method == 'POST':
@@ -64,7 +64,7 @@ def abstract_submission(request):
 		abstract_form = AbstractForm(request.POST, request.FILES)
 		if abstract_form.is_valid():
 			abstract_form.save()
-			return HttpResponseRedirect(reverse('index'))
+			return HttpResponseRedirect(reverse('dashboard'))
 	else:
 		abstract_form = AbstractForm()
 	return render(request, 'main/abstract-upload.html', {'abstract_form': abstract_form})
@@ -74,7 +74,7 @@ def paper_submission(request):
 		paper_form = PaperForm(request.POST, request.FILES)
 		if paper_form.is_valid():
 			paper_form.save()
-			return HttpResponseRedirect(reverse('index'))
+			return HttpResponseRedirect(reverse('dashboard'))
 	else:
 		paper_form = PaperForm()
 	return render(request, 'main/paper-upload.html', {'paper_form': paper_form})
