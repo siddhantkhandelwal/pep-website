@@ -10,7 +10,7 @@ def think_again(request):
 	return render(request, 'main/think-again.html', {})
 
 def paper_presentation(request):
-	return render(request, 'main/paper-presentation.html', {})
+	return render(request, 'main/paper-presentation/paper-presentation.html', {})
 
 def register(request):
 	if request.user.is_authenticated():
