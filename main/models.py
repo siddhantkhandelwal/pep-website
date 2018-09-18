@@ -27,10 +27,12 @@ class UserProfile(models.Model):
 	phone1 = models.BigIntegerField('Phone', null=True)
 	phone2 = models.BigIntegerField('Alternate Phone', null=True, blank=True)
 	category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True) 
-	college = models.ForeignKey(College, on_delete=models.SET_NULL, null=True)
+	college = models.ForeignKey(College, on_delete=models.SET_NULL, null=True, blank=True)
 	is_participant = models.BooleanField(default=True)
 
 	def __str__(self):
+		if self.is_participant:
+			return self.user.username
 		return self.display_name + ' - ' + self.category.name
 
 	class Meta:

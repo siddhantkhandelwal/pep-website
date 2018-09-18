@@ -1,6 +1,6 @@
 from django.shortcuts import render, reverse, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
-from .forms import UserForm, UserProfileForm, AbstractForm, PaperForm, AbstractReviewForm, PaperReviewForm, ParticipantProfileForm
+from .forms import UserForm, UserProfileForm, AbstractForm, PaperForm, AbstractReviewForm, PaperReviewForm, ParticipantProfileForm, PasswordResetForm
 from django.contrib.auth import authenticate, login, logout
 from .models import Abstract, Paper, UserProfile
 from django.contrib.auth.decorators import login_required
@@ -66,11 +66,28 @@ def user_logout(request):
 	logout(request)
 	return HttpResponseRedirect(reverse('user_login'))
 
+@login_required
+def user_password_reset(request):
+	if request.method == 'POST':
+		user = request.user
+		password_reset_form = PasswordResetForm(data=request.POST, instance=user)
+		if password_reset_form.is_valid():
+			user = password_reset_form.save(commit=False)
+			user.set_password(user.password)
+			user.save()
+			return HttpResponseRedirect(reverse('user_login'))
+	else:
+		password_reset_form = PasswordResetForm()
+	return render(request, 'main/paper-presentation/password-reset.html', {'password_reset_form': password_reset_form})
+
 def abstract_submission(request):
 	if request.method == 'POST':
+		user_profile = UserProfile.objects.get(user = request.user)
 		abstract_form = AbstractForm(request.POST, request.FILES)
 		if abstract_form.is_valid():
-			abstract_form.save()
+			abstract = abstract_form.save(commit=False)
+			abstract.author1 = user_profile
+			abstract.save()
 			return HttpResponseRedirect(reverse('dashboard'))
 	else:
 		abstract_form = AbstractForm()

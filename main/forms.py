@@ -10,12 +10,21 @@ class UserForm(forms.ModelForm):
 		model = User
 		fields = ('username', 'email', 'password')
 
+class PasswordResetForm(forms.ModelForm):
+	password = forms.CharField(widget=forms.PasswordInput())
+	class Meta:
+		model = User
+		fields = ('password',)
+
 class UserProfileForm(forms.ModelForm):
 	class Meta:
 		model = UserProfile
 		fields = ('display_name','phone1', 'category')
 
 class ParticipantProfileForm(forms.ModelForm):
+	def __init__(self, *args, **kwargs):
+		super(ParticipantProfileForm, self).__init__(*args, **kwargs)
+		self.fields['college'].required=True
 	class Meta:
 		model = UserProfile
 		fields = ('phone1', 'phone2', 'college')
