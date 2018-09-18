@@ -11,7 +11,7 @@
     <form id="user_form" method="post" action='/accounts/register/'>
       {% csrf_token %}
       {{ user_form.as_p }}
-      {{ profile_form.as_p }}
+      {{ participant_profile_form.as_p }}
       <input type="submit" name="submit" value="Register" />
     </form>
   </body>

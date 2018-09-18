@@ -1,6 +1,6 @@
 from django.shortcuts import render, reverse, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
-from .forms import UserForm, UserProfileForm, AbstractForm, PaperForm, AbstractReviewForm, PaperReviewForm
+from .forms import UserForm, UserProfileForm, AbstractForm, PaperForm, AbstractReviewForm, PaperReviewForm, ParticipantProfileForm
 from django.contrib.auth import authenticate, login, logout
 from .models import Abstract, Paper, UserProfile
 from django.contrib.auth.decorators import login_required
@@ -17,28 +17,28 @@ def register(request):
 		return HttpResponseRedirect(reverse('dashboard'))
 	if request.method == 'POST':
 		user_form = UserForm(data=request.POST)
-		profile_form = UserProfileForm(data=request.POST)
+		participant_profile_form = ParticipantProfileForm(data=request.POST)
 
-		if user_form.is_valid() and profile_form.is_valid():
+		if user_form.is_valid() and participant_profile_form.is_valid():
 			user = user_form.save()
 			user.set_password(user.password)
 			user.save()
 
-			profile = profile_form.save(commit=False)
-			profile.user = user
+			participant_profile = participant_profile_form.save(commit=False)
+			participant_profile.user = user
 
-			profile.save()
+			participant_profile.save()
 			return HttpResponseRedirect(reverse('user_login'))
 		else:
-			print(user_form.errors, profile_form.errors)
+			print(user_form.errors, participant_profile_form.errors)
 	else:
 		user_form = UserForm()
-		profile_form = UserProfileForm()
+		participant_profile_form = ParticipantProfileForm()
 
 	return render(request, 
 		'main/paper-presentation/register.html',
 		{'user_form': user_form,
-		'profile_form': profile_form,
+		'participant_profile_form': participant_profile_form,
 		})
 
 def user_login(request):
@@ -91,6 +91,11 @@ def dashboard(request):
 	if request.user.is_superuser:
 		return HttpResponseRedirect('/admin')
 	user_profile = UserProfile.objects.get(user = request.user)
+	if user_profile.is_participant:
+		participant_abstracts = Abstract.objects.filter(author1=user_profile)
+		#participant_papers = Paper.objects.filter(author=user_profile)
+		return render(request, 'main/paper-presentation/dashboard.html', {'abstracts': participant_abstracts,})
+																		  #'papers': participant_papers})
 	abstracts_allotted = Abstract.objects.filter(professor=user_profile)
 	papers_allotted = []
 	papers = Paper.objects.all()

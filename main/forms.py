@@ -13,7 +13,12 @@ class UserForm(forms.ModelForm):
 class UserProfileForm(forms.ModelForm):
 	class Meta:
 		model = UserProfile
-		fields = ('display_name','phone', 'category')
+		fields = ('display_name','phone1', 'category')
+
+class ParticipantProfileForm(forms.ModelForm):
+	class Meta:
+		model = UserProfile
+		fields = ('phone1', 'phone2', 'college')
 
 class AbstractForm(forms.ModelForm):
 	class Meta:
