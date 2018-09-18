@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Abstract</title>
+  <title>{{ abstract.title }}</title>
 </head>
 <body>
+	Abstract Title: {{ abstract.title }}<br>
+	Abstract UID: {{ abstract.uid }}<br>
+	Status: {{ abstract.status }}<br><br>
   <form method="post">
     {% csrf_token %}
     {{ abstract_review_form.as_p }}

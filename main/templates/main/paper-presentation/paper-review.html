@@ -4,6 +4,9 @@
   <title>Abstract</title>
 </head>
 <body>
+	Paper Title: {{ abstract.title }}<br>
+	Paper UID: {{ abstract.uid }}<br>
+	Status: {{ paper.status }}<br><br>
   <form method="post">
     {% csrf_token %}
     {{ paper_review_form.as_p }}

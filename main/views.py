@@ -36,7 +36,7 @@ def register(request):
 		profile_form = UserProfileForm()
 
 	return render(request, 
-		'main/register.html',
+		'main/paper-presentation/register.html',
 		{'user_form': user_form,
 		'profile_form': profile_form,
 		})
@@ -60,7 +60,7 @@ def user_login(request):
 		else:
 			return HttpResponse("Invalid Login Details Supplied.")
 	else:
-		return render(request, 'main/login.html', {})
+		return render(request, 'main/paper-presentation/login.html', {})
 
 def user_logout(request):
 	logout(request)
@@ -74,7 +74,7 @@ def abstract_submission(request):
 			return HttpResponseRedirect(reverse('dashboard'))
 	else:
 		abstract_form = AbstractForm()
-	return render(request, 'main/abstract-upload.html', {'abstract_form': abstract_form})
+	return render(request, 'main/paper-presentation/abstract-upload.html', {'abstract_form': abstract_form})
 
 def paper_submission(request):
 	if request.method == 'POST':
@@ -84,7 +84,7 @@ def paper_submission(request):
 			return HttpResponseRedirect(reverse('dashboard'))
 	else:
 		paper_form = PaperForm()
-	return render(request, 'main/paper-upload.html', {'paper_form': paper_form})
+	return render(request, 'main/paper-presentation/paper-upload.html', {'paper_form': paper_form})
 
 @login_required
 def dashboard(request):
@@ -92,8 +92,15 @@ def dashboard(request):
 		return HttpResponseRedirect('/admin')
 	user_profile = UserProfile.objects.get(user = request.user)
 	abstracts_allotted = Abstract.objects.filter(professor=user_profile)
-	return render(request, 'main/dashboard.html', {'user_profile': user_profile,
-													'abstracts_allotted': abstracts_allotted})
+	papers_allotted = []
+	papers = Paper.objects.all()
+	for paper in papers:
+		if paper.abstract in abstracts_allotted:
+			papers_allotted.append(paper)
+			abstracts_allotted = abstracts_allotted.exclude(uid = paper.abstract.uid)
+	return render(request, 'main/paper-presentation/dashboard.html', {'user_profile': user_profile,
+													'abstracts_allotted': abstracts_allotted,
+													'papers_allotted': papers_allotted})
 @login_required
 def abstract_review(request, pk):
 	abstract = get_object_or_404(Abstract, pk=pk)
@@ -105,8 +112,9 @@ def abstract_review(request, pk):
 			abstract.save()
 			return HttpResponseRedirect(reverse('dashboard'))
 	else:
-		abstract_review_form = AbstractReviewForm()
-	return render(request, 'main/abstract-review.html', {'abstract_review_form': abstract_review_form})
+		abstract_review_form = AbstractReviewForm()	
+	return render(request, 'main/paper-presentation/abstract-review.html', {'abstract_review_form': abstract_review_form,
+																			'abstract': abstract})
 
 def paper_review(request, pk):
 	abstract = get_object_or_404(Abstract, pk=pk)
@@ -120,4 +128,6 @@ def paper_review(request, pk):
 			return HttpResponseRedirect(reverse('dashboard'))
 	else:
 		paper_review_form = PaperReviewForm()
-	return render(request, 'main/paper-review.html', {'paper_review_form': paper_review_form})
+	return render(request, 'main/paper-presentation/paper-review.html', {'paper_review_form': paper_review_form,
+																		 'abstract': abstract,
+																		 'paper': paper})
