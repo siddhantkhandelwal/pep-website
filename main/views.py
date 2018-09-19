@@ -2,7 +2,7 @@ from django.shortcuts import render, reverse, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from .forms import UserForm, AbstractForm, PaperForm, AbstractReviewForm, PaperReviewForm, ParticipantProfileForm, PasswordResetForm
 from django.contrib.auth import authenticate, login, logout
-from .models import Abstract, Paper, ParticipantProfile, ProfessorProfile
+from .models import Abstract, Paper, ParticipantProfile, ProfessorProfile, StaffProfile
 from django.contrib.auth.decorators import login_required
 
 
@@ -110,26 +110,33 @@ def dashboard(request):
 	if request.user.is_superuser:
 		return HttpResponseRedirect('/admin')
 	if not ParticipantProfile.objects.filter(user = request.user):
-		user_profile = ProfessorProfile.objects.get(user = request.user)
-		is_participant = False
-		abstracts_allotted = Abstract.objects.filter(professor=user_profile)
-		papers_allotted = []
-		papers = Paper.objects.all()
-		for paper in papers:
-			if paper.abstract in abstracts_allotted:
-				papers_allotted.append(paper)
-				abstracts_allotted = abstracts_allotted.exclude(uid = paper.abstract.uid)
-		return render(request, 'main/paper-presentation/dashboard.html', {'user_profile': user_profile,
-													'abstracts_allotted': abstracts_allotted,
-													'papers_allotted': papers_allotted,
-													'is_participant': is_participant})
-
+		if StaffProfile.objects.filter(user = request.user):
+			user_profile = StaffProfile.objects.get(user = request.user)
+			access_level = 2
+			categories = ', '.join([category.name for category in user_profile.categories.all()])
+			return render(request, 'main/paper-presentation/dashboard.html', {'user_profile': user_profile,
+														'categories': categories,
+														'access_level': access_level})
+		else:	
+			user_profile = ProfessorProfile.objects.get(user = request.user)
+			access_level = 1
+			abstracts_allotted = Abstract.objects.filter(professor=user_profile)
+			papers_allotted = []
+			papers = Paper.objects.all()
+			for paper in papers:
+				if paper.abstract in abstracts_allotted:
+					papers_allotted.append(paper)
+					abstracts_allotted = abstracts_allotted.exclude(uid = paper.abstract.uid)
+			return render(request, 'main/paper-presentation/dashboard.html', {'user_profile': user_profile,
+														'abstracts_allotted': abstracts_allotted,
+														'papers_allotted': papers_allotted,
+														'access_level': access_level})
 	user_profile = ParticipantProfile.objects.get(user = request.user)
 	participant_abstracts = Abstract.objects.filter(participant=user_profile)
-	is_participant = True
+	access_level = 0
 	#participant_papers = Paper.objects.filter(author=user_profile)
 	return render(request, 'main/paper-presentation/dashboard.html', {'abstracts': participant_abstracts,
-																	  'is_participant': is_participant,
+																	  'access_level': access_level,
 																	  'user_profile': user_profile})
 																	  #'papers': participant_papers})
 @login_required

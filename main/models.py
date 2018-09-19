@@ -21,6 +21,14 @@ class College(models.Model):
 		return self.name
 
 
+class StaffProfile(models.Model):
+	user = models.OneToOneField(User, on_delete=models.CASCADE)
+	categories = models.ManyToManyField(Category)
+
+	def __str__(self):
+		return self.user.username
+	
+
 class ProfessorProfile(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE)
 	display_name = models.CharField('Display Name', max_length=200, null=True)

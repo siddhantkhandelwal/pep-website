@@ -4,7 +4,7 @@
   <title>Dashboard</title>
 </head>
 <body>	
-  {% if not is_participant %}
+  {% if access_level is 1 %}
     {{ user_profile.display_name }} - {{ user_profile.category }}<br>
     <a href="/accounts/logout/">Log out</a><br><br>
 
@@ -43,7 +43,7 @@
       {% endif %}
     
     {% endif %}
-  {% else %}
+  {% elif access_level is 0 %}
     {{ user_profile.author1 }}<br>
     {{ user_profile.college.name }}<br>
     {{ user_profile.phone1 }}<br><br>
@@ -59,6 +59,9 @@
         {% endif %}
       {% endfor %}
     {% endif %}
+  {% elif access_level is 2 %}
+    {{ user_profile.user.username }}<br>
+    {{ categories }}
   {% endif %}
 </body>
 </html>
