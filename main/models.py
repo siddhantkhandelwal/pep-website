@@ -21,23 +21,34 @@ class College(models.Model):
 		return self.name
 
 
-class UserProfile(models.Model):
+class ProfessorProfile(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE)
 	display_name = models.CharField('Display Name', max_length=200, null=True)
 	phone1 = models.BigIntegerField('Phone', null=True)
 	phone2 = models.BigIntegerField('Alternate Phone', null=True, blank=True)
 	category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True) 
-	college = models.ForeignKey(College, on_delete=models.SET_NULL, null=True, blank=True)
-	is_participant = models.BooleanField(default=True)
 
 	def __str__(self):
-		if self.is_participant:
-			return self.user.username
 		return self.display_name + ' - ' + self.category.name
-
+	
 	class Meta:
 		ordering = ['category']
 
+
+class ParticipantProfile(models.Model):
+	user = models.OneToOneField(User, on_delete=models.CASCADE)
+	author1 = models.CharField('Author 1', max_length=200)
+	author2 = models.CharField('Author 2', max_length=200, null=True, blank=True)
+	phone1 = models.BigIntegerField('Phone', null=True)
+	phone2 = models.BigIntegerField('Alternate Phone', null=True, blank=True)
+	college = models.ForeignKey(College, on_delete=models.SET_NULL, null=True, blank=True)
+	
+	def __str__(self):
+		if self.author2:
+			return self.user.username + ' - ' + self.author1 + ', ' + self.author2
+		else:
+			return self.user.username + ' - ' + self.author1
+		
 
 class Abstract(models.Model):
 	def generate_uid():
@@ -50,11 +61,10 @@ class Abstract(models.Model):
 	title = models.CharField('Abstract Title', max_length=200)
 	submission_date = models.DateTimeField('Date Submitted', auto_now_add=True)
 	uid = models.IntegerField('UID', primary_key=True, default=generate_uid)
-	author1 = models.CharField('Author 1', max_length=100, blank=True)
-	author2 = models.CharField('Author 2', max_length=100, blank=True)
+	participant = models.ForeignKey(ParticipantProfile, on_delete=models.SET_NULL, null=True)
 	document = models.FileField(upload_to='documents/abstracts/')
 	category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
-	professor = models.ForeignKey(UserProfile, on_delete=models.SET_NULL, null=True)
+	professor = models.ForeignKey(ProfessorProfile, on_delete=models.SET_NULL, null=True)
 	review = models.TextField(null=True)
 	verdict_choices = (
 		('ASel', 'Abstract Selected'),
@@ -77,7 +87,7 @@ class Abstract(models.Model):
 		ordering = ['uid']
 
 	def __str__(self):
-		return self.title + '-' + self.author1
+		return self.title + '-' + self.participant.author1
 
 
 class Paper(models.Model):
@@ -102,7 +112,7 @@ class Paper(models.Model):
 		null=True) 
 
 	def __str__(self):
-		return self.abstract.title + '-' + self.abstract.author1
+		return self.abstract.title + '-' + self.abstract.participant.author1
 
 
 def uid(temp_uid):

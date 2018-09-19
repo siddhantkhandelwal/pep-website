@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from .models import UserProfile, Abstract, Paper
+from .models import ProfessorProfile, ParticipantProfile, Abstract, Paper
 
 
 class UserForm(forms.ModelForm):
@@ -16,23 +16,18 @@ class PasswordResetForm(forms.ModelForm):
 		model = User
 		fields = ('password',)
 
-class UserProfileForm(forms.ModelForm):
-	class Meta:
-		model = UserProfile
-		fields = ('display_name','phone1', 'category')
-
 class ParticipantProfileForm(forms.ModelForm):
 	def __init__(self, *args, **kwargs):
 		super(ParticipantProfileForm, self).__init__(*args, **kwargs)
 		self.fields['college'].required=True
 	class Meta:
-		model = UserProfile
-		fields = ('phone1', 'phone2', 'college')
+		model = ParticipantProfile
+		fields = ('author1', 'author2', 'phone1', 'phone2', 'college')
 
 class AbstractForm(forms.ModelForm):
 	class Meta:
 		model = Abstract
-		fields = ('title', 'author1', 'author2', 'document', 'category', 'professor')
+		fields = ('title', 'document', 'category', 'participant')
 
 class PaperForm(forms.ModelForm):
 	class Meta:

@@ -4,43 +4,61 @@
   <title>Dashboard</title>
 </head>
 <body>	
-  {{ user_profile.display_name }} - {{ user_profile.category }}<br>
-  <a href="/accounts/logout/">Log out</a><br><br>
+  {% if not is_participant %}
+    {{ user_profile.display_name }} - {{ user_profile.category }}<br>
+    <a href="/accounts/logout/">Log out</a><br><br>
 
-  {% if not abstracts_allotted and not papers_allotted %}
-  	No abstracts/papers allotted as of now.
-  
-  {% else %}
+    {% if not abstracts_allotted and not papers_allotted %}
+    	No abstracts/papers allotted as of now.
     
-    {% if abstracts_allotted %}
-      Abstracts<br><br>
-  	  {% for abstract in abstracts_allotted %}
-  	  	Abstract Title: {{ abstract.title }}<br>
-  	  	Abstract UID: {{ abstract.uid }}<br>
-  	  	Status: {{ abstract.status }}<br>
-        {% if not abstract.review %}
-          <a href = "{% url 'abstract_review' abstract.uid%}">Review</a><br><br>
-        {% else %}
+    {% else %}
+      
+      {% if abstracts_allotted %}
+        Abstracts<br><br>
+    	  {% for abstract in abstracts_allotted %}
+    	  	Abstract Title: {{ abstract.title }}<br>
+    	  	Abstract UID: {{ abstract.uid }}<br>
+    	  	Status: {{ abstract.status }}<br>
+          {% if not abstract.review %}
+            <a href = "{% url 'abstract_review' abstract.uid%}">Review</a><br><br>
+          {% else %}
+            Review: {{ abstract.review }}
+          {% endif %}
+    	  {% endfor %}
+      {% endif %}
+      
+      {% if papers_allotted %}
+        Papers<br><br>
+        {% for paper in papers_allotted %}
+          Paper Title: {{ paper.abstract.title }}<br>
+          Paper UID: {{ paper.abstract.uid }}<br>
+          Status: {{ paper.status }}<br>
+          {% if not paper.review %}
+            <a href = "{% url 'paper_review' paper.abstract.uid%}">Review</a><br><br>
+          {% else %}
+            Review: {{ paper.review }}
+          {% endif %}
+        {% endfor %}  
+      
+      {% endif %}
+    
+    {% endif %}
+  {% else %}
+    {{ user_profile.author1 }}<br>
+    {{ user_profile.college.name }}<br>
+    {{ user_profile.phone1 }}<br><br>
+    {% if not abstracts %}
+      No abstracts/papers submitted as of now.
+    {% else %}
+      {% for abstract in abstracts %}
+        Abstract Title: {{ abstract.title }}<br>
+        Abstract UID: {{ abstract.uid }}<br>
+        Status: {{ abstract.status }}<br>
+        {% if abstract.review %}
           Review: {{ abstract.review }}
         {% endif %}
-  	  {% endfor %}
+      {% endfor %}
     {% endif %}
-    
-    {% if papers_allotted %}
-      Papers<br><br>
-      {% for paper in papers_allotted %}
-        Paper Title: {{ paper.abstract.title }}<br>
-        Paper UID: {{ paper.abstract.uid }}<br>
-        Status: {{ paper.status }}<br>
-        {% if not paper.review %}
-          <a href = "{% url 'paper_review' paper.abstract.uid%}">Review</a><br><br>
-        {% else %}
-          Review: {{ paper.review }}
-        {% endif %}
-      {% endfor %}  
-    
-    {% endif %}
-  
   {% endif %}
 </body>
 </html>
