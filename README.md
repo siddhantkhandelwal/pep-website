@@ -1,5 +1,15 @@
 # PEP Paper Presentation App
 *In house application for tracking Paper Presentation Event progress and feedback.*<br>
+
+## To Do:
+- Back-end
+  - File Rename with upload
+  - Testing
+
+- Front-End
+  - Main Site Content Upload
+  - Dashboard Front-end design 
+
 ## How to run?
 #### Setting up the Development Environment
 For python3 virtual environment:<br>

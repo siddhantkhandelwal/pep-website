@@ -70,7 +70,8 @@ class Abstract(models.Model):
 	submission_date = models.DateTimeField('Date Submitted', auto_now_add=True)
 	uid = models.IntegerField('UID', primary_key=True, default=generate_uid)
 	participant = models.ForeignKey(ParticipantProfile, on_delete=models.SET_NULL, null=True)
-	document = models.FileField(upload_to='documents/abstracts/')
+	file_name = ''
+	document = models.FileField(upload_to='documents/abstracts/' + file_name)
 	category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
 	professor = models.ForeignKey(ProfessorProfile, on_delete=models.SET_NULL, null=True)
 	review = models.TextField(null=True)
@@ -94,6 +95,8 @@ class Abstract(models.Model):
 	class Meta:
 		ordering = ['uid']
 
+	def return_file_path(self):
+		self.file_name = 'documents/abstracts/' + self.uid + '-' + self.title
 	def __str__(self):
 		return self.title + '-' + self.participant.author1
 

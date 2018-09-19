@@ -87,7 +87,7 @@ def abstract_submission(request):
 		abstract_form = AbstractForm(request.POST, request.FILES)
 		if abstract_form.is_valid():
 			abstract = abstract_form.save(commit=False)
-			abstract.author1 = user_profile
+			abstract.participant = user_profile
 			abstract.save()
 			return HttpResponseRedirect(reverse('dashboard'))
 	else:

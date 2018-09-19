@@ -27,7 +27,7 @@ class ParticipantProfileForm(forms.ModelForm):
 class AbstractForm(forms.ModelForm):
 	class Meta:
 		model = Abstract
-		fields = ('title', 'document', 'category', 'participant')
+		fields = ('title', 'document', 'category')
 
 class PaperForm(forms.ModelForm):
 	class Meta:
