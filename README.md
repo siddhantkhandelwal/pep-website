@@ -3,7 +3,6 @@
 
 ## To Do:
 - Back-end
-  - File Rename with upload
   - Testing
 
 - Front-End

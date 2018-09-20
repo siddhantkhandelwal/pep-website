@@ -81,31 +81,6 @@ def user_password_reset(request):
 	return render(request, 'main/paper-presentation/password-reset.html', {'password_reset_form': password_reset_form})
 
 @login_required
-def abstract_submission(request):
-	if request.method == 'POST':
-		user_profile = ParticipantProfile.objects.get(user = request.user)
-		abstract_form = AbstractForm(request.POST, request.FILES)
-		if abstract_form.is_valid():
-			abstract = abstract_form.save(commit=False)
-			abstract.participant = user_profile
-			abstract.save()
-			return HttpResponseRedirect(reverse('dashboard'))
-	else:
-		abstract_form = AbstractForm()
-	return render(request, 'main/paper-presentation/abstract-upload.html', {'abstract_form': abstract_form})
-
-@login_required
-def paper_submission(request):
-	if request.method == 'POST':
-		paper_form = PaperForm(request.POST, request.FILES)
-		if paper_form.is_valid():
-			paper_form.save()
-			return HttpResponseRedirect(reverse('dashboard'))
-	else:
-		paper_form = PaperForm()
-	return render(request, 'main/paper-presentation/paper-upload.html', {'paper_form': paper_form})
-
-@login_required
 def dashboard(request):
 	if request.user.is_superuser:
 		return HttpResponseRedirect('/admin')
@@ -133,12 +108,28 @@ def dashboard(request):
 														'access_level': access_level})
 	user_profile = ParticipantProfile.objects.get(user = request.user)
 	participant_abstracts = Abstract.objects.filter(participant=user_profile)
+	#participant_papers = Paper.objects.filter(abstract.participant=user_profile)
 	access_level = 0
-	#participant_papers = Paper.objects.filter(author=user_profile)
 	return render(request, 'main/paper-presentation/dashboard.html', {'abstracts': participant_abstracts,
+																	  #'papers': participant_papers,
 																	  'access_level': access_level,
 																	  'user_profile': user_profile})
-																	  #'papers': participant_papers})
+
+@login_required
+def abstract_submission(request):
+	if request.method == 'POST':
+		user_profile = ParticipantProfile.objects.get(user = request.user)
+		abstract_form = AbstractForm(request.POST, request.FILES)
+		if abstract_form.is_valid():
+			abstract = abstract_form.save(commit=False)
+			abstract.participant = user_profile
+			abstract.document.name = str(abstract.uid) + abstract.status + '-' + abstract.title + '.' + abstract.document.name.split('.')[1]
+			abstract.save()
+			return HttpResponseRedirect(reverse('dashboard'))
+	else:
+		abstract_form = AbstractForm()
+	return render(request, 'main/paper-presentation/abstract-upload.html', {'abstract_form': abstract_form})
+
 @login_required
 def abstract_review(request, pk):
 	abstract = get_object_or_404(Abstract, pk=pk)
@@ -147,6 +138,7 @@ def abstract_review(request, pk):
 		if abstract_review_form.is_valid():
 			abstract = abstract_review_form.save(commit=False)
 			abstract.status = 'AC'
+			abstract.document.name = str(abstract.uid) + abstract.status + '-' + abstract.title + '.' + abstract.document.name.split('.')[1]
 			abstract.save()
 			return HttpResponseRedirect(reverse('dashboard'))
 	else:
@@ -154,6 +146,19 @@ def abstract_review(request, pk):
 	return render(request, 'main/paper-presentation/abstract-review.html', {'abstract_review_form': abstract_review_form,
 																			'abstract': abstract})
 
+@login_required
+def paper_submission(request):
+	if request.method == 'POST':
+		paper_form = PaperForm(request.POST, request.FILES)
+		if paper_form.is_valid():
+			paper = paper_form.save(commit=False)
+			paper.document.name = str(paper.abstract.uid) + paper.status + '-' + paper.abstract.title + '.' + paper.document.name.split('.')[1]
+			paper.save()
+			return HttpResponseRedirect(reverse('dashboard'))
+	else:
+		paper_form = PaperForm()
+	return render(request, 'main/paper-presentation/paper-upload.html', {'paper_form': paper_form})
+																	  
 @login_required
 def paper_review(request, pk):
 	abstract = get_object_or_404(Abstract, pk=pk)
@@ -163,6 +168,7 @@ def paper_review(request, pk):
 		if paper_review_form.is_valid():
 			paper = paper_review_form.save(commit=False)
 			paper.status = 'PC'
+			paper.document.name = str(paper.abstract.uid) + paper.status + '-' + paper.abstract.title + '.' + paper.document.name.split('.')[1]
 			paper.save()
 			return HttpResponseRedirect(reverse('dashboard'))
 	else:
