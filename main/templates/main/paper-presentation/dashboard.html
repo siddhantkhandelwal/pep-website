@@ -1,9 +1,15 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Dashboard</title>
-</head>
-<body>	
+{% extends 'main/paper-presentation/base.html' %} 
+{% load staticfiles %}
+{% block title %}
+  {% if access_level is 1 %}
+    {{ user_profile.display_name }} - {{ user_profile.category }}
+  {% elif access_level is 0 %}      
+    {{ user_profile.author1 }}
+  {% elif access_level is 2 %}
+    {{ user_profile.user.username }}
+  {% endif%}
+{% endblock %}
+{% block body %}	
   {% if access_level is 1 %}
     {{ user_profile.display_name }} - {{ user_profile.category }}<br>
     <a href="/accounts/logout/">Log out</a><br><br>
@@ -41,27 +47,62 @@
         {% endfor %}  
       
       {% endif %}
-    
-    {% endif %}
+  {% endif %}
   {% elif access_level is 0 %}
-    {{ user_profile.author1 }}<br>
-    {{ user_profile.college.name }}<br>
-    {{ user_profile.phone1 }}<br><br>
     {% if not abstracts %}
       No abstracts/papers submitted as of now.
     {% else %}
-      {% for abstract in abstracts %}
-        Abstract Title: {{ abstract.title }}<br>
-        Abstract UID: {{ abstract.uid }}<br>
-        Status: {{ abstract.status }}<br>
-        {% if abstract.review %}
-          Review: {{ abstract.review }}
-        {% endif %}
-      {% endfor %}
+      <div class="row">
+        {% for abstract in abstracts %}
+          <div class="col s12 m6 l3">
+            <div class="card white">
+              <div class="card-content paper-title-card">
+                <span class="card-title">{{ abstract.title }}</span>
+                <div class="paper-title-bottom">
+                  <p style="padding-right: 10px;">
+                    UID: {{ abstract.uid }}<br>
+                    Status: {{ abstract.status }}<br> 
+                  </p>
+                  <div class="paper-title-bottom-btns">
+                    <a class="waves-effect waves-light btn modal-trigger blue white-text" data-target="paper-modal-{{ forloop.counter }}">View Feedback</a>
+                    <a class="waves-effect waves-light btn blue white-text">
+                      <i class="material-icons center">insert_drive_file</i>
+                    </a>
+                  </div>
+                  <div id="paper-modal-{{forloop.counter}}" class="modal">
+                    <div class="modal-content">
+                      <h4 class="blue-text text-lighten-1"> {{ abstract.title }}</h4>
+                      <h5 class="blue-text text-lighten-1"> {{ abstract.category.name }}</h5>
+                      <p class="blue-text text-lighten-2"> 
+                        {% if abstract.review%}
+                          <span class="justify">
+                            {{ abstract.review }}
+                          </span>
+                        {% else %}
+                          Please wait for review.
+                        {% endif %}
+                      </p>
+                      <p class="blue-text text-lighten-2">
+                        <span class="blue-text text-lighten-1">UID: </span>{{ abstract.uid }}<br>
+                        <span class="blue-text text-lighten-1">Status: </span>{{ abstract.status }}<br>
+                        {% if abstract.verdict %}
+                          <span class="blue-text text-lighten-1">Verdict: </span>{{ abstract.verdict }}<br>
+                        {% endif %}
+                      </p>
+                    </div>
+                    <div class="modal-footer">
+                      <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+                    </div>
+                </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
     {% endif %}
   {% elif access_level is 2 %}
     {{ user_profile.user.username }}<br>
     {{ categories }}
   {% endif %}
-</body>
-</html>
+{% endblock %}

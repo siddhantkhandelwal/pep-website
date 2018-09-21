@@ -3,6 +3,7 @@
 
 ## To Do:
 - Back-end
+  - Avoid Duplicate File uploads
   - Testing
 
 - Front-End
