@@ -1,18 +1,21 @@
+{% extends 'main/paper-presentation/base.html' %} 
 {% load staticfiles %}
-
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>
-      Register
-    </title>
-  </head>
-  <body>
-    <form id="user_form" method="post" action='/accounts/register/'>
-      {% csrf_token %}
-      {{ user_form.as_p }}
-      {{ participant_profile_form.as_p }}
-      <input type="submit" name="submit" value="Register" />
-    </form>
-  </body>
-</html>
+{% block title %}
+  Register
+{% endblock %}
+{% block body %}  
+  <div class="login-form">
+    <div class="row"> 
+      <form class="col s12" id="user_form" method="post" action='/accounts/register/'>
+        {% csrf_token %}
+        {{ user_form.as_p }}
+        {{ participant_profile_form.as_p }}
+        <div class="row">
+          <button class="btn waves-effect waves-light col blue" type="submit" name="action">Register
+            <i class="material-icons right">arrow_forward</i>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock %}
