@@ -6,6 +6,17 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
   <style>
+    
+    body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    }
+
+    main {
+    flex: 1 0 auto;
+    }
+
     .paper-title-card {
       height: 300px;
       overflow: auto;
@@ -26,37 +37,81 @@
       justify-content: space-around;
       flex-grow: 1;
     }
+
+    .brand-logo {
+      padding-left: 12px !important;
+    }
+
+    .login-form {
+      padding: 10px !important;
+    }
+
   </style>
   <script type="text/javascript">
     
   </script>
 
   <!-- Compiled and minified JavaScript -->
+    <script
+    src="https://code.jquery.com/jquery-3.3.1.min.js"
+    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
   <title>Dashboard {% block title %}{% endblock %}</title>
   <!--Let browser know website is optimized for mobile-->
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 </head>
 <body>
-  <ul id="dropdown1" class="dropdown-content">
-  <li><a href="/accounts/logout">Logout</a></li>
-  </ul>
-  <nav>
-    <div class="nav-wrapper grey">
-      <a href="/dashboard" class="brand-logo">Dashboard</a>
-      <ul class="right hide-on-med-and-down">
-        <!-- Dropdown Trigger -->
-        <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">{{ user_profile.user.username }}<i class="material-icons right">arrow_drop_down</i></a></li>
-      </ul>
+  <main>
+    <ul id="dropdown1" class="dropdown-content">
+    <li><a href="/accounts/logout">Logout</a></li>
+    {% if user_profile.college %}
+      <li><a href="/accounts/edit-profile">Edit Profile</a></li>
+    {% endif %}
+    </ul>
+    <nav>
+      <div class="nav-wrapper blue accent-3">
+        <a href="/dashboard" class="brand-logo left">Dashboard</a>
+        <ul class="right">
+          <!-- Dropdown Trigger -->
+          {% if request.user.is_authenticated %}
+          <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">{{ user_profile.user.username }}<i class="material-icons right">arrow_drop_down</i></a></li>
+          {% endif %}
+        </ul>
+      </div>
+    </nav>
+    {% block body%}
+    {% endblock %}
+  </main>
+  <footer class="page-footer blue accent-3">
+    <div class="container">
+      <div class="row">
+        <div class="col l6 s12">
+          <h5 class="white-text">APOGEE 2018</h5>
+          <p class="grey-text text-lighten-4">The Reality Roulette</p>
+          
+        </div>
+        <div class="col l4 offset-l2 s12">
+          <h5 class="white-text">Paper Presentation Event</h5>
+          <ul>
+            <li><a class="grey-text text-lighten-3" href="/apogee-2019">APOGEE 2019</a></li>
+            <li><a class="grey-text text-lighten-3" href="/paper-presentation">Paper Presentation Site</a></li>
+            <li><a class="grey-text text-lighten-3" href="/think-again">Think Again Conclave</a></li>
+          </ul>
+        </div>
+      </div>
     </div>
-  </nav>
-  {% block body%}
-  {% endblock %}
-
+    <div class="footer-copyright">
+      <div class="container">
+      <p class="grey-text text-lighten-4">Made with &hearts; by PEP</p>
+      </div>
+    </div>
+  </footer>
   <script type="text/javascript">
     document.addEventListener('DOMContentLoaded', function() {
       var elems = document.querySelectorAll('.modal');
       var instances = M.Modal.init(elems, {});
+      $(".dropdown-trigger").dropdown();
     });
   </script>
 </body>

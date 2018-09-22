@@ -1,4 +1,4 @@
-from django.shortcuts import render, reverse, get_object_or_404
+from django.shortcuts import render, reverse, get_object_or_404, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from .forms import UserForm, AbstractForm, PaperForm, AbstractReviewForm, PaperReviewForm, ParticipantProfileForm, PasswordResetForm
 from django.contrib.auth import authenticate, login, logout
@@ -81,6 +81,18 @@ def user_password_reset(request):
 	return render(request, 'main/paper-presentation/password-reset.html', {'password_reset_form': password_reset_form})
 
 @login_required
+def edit_profile(request):
+	if request.method == 'POST':
+		user = request.user
+		user_profile_form = ParticipantProfileForm(data=request.POST, instance=user)
+		if user_profile_form.is_valid():
+			user_profile = user_profile_form.save()
+			return HttpResponseRedirect(reverse('dashboard'))
+	else:
+		user_profile_form = ParticipantProfileForm()
+	return render(request, 'main/paper-presentation/edit-profile.html', {'user_profile_form': user_profile_form})
+
+@login_required
 def dashboard(request):
 	if request.user.is_superuser:
 		return HttpResponseRedirect('/admin')
@@ -138,7 +150,7 @@ def abstract_review(request, pk):
 		if abstract_review_form.is_valid():
 			abstract = abstract_review_form.save(commit=False)
 			abstract.status = 'AC'
-			abstract.document.name = str(abstract.uid) + abstract.status + '-' + abstract.title + '.' + abstract.document.name.split('.')[1]
+			#abstract.document.name = str(abstract.uid) + abstract.status + '-' + abstract.title + '.' + abstract.document.name.split('.')[1]
 			abstract.save()
 			return HttpResponseRedirect(reverse('dashboard'))
 	else:

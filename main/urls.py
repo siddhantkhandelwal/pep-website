@@ -7,6 +7,7 @@ urlpatterns = [
 	url(r'^paper-presentation/$', views.paper_presentation, name='paper_presentation'),
 	url(r'^accounts/register/$', views.register, name='register'),
 	url(r'^accounts/login/$', views.user_login, name='user_login'),
+	url(r'^accounts/edit-profile/$', views.edit_profile, name='edit_profile'),
 	url(r'^accounts/logout/$', views.user_logout, name='user_logout'),
 	url(r'^accounts/password-reset/$', views.user_password_reset, name='user_password_reset'),
 	url(r'^dashboard/$', views.dashboard, name='dashboard'),
