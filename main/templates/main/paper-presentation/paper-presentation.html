@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-{% load static %}
+{% load staticfiles %}
 <html>
 	<head>
 	<meta charset="utf-8">
@@ -34,14 +34,14 @@
 	<link rel="stylesheet" href="{% static "main/paper-presentation/css/magnific-popup.css" %}">
 
 	<!-- Flexslider  -->
-	<link rel="stylesheet" href="{% static "main/paper-presentation/css/flex-slider.css" %}">
+	<link rel="stylesheet" href="{% static "main/paper-presentation/css/flexslider.css" %}">
 
 	<!-- Owl Carousel -->
 	<link rel="stylesheet" href="{% static "main/paper-presentation/css/owl.carousel.min.css" %}">
 	<link rel="stylesheet" href="{% static "main/paper-presentation/css/owl.theme.default.min.css" %}">
 	
 	<!-- Flaticons  -->
-	<link rel="stylesheet" href="{% static "main/paper-presentation/css/fonts/flaticon/font/flaticon.css" %}">
+	<link rel="stylesheet" href="{% static "main/paper-presentation/fonts/flaticon/font/flaticon.css" %}">
 
 	<!-- Theme style  -->
 	<link rel="stylesheet" href="{% static "main/paper-presentation/css/style.css" %}">
@@ -64,24 +64,22 @@
 				<div class="container">
 					<div class="row">
 						<div class="col-xs-2">
-							<div id="colorlib-logo"><a href="/paper-presentation">Complex</a></div>
+							<div id="colorlib-logo"><a href="/paper-presentation">Paper Presentation</a></div>
 						</div>
 						<div class="col-xs-10 text-right menu-1">
 							<ul>
-								<li class="active"><a href="/paper-presentation">Home</a></li>
+								<li><a href="/dashboard">Dashboard</a></li>
 								<li class="has-dropdown">
-									<a href="project.html">Projects</a>
+									<a href="project.html">Event</a>
 									<ul class="dropdown">
-										<li><a href="#">Commercial</a></li>
-										<li><a href="#">Apartment</a></li>
-										<li><a href="#">House</a></li>
-										<li><a href="#">Building</a></li>
+										<li><a href="#">Rules & Regulations</a></li>
+										<li><a href="#">Previous Editions</a></li>
+										<li><a href="#">Format</a></li>
 									</ul>
 								</li>
-								<li><a href="services.html">Services</a></li>
-								<li><a href="blog.html">Blog</a></li>
-								<li><a href="about.html">About</a></li>
+								<li><a href="blog.html">About</a></li>
 								<li><a href="contact.html">Contact</a></li>
+								<li><a href="contact.html">APOGEE 2019</a></li>
 							</ul>
 						</div>
 					</div>
@@ -97,8 +95,8 @@
 			   			<div class="row">
 				   			<div class="col-md-8 col-sm-12 col-md-offset-2 slider-text">
 				   				<div class="slider-text-inner text-center">
-				   					<h1>Our Obsession Is Distinctive interiors</h1>
-				   					<h2>Providing all Kinds of Construction Services</h2>
+				   					<h1>“Research is to see what everybody else has seen, and to think what nobody else has thought”</h1>
+				   					<h2> - Albert Szent Gyorgyi</h2>
 				   				</div>
 				   			</div>
 				   		</div>
@@ -110,40 +108,14 @@
 			   			<div class="row">
 				   			<div class="col-md-8 col-sm-12 col-md-offset-2 slider-text">
 				   				<div class="slider-text-inner text-center">
-				   					<h1>High Quality Materials In All Solutions</h1>
-				   					<h2>Get your material</h2>
+				   					<h1>This event has been an integral part of APOGEE since its inception in 1983</h1>
+				   					<!--<h2>Get your material</h2>-->
 				   				</div>
 				   			</div>
 				   		</div>
 			   		</div>
 			   	</li>
-			   	<li style="background-image: url(images/img_bg_3.jpg);">
-			   		<div class="overlay"></div>
-			   		<div class="container-fluids">
-			   			<div class="row">
-				   			<div class="col-md-8 col-sm-12 col-md-offset-2 slider-text">
-				   				<div class="slider-text-inner text-center">
-				   					<h1>We Build Buildings Professionally</h1>
-				   					<h2>We Design All Kinds of Buildings</h2>
-				   				</div>
-				   			</div>
-				   		</div>
-			   		</div>
-			   	</li>
-			   	<li style="background-image: url(images/img_bg_1.jpg);">
-			   		<div class="overlay"></div>
-			   		<div class="container-fluids">
-			   			<div class="row">
-				   			<div class="col-md-8 col-sm-12 col-md-offset-2 slider-text">
-				   				<div class="slider-text-inner text-center">
-				   					<h1>We Build Your Futures</h1>
-				   					<h2>We Design All Kinds of Buildings</h2>
-				   				</div>
-				   			</div>
-				   		</div>
-			   		</div>
-			   	</li>	
-			  	</ul>
+			   	</ul>
 		  	</div>
 		</aside>
 
@@ -708,27 +680,27 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> | Mad
 	</div>
 	
 	<!-- jQuery -->
-	<script src="js/jquery.min.js"></script>
+	<script src="{% static "main/paper-presentation/js/jquery.min.js" %}"></script>
 	<!-- jQuery Easing -->
-	<script src="js/jquery.easing.1.3.js"></script>
+	<script src="{% static "main/paper-presentation/js/jquery.easing.1.3.js" %}"></script>
 	<!-- Bootstrap -->
-	<script src="js/bootstrap.min.js"></script>
+	<script src="{% static "main/paper-presentation/js/bootstrap.min.js" %}"></script>
 	<!-- Waypoints -->
-	<script src="js/jquery.waypoints.min.js"></script>
+	<script src="{% static "main/paper-presentation/js/jquery.waypoints.min.js" %}"></script>
 	<!-- Stellar Parallax -->
-	<script src="js/jquery.stellar.min.js"></script>
+	<script src="{% static "main/paper-presentation/js/jquery.stellar.min.js" %}"></script>
 	<!-- Flexslider -->
-	<script src="js/jquery.flexslider-min.js"></script>
+	<script src="{% static "main/paper-presentation/js/jquery.flexslider-min.js" %}"></script>
 	<!-- Owl carousel -->
-	<script src="js/owl.carousel.min.js"></script>
+	<script src="{% static "main/paper-presentation/js/owl.carousel.min.js" %}"></script>
 	<!-- Magnific Popup -->
-	<script src="js/jquery.magnific-popup.min.js"></script>
-	<script src="js/magnific-popup-options.js"></script>
+	<script src="{% static "main/paper-presentation/js/jquery.magnific-popup.min.js" %}"></script>
+	<script src="{% static "main/paper-presentation/js/magnific-popup-options.js" %}"></script>
 	<!-- Counters -->
-	<script src="js/jquery.countTo.js"></script>
+	<script src="{% static "main/paper-presentation/js/jquery.countTo.js" %}"></script>
 	<!-- Main -->
-	<script src="js/main.js"></script>
-
+	<script src="{% static "main/paper-presentation/js/main.js" %}"></script>
+	
 	</body>
 </html>
 
