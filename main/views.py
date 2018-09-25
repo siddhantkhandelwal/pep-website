@@ -100,13 +100,8 @@ def dashboard(request):
 		if StaffProfile.objects.filter(user = request.user):
 			user_profile = StaffProfile.objects.get(user = request.user)
 			access_level = 2
-			categories = user_profile.categories.all()
-			abstracts_allotted = []
-			professors = []
-			for category in categories:
-				abstracts = Abstract.objects.filter(category=category)
-				abstracts_allotted.append(abstracts)
-				professors.append(ProfessorProfile.objects.filter(category=category))
+			abstracts_allotted = Abstract.objects.filter(staff=user_profile)
+			professors = ProfessorProfile.objects.filter(category__id__in=[category.id for category in user_profile.categories]) 
 			return render(request, 'main/paper-presentation/dashboard.html', {'user_profile': user_profile,
 														'categories': categories,
 														'access_level': access_level,
@@ -143,6 +138,9 @@ def abstract_submission(request):
 		if abstract_form.is_valid():
 			abstract = abstract_form.save(commit=False)
 			abstract.participant = user_profile
+			if StaffProfile.objects.filter(category=abstract.category):
+				for staff in StaffProfile.objects.filter(category=abstract.category):
+					abstract.staff.add(staff)
 			abstract.document.name = str(abstract.uid) + '-' + abstract.title + '.' + abstract.document.name.split('.')[1]
 			abstract.save()
 			return HttpResponseRedirect(reverse('dashboard'))

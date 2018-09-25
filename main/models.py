@@ -65,7 +65,7 @@ class Abstract(models.Model):
 		while(uid(temp_uid) == False):
 			temp_uid = random.randint(0, 1000)
 		return temp_uid
-
+	
 	title = models.CharField('Abstract Title', max_length=200)
 	submission_date = models.DateTimeField('Date Submitted', auto_now_add=True)
 	uid = models.IntegerField('UID', primary_key=True, default=generate_uid)
@@ -74,7 +74,7 @@ class Abstract(models.Model):
 	document = models.FileField(upload_to='documents/abstracts/' + file_name)
 	category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
 	professor = models.ForeignKey(ProfessorProfile, on_delete=models.SET_NULL, null=True)
-	staff = models.ForeignKey(StaffProfile, on_delete=models.SET_NULL, null=True)
+	staff = models.ManyToManyField(StaffProfile)
 	review = models.TextField(null=True, blank=True)
 	verdict_choices = (
 		('ASel', 'Abstract Selected'),
