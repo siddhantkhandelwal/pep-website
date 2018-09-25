@@ -69,12 +69,16 @@
       <li><a href="/accounts/edit-profile">Edit Profile</a></li>
     {% endif %}
     </ul>
+    <ul id="dropdown2" class="dropdown-content">
+      <li><a href="/abstract-submission/">Add Abstract</a></li>
+      <li><a href="/paper-submission/">Add Paper</a></li>
+    </ul>
     <nav>
       <div class="nav-wrapper blue accent-3">
         <a href="/dashboard" class="brand-logo left">Dashboard</a>
         <ul class="right">
           {% if access_level == 0%}
-            <li><a href="/abstract-submission/">Add Abstract</a></li>
+            <li><a class="dropdown-trigger" href="#!" data-target="dropdown2"><i class="material-icons center white-text">add</i></a></li>
           {% endif %}
           <!-- Dropdown Trigger -->
           {% if request.user.is_authenticated %}

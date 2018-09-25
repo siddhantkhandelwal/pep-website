@@ -100,10 +100,18 @@ def dashboard(request):
 		if StaffProfile.objects.filter(user = request.user):
 			user_profile = StaffProfile.objects.get(user = request.user)
 			access_level = 2
-			categories = ', '.join([category.name for category in user_profile.categories.all()])
+			categories = user_profile.categories.all()
+			abstracts_allotted = []
+			professors = []
+			for category in categories:
+				abstracts = Abstract.objects.filter(category=category)
+				abstracts_allotted.append(abstracts)
+				professors.append(ProfessorProfile.objects.filter(category=category))
 			return render(request, 'main/paper-presentation/dashboard.html', {'user_profile': user_profile,
 														'categories': categories,
-														'access_level': access_level})
+														'access_level': access_level,
+														'abstracts_allotted': abstracts_allotted,
+														'professors': professors})
 		else:	
 			user_profile = ProfessorProfile.objects.get(user = request.user)
 			access_level = 1
@@ -135,7 +143,7 @@ def abstract_submission(request):
 		if abstract_form.is_valid():
 			abstract = abstract_form.save(commit=False)
 			abstract.participant = user_profile
-			abstract.document.name = str(abstract.uid) + abstract.status + '-' + abstract.title + '.' + abstract.document.name.split('.')[1]
+			abstract.document.name = str(abstract.uid) + '-' + abstract.title + '.' + abstract.document.name.split('.')[1]
 			abstract.save()
 			return HttpResponseRedirect(reverse('dashboard'))
 	else:
@@ -150,7 +158,6 @@ def abstract_review(request, pk):
 		if abstract_review_form.is_valid():
 			abstract = abstract_review_form.save(commit=False)
 			abstract.status = 'AC'
-			#abstract.document.name = str(abstract.uid) + abstract.status + '-' + abstract.title + '.' + abstract.document.name.split('.')[1]
 			abstract.save()
 			return HttpResponseRedirect(reverse('dashboard'))
 	else:
@@ -164,7 +171,7 @@ def paper_submission(request):
 		paper_form = PaperForm(request.POST, request.FILES)
 		if paper_form.is_valid():
 			paper = paper_form.save(commit=False)
-			paper.document.name = str(paper.abstract.uid) + paper.status + '-' + paper.abstract.title + '.' + paper.document.name.split('.')[1]
+			paper.document.name = str(paper.abstract.uid) + '-' + paper.abstract.title + '.' + paper.document.name.split('.')[1]
 			paper.save()
 			return HttpResponseRedirect(reverse('dashboard'))
 	else:
@@ -180,7 +187,6 @@ def paper_review(request, pk):
 		if paper_review_form.is_valid():
 			paper = paper_review_form.save(commit=False)
 			paper.status = 'PC'
-			paper.document.name = str(paper.abstract.uid) + paper.status + '-' + paper.abstract.title + '.' + paper.document.name.split('.')[1]
 			paper.save()
 			return HttpResponseRedirect(reverse('dashboard'))
 	else:

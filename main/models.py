@@ -74,6 +74,7 @@ class Abstract(models.Model):
 	document = models.FileField(upload_to='documents/abstracts/' + file_name)
 	category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
 	professor = models.ForeignKey(ProfessorProfile, on_delete=models.SET_NULL, null=True)
+	staff = models.ForeignKey(StaffProfile, on_delete=models.SET_NULL, null=True)
 	review = models.TextField(null=True, blank=True)
 	verdict_choices = (
 		('ASel', 'Abstract Selected'),

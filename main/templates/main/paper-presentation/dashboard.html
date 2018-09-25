@@ -10,10 +10,12 @@
   {% endif%}
 {% endblock %}
 
-{% block body %}	
-  
+{% block body %}	 
   {% if access_level is 1 %}
       {% if abstracts_allotted %}
+        <div class="container">
+          <h4 class="flow-text">Abstracts</h4>
+        </div>
         <div class="row">
           {% for abstract in abstracts_allotted %}
             <div class="col s12 m6 l3">
@@ -111,17 +113,103 @@
       {% endif %}
       
       {% if papers_allotted %}
-        Papers<br><br>
-        {% for paper in papers_allotted %}
-          Paper Title: {{ paper.abstract.title }}<br>
-          Paper UID: {{ paper.abstract.uid }}<br>
-          Status: {{ paper.status }}<br>
-          {% if not paper.review %}
-            <a href = "{% url 'paper_review' paper.abstract.uid%}">Review</a><br><br>
-          {% else %}
-            Review: {{ paper.review }}
-          {% endif %}
-        {% endfor %}  
+        <div class="container">
+          <h4 class="flow-text">Papers</h4>
+        </div>
+        <div class="row">
+          {% for paper in papers_allotted %}
+            <div class="col s12 m6 l3">
+              <div class="card white">
+                <div class="card-content paper-title-card">
+                  <span class="card-title">
+                    {{ paper.abstract.title }}
+                  </span>
+                  <span class="card-text">
+                    {{ paper.submission_date }}<br><br>
+                    {{ paper.abstract.participant.author1 }}<br>
+                    {% if abstract.participant.author2 %}
+                      {{ paper.abstract.participant.author2 }}
+                    {% endif %}
+                  </span>
+                  <div class="paper-title-bottom">
+                    <p style="padding-right: 10px;">
+                      UID: {{ paper.abstract.uid }}<br>
+                      Status: {{ paper.status }}<br> 
+                    </p>
+                    <div class="paper-title-bottom-btns">
+                        {% if not paper.review %}
+                          <a class="waves-effect waves-light btn modal-trigger blue white-text" data-target="paper-modal-{{ forloop.counter }}-write">
+                          Write Feedback
+                          </a>
+                        {% else %}
+                          <a class="waves-effect waves-light btn modal-trigger blue white-text" data-target="paper-modal-{{ forloop.counter }}">
+                          View Feedback
+                          </a>
+                          <a class="waves-effect waves-light btn modal-trigger blue white-text" data-target="paper-modal-{{ forloop.counter }}-write">
+                          <i class="material-icons center">edit</i>  
+                          </a>
+                        {% endif %}
+                      <a class="waves-effect waves-light btn blue white-text" href="/media/{{ paper.document.name }}" target="_">
+                        <i class="material-icons center">insert_drive_file</i>
+                      </a>
+                    </div>
+                    <div id="paper-modal-{{forloop.counter}}" class="modal">
+                      <div class="modal-content">
+                        <h4 class="blue-text text-lighten-1">{{ paper.abstract.title }}</h4>
+                        <h5 class="blue-text text-lighten-1">{{ paper.abstract.category.name }}</h5>
+                        <p class="blue-text text-lighten-2"> 
+                          {% if paper.review %}
+                            <span class="justify">
+                              {{ paper.review }}
+                            </span>
+                          {% else %}
+                            Please wait for review.
+                          {% endif %}
+                        </p>
+                        <p class="blue-text text-lighten-2">
+                          <span class="blue-text text-lighten-1">UID: </span>{{ paper.abstract.uid }}<br>
+                          <span class="blue-text text-lighten-1">Status: </span>{{ paper.status }}<br>
+                          {% if abstract.verdict %}
+                            <span class="blue-text text-lighten-1">Verdict: </span>{{ paper.verdict }}<br>
+                          {% endif %}
+                        </p>
+                      </div>
+                      <div class="modal-footer">
+                        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+                      </div>
+                    </div>
+                    <div id="paper-modal-{{forloop.counter}}-write" class="modal">
+                      <div class="modal-content">
+                        <h4 class="blue-text text-lighten-1">{{ paper.abstract.title }}</h4>
+                        <h5 class="blue-text text-lighten-1">{{ paper.abstract.category.name }}</h5>
+                        <!-- Add review text box here -->
+                        <div class="row">
+                          <form method="post" class="col s12" action="/paper-review/{{ paper.abstract.uid }}/">
+                            {% csrf_token %}
+                            <div class="row">
+                              <div class="input-field col s12">
+                                <textarea id="review" class="materialize-textarea" name="review"></textarea>
+                                <label for="review">Review</label>
+                                <div class="modal-footer">
+                                  <button class="btn waves-effect waves-light blue white-text right" type="submit" name="submit">Submit
+                                    <i class="material-icons right">send</i>
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                      <div class="modal-footer">
+                        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>  
       {% endif %}  
   
   {% elif access_level is 0 %}
@@ -188,8 +276,102 @@
     {% endif %}
 
   {% elif access_level is 2 %}
-    {{ user_profile.user.username }}<br>
-    {{ categories }}
-  {% endif %}
-
+    {% if abstracts_allotted %}
+        <div class="container">
+          <h4 class="flow-text">Abstracts</h4>
+        </div>
+        <div class="row">
+          {% for abstract in abstracts_allotted %}
+            <div class="col s12 m6 l3">
+              <div class="card white">
+                <div class="card-content paper-title-card">
+                  <span class="card-title">
+                    {{ abstract.title }}
+                  </span>
+                  <span class="card-text">
+                    {{ abstract.submission_date }}<br><br>
+                    {{ abstract.participant.author1 }}<br>
+                    {% if abstract.participant.author2 %}
+                      {{ abstract.participant.author2 }}
+                    {% endif %}
+                  </span>
+                  <div class="paper-title-bottom">
+                    <p style="padding-right: 10px;">
+                      UID: {{ abstract.uid }}<br>
+                      Status: {{ abstract.status }}<br> 
+                    </p>
+                    <div class="paper-title-bottom-btns">
+                        {% if abstract.review %}
+                          <a class="waves-effect waves-light btn modal-trigger blue white-text" data-target="paper-modal-{{ forloop.counter }}">
+                          View Feedback
+                          </a>
+                        {% endif %}
+                      <a class="waves-effect waves-light btn blue white-text" href="/media/{{ abstract.document.name }}" target="_">
+                        <i class="material-icons center">insert_drive_file</i>
+                      </a>
+                    </div>
+                    <div id="paper-modal-{{forloop.counter}}" class="modal">
+                      <div class="modal-content">
+                        <h4 class="blue-text text-lighten-1">{{ abstract.title }}</h4>
+                        <h5 class="blue-text text-lighten-1">{{ abstract.category.name }}</h5>
+                        <p class="blue-text text-lighten-2"> 
+                          {% if abstract.review %}
+                            <span class="justify">
+                              {{ abstract.review }}
+                            </span>
+                          {% else %}
+                            Please wait for review.
+                          {% endif %}
+                        </p>
+                        <p class="blue-text text-lighten-2">
+                          <span class="blue-text text-lighten-1">UID: </span>{{ abstract.uid }}<br>
+                          <span class="blue-text text-lighten-1">Status: </span>{{ abstract.status }}<br>
+                          {% if abstract.verdict %}
+                            <span class="blue-text text-lighten-1">Verdict: </span>{{ abstract.verdict }}<br>
+                          {% endif %}
+                        </p>
+                      </div>
+                      <div class="modal-footer">
+                        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+                      </div>
+                    </div>
+                    <div id="paper-modal-{{forloop.counter}}-write" class="modal">
+                      <div class="modal-content">
+                        <h4 class="blue-text text-lighten-1">{{ abstract.title }}</h4>
+                        <h5 class="blue-text text-lighten-1">{{ abstract.category.name }}</h5>
+                        <!-- Add review text box here -->
+                        <div class="row">
+                          <form method="post" class="col s12" action="/assign-professor/abstract/{{ abstract.uid }}/">
+                            {% csrf_token %}
+                            <div class="row">
+                              <div class="input-field col s12">
+                                <select>
+                                  <option value="" disabled selected>Choose your option</option>
+                                  {% for professor in professors %}
+                                    <option value="{{ professor.user.username }}">{{ professor.display_name }}</option>
+                                  {% endfor %}
+                                </select>
+                                <label>Professor</label>
+                                <div class="modal-footer">
+                                  <button class="btn waves-effect waves-light blue white-text right" type="submit" name="submit">Submit
+                                    <i class="material-icons right">send</i>
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                      <div class="modal-footer">
+                        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endif%}
 {% endblock %}
