@@ -2,7 +2,7 @@ from django.shortcuts import render, reverse, get_object_or_404, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from .forms import UserForm, AbstractForm, PaperForm, AbstractReviewForm, PaperReviewForm, ParticipantProfileForm, PasswordResetForm
 from django.contrib.auth import authenticate, login, logout
-from .models import Abstract, Paper, ParticipantProfile, ProfessorProfile, StaffProfile
+from .models import Abstract, Paper, ParticipantProfile, ProfessorProfile, StaffProfile, College
 from django.contrib.auth.decorators import login_required
 
 
@@ -12,33 +12,39 @@ def think_again(request):
 def paper_presentation(request):
 	return render(request, 'main/paper-presentation/paper-presentation.html', {})
 
+def team(request):
+	return render(request, 'main/paper-presentation/team.html', {})
+
 def register(request):
 	if request.user.is_authenticated():
 		return HttpResponseRedirect(reverse('dashboard'))
+	
+	colleges = College.objects.all()
+	
 	if request.method == 'POST':
 		user_form = UserForm(data=request.POST)
 		participant_profile_form = ParticipantProfileForm(data=request.POST)
 
 		if user_form.is_valid() and participant_profile_form.is_valid():
-			user = user_form.save()
+			user = user_form.save(commit=False)
 			user.set_password(user.password)
 			user.save()
 
 			participant_profile = participant_profile_form.save(commit=False)
 			participant_profile.user = user
-
 			participant_profile.save()
+
 			return HttpResponseRedirect(reverse('user_login'))
 		else:
 			print(user_form.errors, participant_profile_form.errors)
 	else:
 		user_form = UserForm()
 		participant_profile_form = ParticipantProfileForm()
-
 	return render(request, 
 		'main/paper-presentation/register.html',
 		{'user_form': user_form,
 		'participant_profile_form': participant_profile_form,
+		'colleges': colleges
 		})
 
 def user_login(request):
@@ -138,9 +144,9 @@ def abstract_submission(request):
 		if abstract_form.is_valid():
 			abstract = abstract_form.save(commit=False)
 			abstract.participant = user_profile
-			if StaffProfile.objects.filter(category=abstract.category):
-				for staff in StaffProfile.objects.filter(category=abstract.category):
-					abstract.staff.add(staff)
+			#if StaffProfile.objects.filter(category=abstract.category):
+			#	for staff in StaffProfile.objects.filter(categories=abstract.category):
+			#		abstract.staff.add(staff)
 			abstract.document.name = str(abstract.uid) + '-' + abstract.title + '.' + abstract.document.name.split('.')[1]
 			abstract.save()
 			return HttpResponseRedirect(reverse('dashboard'))

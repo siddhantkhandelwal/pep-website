@@ -45,17 +45,17 @@ class ProfessorProfile(models.Model):
 
 class ParticipantProfile(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE)
-	author1 = models.CharField('Author 1', max_length=200)
-	author2 = models.CharField('Author 2', max_length=200, null=True, blank=True)
+	author = models.CharField('Author', max_length=200)
+	coauthor = models.CharField('Co-Author', max_length=200, null=True, blank=True)
 	phone1 = models.BigIntegerField('Phone', null=True)
 	phone2 = models.BigIntegerField('Alternate Phone', null=True, blank=True)
 	college = models.ForeignKey(College, on_delete=models.SET_NULL, null=True, blank=True)
 	
 	def __str__(self):
-		if self.author2:
-			return self.user.username + ' - ' + self.author1 + ', ' + self.author2
+		if self.coauthor:
+			return self.user.username + ' - ' + self.author + ', ' + self.coauthor
 		else:
-			return self.user.username + ' - ' + self.author1
+			return self.user.username + ' - ' + self.author
 		
 
 class Abstract(models.Model):
@@ -99,8 +99,9 @@ class Abstract(models.Model):
 
 	def return_file_path(self):
 		self.file_name = 'documents/abstracts/' + self.uid + '-' + self.title
+	
 	def __str__(self):
-		return self.title + '-' + self.participant.author1
+		return self.title + '-' + self.participant.author
 
 
 class Paper(models.Model):
@@ -125,7 +126,7 @@ class Paper(models.Model):
 		null=True) 
 
 	def __str__(self):
-		return self.abstract.title + '-' + self.abstract.participant.author1
+		return self.abstract.title + '-' + self.abstract.participant.author
 
 
 def uid(temp_uid):

@@ -22,7 +22,7 @@ class ParticipantProfileForm(forms.ModelForm):
 		self.fields['college'].required=True
 	class Meta:
 		model = ParticipantProfile
-		fields = ('author1', 'author2', 'phone1', 'phone2', 'college')
+		fields = ('author', 'coauthor', 'phone1', 'phone2', 'college')
 
 class AbstractForm(forms.ModelForm):
 	class Meta:

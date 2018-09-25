@@ -15,4 +15,5 @@ urlpatterns = [
 	url(r'^abstract-review/(?P<pk>\d+)/$', views.abstract_review, name='abstract_review'),
 	url(r'^paper-submission/$', views.paper_submission, name='paper_submission'),
 	url(r'^paper-review/(?P<pk>\d+)/$', views.paper_review, name='paper_review'),
+	url(r'^team/$', views.team, name='team'),
 ]

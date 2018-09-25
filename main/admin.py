@@ -3,10 +3,15 @@ from .models import Paper, ProfessorProfile, ParticipantProfile, Abstract, Categ
 
 
 class ParticipantProfileAdmin(admin.ModelAdmin):
-	list_display = ('author1', 'author2', 'college', 'phone1', 'no_of_abstracts')
+	list_display = ('author', 'coauthor', 'phone1', 'phone2', 'no_of_abstracts','college',)
 	def no_of_abstracts(self, obj):
 		return Abstract.objects.filter(participant = obj).count()
 
+class CollegeAdmin(admin.ModelAdmin):
+	list_display = ('name', 'no_of_abstracts',)
+	def no_of_abstracts(self, obj):
+		return Abstract.objects.filter(participant__college = obj).count()
+		
 class ProfessorProfileAdmin(admin.ModelAdmin):
 	list_display = ('display_name', 'category', 'phone1')
 
@@ -21,4 +26,4 @@ admin.site.register(Abstract)
 admin.site.register(ParticipantProfile, ParticipantProfileAdmin)
 admin.site.register(ProfessorProfile, ProfessorProfileAdmin)
 admin.site.register(StaffProfile, StaffProfileAdmin)
-admin.site.register(College)
+admin.site.register(College, CollegeAdmin)

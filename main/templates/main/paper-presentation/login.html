@@ -9,13 +9,13 @@
       <form class="col s12" id="login_form", method="post" action="/accounts/login/">
         {% csrf_token %}
         <div class="row">
-          <div class="input-field col s4">
+          <div class="input-field col s6">
             <input type="text" name="username" id="username">
             <label for="username">Username</label>
           </div>
         </div>
         <div class="row">
-          <div class="input-field col s4">
+          <div class="input-field col s6">
             <input id="password" type="password" name="password">
             <label for="password">Password</label>
           </div>
@@ -26,6 +26,11 @@
           </button>
         </div>
       </form>
+    </div>
+    <p class="flow-text"> OR
+    <div class="row">
+      <a class="waves-effect waves-light btn blue" href="{% url 'register' %}">Create Account<i class="material-icons right">add</i>
+      </a>
     </div>
   </div>
 {% endblock %}
