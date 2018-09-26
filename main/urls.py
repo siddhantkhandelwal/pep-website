@@ -13,6 +13,7 @@ urlpatterns = [
 	url(r'^dashboard/$', views.dashboard, name='dashboard'),
 	url(r'^abstract-submission/$', views.abstract_submission, name='abstract_submission'),
 	url(r'^abstract-review/(?P<pk>\d+)/$', views.abstract_review, name='abstract_review'),
+	url(r'^assign-professor/(?P<pk>\d+)/$', views.assign_professor, name='assign_professor'),
 	url(r'^paper-submission/$', views.paper_submission, name='paper_submission'),
 	url(r'^paper-review/(?P<pk>\d+)/$', views.paper_review, name='paper_review'),
 	url(r'^team/$', views.team, name='team'),

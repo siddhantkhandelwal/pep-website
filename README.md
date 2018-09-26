@@ -3,13 +3,12 @@
 
 ## To Do:
 - Back-end
+  - Displaying only logged in user's abstracts while submitting paper.
   - Avoid Duplicate File uploads
-  - Testing
 
 - Front-End
   - Main Site Content Upload
-  - Dashboard Front-end design 
-
+  
 ## How to run?
 #### Setting up the Development Environment
 For python3 virtual environment:<br>

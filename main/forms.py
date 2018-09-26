@@ -24,12 +24,18 @@ class ParticipantProfileForm(forms.ModelForm):
 		model = ParticipantProfile
 		fields = ('author', 'coauthor', 'phone1', 'phone2', 'college')
 
+class AssignProfessorForm(forms.ModelForm):
+	class Meta:
+		model = Abstract
+		fields = ('professor',)
+
 class AbstractForm(forms.ModelForm):
 	class Meta:
 		model = Abstract
 		fields = ('title', 'document', 'category')
 
 class PaperForm(forms.ModelForm):
+	
 	class Meta:
 		model = Paper
 		fields = ('document', 'abstract')

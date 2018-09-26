@@ -1,6 +1,6 @@
 from django.shortcuts import render, reverse, get_object_or_404, redirect
 from django.http import HttpResponse, HttpResponseRedirect
-from .forms import UserForm, AbstractForm, PaperForm, AbstractReviewForm, PaperReviewForm, ParticipantProfileForm, PasswordResetForm
+from .forms import UserForm, AbstractForm, PaperForm, AbstractReviewForm, PaperReviewForm, ParticipantProfileForm, PasswordResetForm, AssignProfessorForm
 from django.contrib.auth import authenticate, login, logout
 from .models import Abstract, Paper, ParticipantProfile, ProfessorProfile, StaffProfile, College
 from django.contrib.auth.decorators import login_required
@@ -107,12 +107,14 @@ def dashboard(request):
 			user_profile = StaffProfile.objects.get(user = request.user)
 			access_level = 2
 			abstracts_allotted = Abstract.objects.filter(staff=user_profile)
-			professors = ProfessorProfile.objects.filter(category__id__in=[category.id for category in user_profile.categories]) 
+			professors = ProfessorProfile.objects.all() 
+			assign_professor_form = AssignProfessorForm()
 			return render(request, 'main/paper-presentation/dashboard.html', {'user_profile': user_profile,
-														'categories': categories,
+														#'categories': categories,
 														'access_level': access_level,
 														'abstracts_allotted': abstracts_allotted,
-														'professors': professors})
+														'professors': professors,
+														'assign_professor_form': assign_professor_form})
 		else:	
 			user_profile = ProfessorProfile.objects.get(user = request.user)
 			access_level = 1
@@ -129,10 +131,14 @@ def dashboard(request):
 														'access_level': access_level})
 	user_profile = ParticipantProfile.objects.get(user = request.user)
 	participant_abstracts = Abstract.objects.filter(participant=user_profile)
-	#participant_papers = Paper.objects.filter(abstract.participant=user_profile)
+	participant_papers = []
+	for paper in Paper.objects.all():
+		if paper.abstract in participant_abstracts:
+			participant_papers.append(paper)
+			participant_abstracts = participant_abstracts.exclude(uid=paper.abstract.uid)
 	access_level = 0
 	return render(request, 'main/paper-presentation/dashboard.html', {'abstracts': participant_abstracts,
-																	  #'papers': participant_papers,
+																	  'papers': participant_papers,
 																	  'access_level': access_level,
 																	  'user_profile': user_profile})
 
@@ -144,9 +150,7 @@ def abstract_submission(request):
 		if abstract_form.is_valid():
 			abstract = abstract_form.save(commit=False)
 			abstract.participant = user_profile
-			#if StaffProfile.objects.filter(category=abstract.category):
-			#	for staff in StaffProfile.objects.filter(categories=abstract.category):
-			#		abstract.staff.add(staff)
+			abstract.staff.add(StaffProfile.objects.get(categories__in=[abstract.category]))
 			abstract.document.name = str(abstract.uid) + '-' + abstract.title + '.' + abstract.document.name.split('.')[1]
 			abstract.save()
 			return HttpResponseRedirect(reverse('dashboard'))
@@ -171,6 +175,7 @@ def abstract_review(request, pk):
 
 @login_required
 def paper_submission(request):
+	user_profile = ParticipantProfile.objects.get(user=request.user)
 	if request.method == 'POST':
 		paper_form = PaperForm(request.POST, request.FILES)
 		if paper_form.is_valid():
@@ -185,8 +190,8 @@ def paper_submission(request):
 @login_required
 def paper_review(request, pk):
 	abstract = get_object_or_404(Abstract, pk=pk)
-	paper = get_object_or_404(Paper, abstract=abstract)
-	if request.method == 'POST':
+	paper = get_object_or_404(Paper, abstract=abstract) 
+	if request.method == 'POST': 
 		paper_review_form = PaperReviewForm(request.POST, instance=paper)
 		if paper_review_form.is_valid():
 			paper = paper_review_form.save(commit=False)
@@ -198,3 +203,13 @@ def paper_review(request, pk):
 	return render(request, 'main/paper-presentation/paper-review.html', {'paper_review_form': paper_review_form,
 																		 'abstract': abstract,
 																		 'paper': paper})
+
+def assign_professor(request, pk):
+	abstract = get_object_or_404(Abstract, pk=pk)
+	if request.method == 'POST':
+		assign_professor_form = AssignProfessorForm(request.POST, instance=abstract)
+		if assign_professor_form.is_valid():
+			abstract = assign_professor_form.save()
+			abstract.save()
+			return HttpResponseRedirect(reverse('dashboard'))
+	return HttpResponseRedirect(reverse('dashboard'))
