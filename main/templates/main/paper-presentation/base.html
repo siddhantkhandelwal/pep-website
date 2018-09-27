@@ -22,19 +22,34 @@
       overflow: auto;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
+      /*justify-content: space-between;*/
     }
+
+	.paper-title-card-span { 
+		display: inline !important;
+	}
+
+	.paper-title-card-div { 
+		display: flex;
+		justify-content: space-between;
+	}
 
     .paper-title-bottom {
       display: flex;
       justify-content: space-around;
     }
 
+	.author-info-card {
+		flex-grow: 1;	
+		align-items: flex-end;
+		display: flex;
+	}
+
     .paper-title-bottom-btns {
       display: flex;
       align-items: center;
       padding: 0px;
-      justify-content: space-around;
+      justify-content: space-between;
       flex-grow: 1;
     }
 
@@ -70,13 +85,17 @@
         justify-content: center;
     }
 
-    .nav-wrapper, .page-footer, .footer-copyright {
+    .nav-wrapper, .page-footer, .footer-copyright, .nav-wrapper .right .dropdown-content{
         background: linear-gradient(45deg, #38b0ec 0%, #9870FC 100%) !important;
     }
 
     @media all and (min-width: 700px) {
         #register-card {
             width:700px;
+        }
+
+        #login_card {
+            margin-top: 10vh;
         }
     }
 
@@ -119,7 +138,7 @@
             </div>
         </nav>
     </header>
-  <main style = "display: flex; justify-content: center">
+  <main>
     {% block body%}
     {% endblock %}
   </main>
