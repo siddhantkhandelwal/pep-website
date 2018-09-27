@@ -29,7 +29,7 @@
     <div class="col s12">
       <ul class="tabs">
 		  <li class="tab col s3"><a href="#user-papers">Abstracts</a></li>
-        <li class="tab col s3"><a class="active" href="#user-abstracts">Papers</a></li>
+		  <!-- <li class="tab col s3"><a class="active" href="#user-abstracts">Papers</a></li> -->
       </ul>
     </div>
     <div id="user-papers" class="col s12">
@@ -37,30 +37,41 @@
             <div class="col s12 m6 l3">
               <div class="card white">
                 <div class="card-content paper-title-card">
-                  <span class="card-title">
-                    {{ abstract.title }}
-                  </span>
-                  <span class="card-text">
-                    {{ abstract.submission_date }}<br><br>
+					<div class="paper-title-card-div">
+					  <span class="card-title paper-title-card-span">
+						{{ abstract.title }}
+					  </span>
+					  <span style="font-size: 12px;" class="grey-text">
+					 	{{abstract.uid}} <br>
+					 	{{abstract.status}} 
+					  </span>
+					</div>
+					<p class="grey-text"> {{ abstract.submission_date}}</p>
+                  <span class="card-text author-info-card">
                     {{ abstract.participant.author }}<br>
                     {% if abstract.participant.coauthor %}
                       {{ abstract.participant.coauthor }}
                     {% endif %}
                   </span>
                   <div class="paper-title-bottom">
-                    <p style="padding-right: 10px;">
+                    <!-- <p style="padding-right: 10px;">
                       UID: {{ abstract.uid }}<br>
                       Status: {{ abstract.status }}<br> 
-                    </p>
+					</p> -->
                     <div class="paper-title-bottom-btns">
+						<p>
+							Verdict: Hello
+						</p>
+						<div>
                       {% if not abstract.review %}
-                        <a class="btn disabled blue feedback-btn">Wait for Feedback</a>
+                        <a class="btn disabled blue feedback-btn" style="margin-right: 7px;">Wait for Feedback</a>
                       {% else %}
-                        <a class="waves-effect waves-light btn modal-trigger blue white-text" data-target="paper-modal-{{ forloop.counter }}">View Feedback</a>
+                        <a class="waves-effect waves-light btn modal-trigger blue white-text" style="margin-right: 7px;" data-target="paper-modal-{{ forloop.counter }}">View Feedback</a>
                       {% endif %}
                         <a class="waves-effect waves-light btn blue white-text" href="/media/{{ abstract.document.name }}" target="_">
                           <i class="material-icons center">insert_drive_file</i>
                         </a>
+						</div>
                     </div>
                     <div id="paper-modal-{{forloop.counter}}" class="modal">
                       <div class="modal-content">
