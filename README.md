@@ -15,7 +15,7 @@ For python3 virtual environment:<br>
 1. To install python3 virtual environment, refer this:<br>
    ```bash
    pip install virtualenv
-   virtualenv --python==python3 pep
+   virtualenv --python=python3 pep
    source pep/venv/bin/activate 
    ```
 2. The base directory contains 'requirements.txt' file. To replicate the same environment:<br>

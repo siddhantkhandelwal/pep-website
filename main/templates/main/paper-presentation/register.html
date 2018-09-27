@@ -8,8 +8,48 @@
     <div class="row"> 
       <form class="col s12" id="user_form" method="post" action='/accounts/register/'>
         {% csrf_token %}
-        {{ user_form.as_p }}
-        {{ participant_profile_form.as_p }}
+        <!--{{ user_form.as_p }}
+        {{ participant_profile_form.as_p }}-->
+        <div class="fieldWrapper">
+          {{ form.subject.errors }}
+          <label for="{{ user_form.username.id_for_label }}">User Name: </label>
+          {{ user_form.username }}
+        </div>
+        <div class="fieldWrapper">
+          {{ form.subject.errors }}
+          <label for="{{ user_form.email.id_for_label }}">Email: </label>
+          {{ user_form.email }}
+        </div>
+        <div class="fieldWrapper">
+          {{ form.subject.errors }}
+          <label for="{{ user_form.password.id_for_label }}">Password: </label>
+          {{ user_form.password }}
+        </div>
+        <div class="fieldWrapper">
+          {{ form.subject.errors }}
+          <label for="{{ participant_profile_form.author.id_for_label }}">Author: </label>
+          {{ participant_profile_form.author }}
+        </div>
+        <div class="fieldWrapper">
+          {{ form.subject.errors }}
+          <label for="{{ participant_profile_form.coauthor.id_for_label }}">Co-Author: </label>
+          {{ participant_profile_form.coauthor }}
+        </div>
+        <div class="fieldWrapper">
+          {{ form.subject.errors }}
+          <label for="{{ participant_profile_form.phone1.id_for_label }}">Phone</label>
+          {{ participant_profile_form.phone1 }}
+        </div>
+        <div class="fieldWrapper">
+          {{ form.subject.errors }}
+          <label for="{{ participant_profile_form.phone2.id_for_label }}">Alternate Phone: </label>
+          {{ participant_profile_form.phone2 }}
+        </div>
+        <div class="fieldWrapper">
+          {{ form.subject.errors }}
+          <label for="{{ participant_profile_form.college.id_for_label }}">College: </label>
+          {{ participant_profile_form.college }}
+        </div>
         <div class="row">
           <button class="btn waves-effect waves-light col blue" type="submit" name="submit">Register
             <i class="material-icons right">arrow_forward</i>
