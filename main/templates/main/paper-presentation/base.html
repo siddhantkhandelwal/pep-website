@@ -93,31 +93,33 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 </head>
 <body>
-  <main>
-    <ul id="dropdown1" class="dropdown-content">
-    <li><a href="/accounts/logout">Logout</a></li>
-    {% if user_profile.college %}
-      <li><a href="/accounts/edit-profile">Edit Profile</a></li>
-    {% endif %}
-    </ul>
-    <ul id="dropdown2" class="dropdown-content">
-      <li><a href="/abstract-submission/">Add Abstract</a></li>
-      <li><a href="/paper-submission/">Add Paper</a></li>
-    </ul>
-    <nav>
-      <div class="nav-wrapper blue accent-3">
-        <a href="/dashboard" class="brand-logo left">Dashboard</a>
-        <ul class="right">
-          {% if access_level == 0%}
-            <li><a class="dropdown-trigger" href="#!" data-target="dropdown2"><i class="material-icons center white-text">add</i></a></li>
-          {% endif %}
-          <!-- Dropdown Trigger -->
-          {% if request.user.is_authenticated %}
-          <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">{{ request.user.username }}<i class="material-icons right">arrow_drop_down</i></a></li>
-          {% endif %}
+    <header>
+        <ul id="dropdown1" class="dropdown-content">
+        <li><a href="/accounts/logout">Logout</a></li>
+        {% if user_profile.college %}
+            <li><a href="/accounts/edit-profile">Edit Profile</a></li>
+        {% endif %}
         </ul>
-      </div>
-    </nav>
+        <ul id="dropdown2" class="dropdown-content">
+            <li><a href="/abstract-submission/">Add Abstract</a></li>
+            <li><a href="/paper-submission/">Add Paper</a></li>
+        </ul>
+        <nav>
+            <div class="nav-wrapper blue accent-3">
+            <a href="/dashboard" class="brand-logo left">Dashboard</a>
+            <ul class="right">
+                {% if access_level == 0%}
+                <li><a class="dropdown-trigger" href="#!" data-target="dropdown2"><i class="material-icons center white-text">add</i></a></li>
+                {% endif %}
+                <!-- Dropdown Trigger -->
+                {% if request.user.is_authenticated %}
+                <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">{{ request.user.username }}<i class="material-icons right">arrow_drop_down</i></a></li>
+                {% endif %}
+            </ul>
+            </div>
+        </nav>
+    </header>
+  <main style = "display: flex; justify-content: center">
     {% block body%}
     {% endblock %}
   </main>
@@ -160,8 +162,35 @@
         return re.test(String(email).toLowerCase());
     }
 
-    var email = document.getElementById("email").value;
-    console.log(email);
+    document.getElementById("user_form").onsubmit = function (e) {
+        var email = document.getElementById("id_email").value,
+            phone = document.getElementById("id_phone1").value,
+            altphone = document.getElementById("id_phone2").value;
+
+        if (!validateEmail(email)) {
+            document.getElementById("front_email_err").innerHTML = "Enter a valid email address";
+            e.preventDefault();
+        }
+        else {
+            document.getElementById("front_email_err").innerHTML = "";
+        }
+        
+        if (phone.length != 10) {
+            document.getElementById("front_phone_err").innerHTML = "Enter a valid phone number";
+            e.preventDefault();
+        }
+        else {
+            document.getElementById("front_phone_err").innerHTML = "";
+        }
+        
+        if (altphone.length != 10) {
+            document.getElementById("front_altphone_err").innerHTML = "Enter a valid phone number";
+            e.preventDefault();
+        }
+        else {
+            document.getElementById("front_altphone_err").innerHTML = "";
+        }
+    }
   </script>
 </body>
 </html>

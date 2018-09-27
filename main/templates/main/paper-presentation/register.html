@@ -9,46 +9,49 @@
       <form class="col s12" id="user_form" method="post" action='/accounts/register/'>
         {% csrf_token %}
         <h5>Register</h5>
-        <div class="fieldWrapper col s12">
+        <div class="input-field fieldWrapper col s12">
           
           <label for="{{ user_form.username.id_for_label }}">User Name: </label>
           {{ user_form.username }}
           {{ user_form.username.errors }}
         </div>
-        <div class="fieldWrapper col s12" id = "email">
+        <div class="input-field fieldWrapper col s12" id = "email">
           {{ form.subject.errors }}
           <label for="{{ user_form.email.id_for_label }}">Email: </label>
           {{ user_form.email }}
           {{ user_form.email.errors }}
+          <span id = "front_email_err" class="helper-text red-text" data-error="wrong" data-success="right" style = "min-height: 0"></span>
         </div>
-        <div class="fieldWrapper col s12">
+        <div class="input-field fieldWrapper col s12">
           {{ form.subject.errors }}
           <label for="{{ user_form.password.id_for_label }}">Password: </label>
           {{ user_form.password }}
           {{ user_form.password.errors }}
         </div>
-        <div class="fieldWrapper col s12">
+        <div class="input-field fieldWrapper col s12">
           {{ form.subject.errors }}
           <label for="{{ participant_profile_form.author.id_for_label }}">Author: </label>
           {{ participant_profile_form.author }}
           {{ participant_profile_form.author.errors }}
         </div>
-        <div class="fieldWrapper col s12">
+        <div class="input-field fieldWrapper col s12">
           {{ form.subject.errors }}
           <label for="{{ participant_profile_form.coauthor.id_for_label }}">Co-Author: </label>
           {{ participant_profile_form.coauthor }}
           {{ participant_profile_form.coauthor.errors }}
         </div>
-        <div class="fieldWrapper col s12">
+        <div class="input-field fieldWrapper col s12">
           {{ form.subject.errors }}
           <label for="{{ participant_profile_form.phone1.id_for_label }}">Phone</label>
           {{ participant_profile_form.phone1 }}
           {{ participant_profile_form.phone1.errors }}
+          <span id = "front_phone_err" class="helper-text red-text" data-error="wrong" data-success="right" style = "min-height: 0"></span>
         </div>
-        <div class="fieldWrapper col s12">
+        <div class="input-field fieldWrapper col s12">
           <label for="{{ participant_profile_form.phone2.id_for_label }}">Alternate Phone: </label>
           {{ participant_profile_form.phone2 }}
           {{ participant_profile_form.phone2.errors }}
+          <span id = "front_altphone_err" class="helper-text red-text" data-error="wrong" data-success="right" style = "min-height: 0"></span>
         </div>
         <div class="fieldWrapper col s12">
           {{ form.subject.errors }}
