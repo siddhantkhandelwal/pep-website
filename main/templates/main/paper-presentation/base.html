@@ -46,8 +46,23 @@
       padding: 10px !important;
     }
 
+    .paper-upload {
+      padding: 10px !important;
+    }
+
+    .abstract-upload {
+      padding: 10px !important;
+    }
+
     .feedback-btn {
       font-size: 10px !important;
+    }
+
+    #login_form, .login-form{
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      align-items: center;
     }
 
   </style>
@@ -83,7 +98,7 @@
           {% endif %}
           <!-- Dropdown Trigger -->
           {% if request.user.is_authenticated %}
-          <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">{{ user_profile.user.username }}<i class="material-icons right">arrow_drop_down</i></a></li>
+          <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">{{ request.user.username }}<i class="material-icons right">arrow_drop_down</i></a></li>
           {% endif %}
         </ul>
       </div>

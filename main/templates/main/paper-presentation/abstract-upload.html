@@ -5,15 +5,17 @@
 {% endblock %}
 
 {% block body %}
+<div class="abstract-upload">
 	<div class="row">
-  	<form class="col s12" id="abstract_submission" method="post" enctype="multipart/form-data" action="/abstract-submission/">
-    {% csrf_token %}
-    {{ abstract_form.as_p }}
-    <div class="row">
-      <button class="btn waves-effect waves-light col blue" type="submit" name="action">Upload
-        <i class="material-icons right">arrow_upward</i>
-      </button>
-    </div>
-  </form>
+	  	<form class="col s6" id="abstract_submission" method="post" enctype="multipart/form-data" action="/abstract-submission/">
+	    {% csrf_token %}
+	    {{ abstract_form.as_p }}
+	    <div class="row">
+	      <button class="btn waves-effect waves-light col blue" type="submit" name="action">Upload
+	        <i class="material-icons right">arrow_upward</i>
+	      </button>
+	    </div>
+	  </form>
+	</div>
 </div>
 {% endblock %}

@@ -5,17 +5,17 @@
 {% endblock %}
 {% block body %}  
   <div class="login-form">
-    <div class="row">  
+    <div class="row card-panel">  
       <form class="col s12" id="login_form", method="post" action="/accounts/login/">
         {% csrf_token %}
         <div class="row">
-          <div class="input-field col s6">
+          <div class="input-field col s12">
             <input type="text" name="username" id="username">
             <label for="username">Username</label>
           </div>
         </div>
         <div class="row">
-          <div class="input-field col s6">
+          <div class="input-field col s12">
             <input id="password" type="password" name="password">
             <label for="password">Password</label>
           </div>
@@ -25,12 +25,12 @@
             <i class="material-icons right">arrow_forward</i>
           </button>
         </div>
+        <div class="row">
+          <a class="waves-effect waves-light btn blue" href="{% url 'register' %}">Create Account<i class="material-icons right">add</i>
+          </a>
+        </div>
       </form>
     </div>
-    <p class="flow-text"> OR
-    <div class="row">
-      <a class="waves-effect waves-light btn blue" href="{% url 'register' %}">Create Account<i class="material-icons right">add</i>
-      </a>
-    </div>
+    {# <p class="flow-text"> OR #}
   </div>
 {% endblock %}

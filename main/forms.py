@@ -35,7 +35,7 @@ class AbstractForm(forms.ModelForm):
 		fields = ('title', 'document', 'category')
 
 class PaperForm(forms.ModelForm):
-	
+		
 	class Meta:
 		model = Paper
 		fields = ('document', 'abstract')

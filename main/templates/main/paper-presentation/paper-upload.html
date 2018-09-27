@@ -1,13 +1,21 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Paper Submission</title>
-</head>
-<body>
-  <form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ paper_form.as_p }}
-    <button type="submit">Submit</button>
-  </form>
-</body>
-</html>
+{% extends 'main/paper-presentation/base.html' %} 
+{% load staticfiles %}
+{% block title %}
+  Upload Paper
+{% endblock %}
+
+{% block body %}
+	<div class="paper-upload">
+		<div class="row">
+		  	<form class="col s6" id="paper_submission" method="post" enctype="multipart/form-data" action="/paper-submission/">
+		    {% csrf_token %}
+		    {{ paper_form.as_p }}
+		    <div class="row">
+		      <button class="btn waves-effect waves-light col blue" type="submit" name="action">Upload
+		        <i class="material-icons right">arrow_upward</i>
+		      </button>
+		    </div>
+		  </form>
+		</div>
+	</div>
+{% endblock %}

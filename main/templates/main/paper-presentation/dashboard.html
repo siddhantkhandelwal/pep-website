@@ -27,7 +27,7 @@
     {% else %}
       <div class="row">
         {% if abstracts %}
-          <div class="container flow-text">
+          <div class="container flow-text" style="text-align: center;">
             Abstracts
           </div>
           {% for abstract in abstracts %}
@@ -92,7 +92,7 @@
         {% endif %}
         
         {% if papers %}
-          <div class="container flow-text">
+          <div class="container flow-text" style="text-align: center;">
             Papers
           </div>
           {% for paper in papers %}
@@ -116,7 +116,7 @@
                     </p>
                     <div class="paper-title-bottom-btns">
                       {% if not paper.review %}
-                        <a class="btn disabled blue">Wait for Feedback</a>
+                        <a class="btn disabled blue feedback-btn">Wait for Feedback</a>
                       {% else %}
                         <a class="waves-effect waves-light btn modal-trigger blue white-text" data-target="paper-modal-{{ forloop.counter }}">View Feedback</a>
                       {% endif %}

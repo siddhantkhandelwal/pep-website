@@ -25,7 +25,7 @@ SECRET_KEY = 'mx%zoy4sn#7!uv$98&e7ue4_6qw2rud(q(hn4rr4+y^b=2m!mp'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['172.17.41.160', '0.0.0.0', '115.248.26.61', '127.0.0.1', '192.168.0.103']
+ALLOWED_HOSTS = ['172.17.41.160', '0.0.0.0', '115.248.26.61', '127.0.0.1', '192.168.43.58']
 
 
 # Application definition
