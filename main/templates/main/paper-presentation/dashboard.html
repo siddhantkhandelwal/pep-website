@@ -28,7 +28,7 @@
 	  <div class="row">
     <div class="col s12">
       <ul class="tabs">
-		  <li class="tab col s3"><a href="#user-papers">Abstracts</a></li>
+		  <li class="tab col s3"><a class="blue-text" href="#user-papers">Abstracts</a></li>
 		  <!-- <li class="tab col s3"><a class="active" href="#user-abstracts">Papers</a></li> -->
       </ul>
     </div>
@@ -42,11 +42,11 @@
 						{{ abstract.title }}
 					  </span>
 					  <span style="font-size: 12px;" class="grey-text">
-					 	{{abstract.uid}} <br>
-					 	{{abstract.status}} 
+					 	{{ abstract.uid }} <br>
+					 	{{ abstract.status }} 
 					  </span>
 					</div>
-					<p class="grey-text"> {{ abstract.submission_date}}</p>
+					<p class="grey-text"> {{ abstract.submission_date }}</p>
                   <span class="card-text author-info-card">
                     {{ abstract.participant.author }}<br>
                     {% if abstract.participant.coauthor %}
@@ -57,7 +57,7 @@
                     <!-- <p style="padding-right: 10px;">
                       UID: {{ abstract.uid }}<br>
                       Status: {{ abstract.status }}<br> 
-					</p> -->
+					          </p> -->
                     <div class="paper-title-bottom-btns">
 						<p>
 							Verdict: Hello
