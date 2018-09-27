@@ -25,11 +25,14 @@
       </div>
     </div>
     {% else %}
-      <div class="row">
-        {% if abstracts %}
-          <div class="container flow-text" style="text-align: center;">
-            Abstracts
-          </div>
+	  <div class="row">
+    <div class="col s12">
+      <ul class="tabs">
+		  <li class="tab col s3"><a href="#user-papers">Abstracts</a></li>
+        <li class="tab col s3"><a class="active" href="#user-abstracts">Papers</a></li>
+      </ul>
+    </div>
+    <div id="user-papers" class="col s12">
           {% for abstract in abstracts %}
             <div class="col s12 m6 l3">
               <div class="card white">
@@ -89,12 +92,8 @@
               </div>
             </div>
           {% endfor %}
-        {% endif %}
-        
-        {% if papers %}
-          <div class="container flow-text" style="text-align: center;">
-            Papers
-          </div>
+	</div>
+    <div id="user-abstracts" class="col s12">
           {% for paper in papers %}
             <div class="col s12 m6 l3">
               <div class="card white">
@@ -154,7 +153,9 @@
               </div>
             </div>
           {% endfor %}
-        {% endif %}
+	</div>
+  </div>
+      
       </div>
     {% endif %}
 
