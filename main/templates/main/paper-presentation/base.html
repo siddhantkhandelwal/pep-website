@@ -58,7 +58,7 @@
       font-size: 10px !important;
     }
 
-    #login_form, .login-form{
+    #login_form, .login-form, #user_form {
       display: flex;
       justify-content: center;
       flex-direction: column;
@@ -143,6 +143,14 @@
     var elems = document.querySelectorAll('select');
     var instances = M.FormSelect.init(elems, {});
   });
+
+    function validateEmail(email) {
+        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(String(email).toLowerCase());
+    }
+
+    var email = document.getElementById("email").value;
+    console.log(email);
   </script>
 </body>
 </html>
