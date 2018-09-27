@@ -10,8 +10,7 @@
         {% csrf_token %}
         <h5>Register</h5>
         <div class="fieldWrapper col s12">
-          
-          <label for="{{ user_form.username.id_for_label }}">User Name: </label>
+          <label for="{{ user_form.username.id_for_label }}">Username: </label>
           {{ user_form.username }}
           {{ user_form.username.errors }}
         </div>
