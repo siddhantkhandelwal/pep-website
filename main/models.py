@@ -17,8 +17,12 @@ class Category(models.Model):
 class College(models.Model):
 	name = models.CharField('College/University Name', max_length=500)
 
+	class Meta:
+		ordering = ['name']
+
 	def __str__(self):
 		return self.name
+
 
 
 class StaffProfile(models.Model):

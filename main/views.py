@@ -150,7 +150,8 @@ def abstract_submission(request):
 		if abstract_form.is_valid():
 			abstract = abstract_form.save(commit=False)
 			abstract.participant = user_profile
-			abstract.staff.add(StaffProfile.objects.get(categories__in=[abstract.category]))
+			for staff in StaffProfile.objects.filter(categories__in=[abstract.category]):
+				abstract.staff.add(staff)
 			abstract.document.name = str(abstract.uid) + '-' + abstract.title + '.' + abstract.document.name.split('.')[1]
 			abstract.save()
 			return HttpResponseRedirect(reverse('dashboard'))

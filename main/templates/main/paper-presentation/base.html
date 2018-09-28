@@ -61,11 +61,11 @@
       padding: 10px !important;
     }
 
-    .paper-upload {
-      padding: 10px !important;
+    .tabs{
+      margin-top: 5px;
     }
 
-    .abstract-upload {
+    .paper-upload {
       padding: 10px !important;
     }
 
@@ -73,7 +73,7 @@
       font-size: 10px !important;
     }
 
-    #login_form, .login-form, #user_form {
+    #login_form, .login-form, #user_form, .abstract_upload{
       display: flex;
       justify-content: center;
       flex-direction: column;
@@ -85,7 +85,7 @@
         justify-content: center;
     }
 
-    .nav-wrapper, .page-footer, .footer-copyright, .nav-wrapper .right .dropdown-content{
+    .nav-wrapper, .page-footer, .footer-copyright, .nav-wrapper .right .dropdown-content {
         background: linear-gradient(45deg, #38b0ec 0%, #9870FC 100%) !important;
     }
 
@@ -94,11 +94,15 @@
             width:700px;
         }
 
+        #abstract-upload-card {
+            width:700px;
+            margin-top: 10vh;
+        }
+
         #login_card {
             margin-top: 10vh;
         }
     }
-
   </style>
 
   <!-- Compiled and minified JavaScript -->
@@ -113,28 +117,28 @@
 </head>
 <body>
     <header>
-        <ul id="dropdown1" class="dropdown-content">
-        <li><a href="/accounts/logout">Logout</a></li>
-        {% if user_profile.college %}
-            <li><a href="/accounts/edit-profile">Edit Profile</a></li>
-        {% endif %}
-        </ul>
-        <ul id="dropdown2" class="dropdown-content">
-            <li><a href="/abstract-submission/">Add Abstract</a></li>
-            <li><a href="/paper-submission/">Add Paper</a></li>
-        </ul>
         <nav>
-            <div class="nav-wrapper blue accent-3">
-            <a href="/dashboard" class="brand-logo left">Dashboard</a>
-            <ul class="right">
-                {% if access_level == 0%}
-                <li><a class="dropdown-trigger" href="#!" data-target="dropdown2"><i class="material-icons center white-text">add</i></a></li>
-                {% endif %}
-                <!-- Dropdown Trigger -->
-                {% if request.user.is_authenticated %}
-                <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">{{ request.user.username }}<i class="material-icons right">arrow_drop_down</i></a></li>
-                {% endif %}
-            </ul>
+            <div class="nav-wrapper">
+              <a href="/dashboard" class="brand-logo left">Dashboard</a>
+              <ul class="right">
+                  {% if access_level == 0%}
+                    <li><a class="dropdown-trigger" href="#" data-target="dropdown2"><i class="material-icons center white-text">add</i></a></li>
+                  {% endif %}
+                  <!-- Dropdown Trigger -->
+                  {% if request.user.is_authenticated %}
+                    <li><a class="dropdown-trigger" href="#" data-target="dropdown1">{{ request.user.username }}<i class="material-icons right">arrow_drop_down</i></a></li>
+                  {% endif %}
+              </ul>
+              <ul id="dropdown1" class="dropdown-content">
+                <li><a href="/accounts/logout" class="white-text">Logout</a></li>
+                <!--{% if user_profile.college %}
+                    <li><a href="/accounts/edit-profile">Edit Profile</a></li>
+                {% endif %}-->
+              </ul>
+              <ul id="dropdown2" class="dropdown-content">
+                  <li><a href="/abstract-submission/" class="white-text">Add Abstract</a></li>
+                  <!--<li><a href="/paper-submission/" class="white-text">Add Paper</a></li>-->
+              </ul>
             </div>
         </nav>
     </header>
@@ -159,7 +163,7 @@
     </div>
     <div class="footer-copyright">
       <div class="container">
-      <a class="grey-text text-lighten-4" href="{% url 'team' %}">Made with &hearts; by PEP</a>
+      <a class="grey-text text-lighten-4">Made with &hearts; by PEP</a>
       </div>
     </div>
   </footer>
@@ -170,6 +174,12 @@
       $(".dropdown-trigger").dropdown();
 	  $('.tabs').tabs();
     });
+
+    document.addEventListener('DOMContentLoaded', function() {
+      var elems = document.querySelectorAll('.dropdown-trigger');
+      var instances = M.Dropdown.init(elems, options);
+    });
+
 
     document.addEventListener('DOMContentLoaded', function() {
     var elems = document.querySelectorAll('select');
@@ -183,8 +193,8 @@
 
     document.getElementById("user_form").onsubmit = function (e) {
         var email = document.getElementById("id_email").value,
-            phone = document.getElementById("id_phone1").value,
-            altphone = document.getElementById("id_phone2").value;
+            phone = document.getElementById("id_phone1").value;
+            //altphone = document.getElementById("id_phone2").value;
 
         if (!validateEmail(email)) {
             document.getElementById("front_email_err").innerHTML = "Enter a valid email address";
@@ -202,13 +212,13 @@
             document.getElementById("front_phone_err").innerHTML = "";
         }
         
-        if (altphone.length != 10) {
-            document.getElementById("front_altphone_err").innerHTML = "Enter a valid phone number";
-            e.preventDefault();
-        }
-        else {
-            document.getElementById("front_altphone_err").innerHTML = "";
-        }
+        // if (altphone.length != 10) {
+        //     document.getElementById("front_altphone_err").innerHTML = "Enter a valid phone number";
+        //     e.preventDefault();
+        // }
+        // else {
+        //     document.getElementById("front_altphone_err").innerHTML = "";
+        // }
     }
   </script>
 </body>

@@ -9,58 +9,59 @@
       <form class="col s12" id="user_form" method="post" action='/accounts/register/'>
         {% csrf_token %}
         <h5>Register</h5>
+        <br>
         <div class="input-field fieldWrapper col s12">
-          
-          <label for="{{ user_form.username.id_for_label }}">User Name: </label>
+          <i class="material-icons prefix">account_circle</i>
+          <label for="{{ user_form.username.id_for_label }}">Username</label>
           {{ user_form.username }}
           {{ user_form.username.errors }}
         </div>
+        <div class="input-field fieldWrapper col s12">
+          <i class="material-icons prefix">lock_outline</i>
+          <label for="{{ user_form.password.id_for_label }}">Password</label>
+          {{ user_form.password }}
+          {{ user_form.password.errors }}
+        </div>
         <div class="input-field fieldWrapper col s12" id = "email">
-          {{ form.subject.errors }}
-          <label for="{{ user_form.email.id_for_label }}">Email: </label>
+          <i class="material-icons prefix">email</i>
+          <label for="{{ user_form.email.id_for_label }}">Email</label>
           {{ user_form.email }}
           {{ user_form.email.errors }}
           <span id = "front_email_err" class="helper-text red-text" data-error="wrong" data-success="right" style = "min-height: 0"></span>
         </div>
         <div class="input-field fieldWrapper col s12">
-          {{ form.subject.errors }}
-          <label for="{{ user_form.password.id_for_label }}">Password: </label>
-          {{ user_form.password }}
-          {{ user_form.password.errors }}
-        </div>
-        <div class="input-field fieldWrapper col s12">
-          {{ form.subject.errors }}
-          <label for="{{ participant_profile_form.author.id_for_label }}">Author: </label>
+          <i class="material-icons prefix">person_identity</i>
+          <label for="{{ participant_profile_form.author.id_for_label }}">Author</label>
           {{ participant_profile_form.author }}
           {{ participant_profile_form.author.errors }}
         </div>
         <div class="input-field fieldWrapper col s12">
-          {{ form.subject.errors }}
-          <label for="{{ participant_profile_form.coauthor.id_for_label }}">Co-Author: </label>
+          <i class="material-icons prefix">person_identity</i>
+          <label for="{{ participant_profile_form.coauthor.id_for_label }}">Co-Author</label>
           {{ participant_profile_form.coauthor }}
           {{ participant_profile_form.coauthor.errors }}
         </div>
         <div class="input-field fieldWrapper col s12">
-          {{ form.subject.errors }}
+          <i class="material-icons prefix">phone</i>
           <label for="{{ participant_profile_form.phone1.id_for_label }}">Phone</label>
           {{ participant_profile_form.phone1 }}
           {{ participant_profile_form.phone1.errors }}
           <span id = "front_phone_err" class="helper-text red-text" data-error="wrong" data-success="right" style = "min-height: 0"></span>
         </div>
         <div class="input-field fieldWrapper col s12">
-          <label for="{{ participant_profile_form.phone2.id_for_label }}">Alternate Phone: </label>
+          <i class="material-icons prefix">phone</i>
+          <label for="{{ participant_profile_form.phone2.id_for_label }}">Alternate Phone</label>
           {{ participant_profile_form.phone2 }}
           {{ participant_profile_form.phone2.errors }}
           <span id = "front_altphone_err" class="helper-text red-text" data-error="wrong" data-success="right" style = "min-height: 0"></span>
         </div>
         <div class="fieldWrapper col s12">
-          {{ form.subject.errors }}
-          <label for="{{ participant_profile_form.college.id_for_label }}">College: </label>
+          <i class="material-icons prefix">school</i>
+          <!--<label for="{{ participant_profile_form.college.id_for_label }}">College</label>-->
           {{ participant_profile_form.college }}
           {{ participant_profile_form.college.errors }}
         </div>
-        <div class="row">
-        <div class="row" style = "display: flex; justify-content: center;">
+        <div class="row" style = "display: flex; justify-content: center; margin-top: 20px">
           <button class="btn waves-effect waves-light col blue" type="submit" name="submit">Register
             <i class="material-icons right">arrow_forward</i>
           </button>

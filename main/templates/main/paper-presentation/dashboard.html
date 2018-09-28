@@ -18,7 +18,7 @@
         <div class="card blue">
           <div class="card-content white-text">
             <span class="card-title">No Abstract Submitted</span>
-            <p>Click on the + button on the navigation bar to add an Abstract or Paper.
+            <p>Click on the + button on the navigation bar to add an Abstract<!--or Paper-->
             </p>
           </div>
         </div>
@@ -59,9 +59,9 @@
                       Status: {{ abstract.status }}<br> 
 					          </p> -->
                     <div class="paper-title-bottom-btns">
-						<p>
-							Verdict: Hello
-						</p>
+						<!--<p>
+              Verdict: Hello
+            </p>-->
 						<div>
                       {% if not abstract.review %}
                         <a class="btn disabled blue feedback-btn" style="margin-right: 7px;">Wait for Feedback</a>
@@ -69,7 +69,7 @@
                         <a class="waves-effect waves-light btn modal-trigger blue white-text" style="margin-right: 7px;" data-target="paper-modal-{{ forloop.counter }}">View Feedback</a>
                       {% endif %}
                         <a class="waves-effect waves-light btn blue white-text" href="/media/{{ abstract.document.name }}" target="_">
-                          <i class="material-icons center">insert_drive_file</i>
+                          <i class="material-icons center">arrow_downward</i>
                         </a>
 						</div>
                     </div>
