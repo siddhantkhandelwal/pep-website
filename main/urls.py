@@ -16,5 +16,4 @@ urlpatterns = [
 	url(r'^assign-professor/(?P<pk>\d+)/$', views.assign_professor, name='assign_professor'),
 	url(r'^paper-submission/$', views.paper_submission, name='paper_submission'),
 	url(r'^paper-review/(?P<pk>\d+)/$', views.paper_review, name='paper_review'),
-	url(r'^team/$', views.team, name='team'),
 ]

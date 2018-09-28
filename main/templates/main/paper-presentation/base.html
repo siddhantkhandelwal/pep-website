@@ -29,6 +29,12 @@
 		display: inline !important;
 	}
 
+
+  .errorlist {
+    color:red;
+    margin-left: 50px;
+  }
+
 	.paper-title-card-div { 
 		display: flex;
 		justify-content: space-between;
@@ -87,7 +93,7 @@
         justify-content: center;
     }
 
-    .nav-wrapper, .page-footer, .footer-copyright, .nav-wrapper .right .dropdown-content {
+    .nav-wrapper, .page-footer, .footer-copyright, .nav-wrapper .right .dropdown-content, .btn {
         background: linear-gradient(45deg, #38b0ec 0%, #9870FC 100%) !important;
     }
 
@@ -157,17 +163,19 @@
         }
 
         #login_card {
-            margin-top: 10vh;
+            margin-top: 7vh;
         }
     }
     @media all and (max-width: 600px) {
       .brand-logo {
-        font-size: 20px !important;
+        font-size: 30px !important;
       }
+
       #footer-row {
         flex-wrap: wrap;
         justify-content: center;
       }
+
       .contact-content {
         display: flex;
         flex-direction: column;
@@ -175,6 +183,7 @@
         align-items: center;
         text-align: center;
       }
+
       .paper-title-bottom {
         flex-wrap: wrap;
         justify-content: center;
@@ -215,7 +224,7 @@
         <nav>
             <div class="nav-wrapper">
               <a href="/dashboard" class="" id="dashboard-title">
-                <img src=" {% static 'main/paper-presentation/images/logo.jpg' %}" id="pep-logo">
+                <img src=" {% static 'main/paper-presentation/images/logo.svg' %}" id="pep-logo">
               </a>
               <ul class="right">
                   {% if access_level == 0%}
@@ -249,15 +258,19 @@
         <div class="col l6 s12 contact-content">
           <h4><a class="white-text" href="#">APOGEE 2018</a></h4>
           <ul>
+            <!--<img src="{% static 'main/paper-presentation/images/apogee-logo.jpg' %}">-->
             <li><a class="grey-text text-lighten-3" href="/paper-presentation">Paper Presentation Site</a></li>
             <li><a class="grey-text text-lighten-3" href="/">Think Again Conclave</a></li>
           </ul>
         </div>
         <div id="contact-content-right" class="col l4 offset-l2 s12 contact-content">
-          <h4><a class="white-text" href="#">CONTACT</a></h4>
+          <h4><a class="white-text" href="#">Contact Us</a></h4>
           <ul>
-            <li><a class="grey-text text-lighten-3" href="/paper-presentation">Paper Presentation Site</a></li>
-            <li><a class="grey-text text-lighten-3" href="/">Think Again Conclave</a></li>
+            <li><a class="grey-text text-lighten-3">Atharv Tandon</a></li>
+            <li><a class="grey-text text-lighten-3">Coordinator</a></li>
+            <li><a class="grey-text text-lighten-3">Department of Paper Evaluation and Presentation</a></li>
+            <li><a class="grey-text text-lighten-3" href="tel:+91-8209411724">+91-8209411724</a></li>
+            <li><a class="grey-text text-lighten-3" href="mailto:pep@bits-apogee.org">pep@bits-apogee.org</a></li>
           </ul>
         </div>
       </div>

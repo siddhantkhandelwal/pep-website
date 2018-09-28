@@ -12,9 +12,6 @@ def think_again(request):
 def paper_presentation(request):
 	return render(request, 'main/paper-presentation/paper-presentation.html', {})
 
-def team(request):
-	return render(request, 'main/paper-presentation/team.html', {})
-
 def register(request):
 	if request.user.is_authenticated():
 		return HttpResponseRedirect(reverse('dashboard'))
@@ -34,6 +31,11 @@ def register(request):
 			participant_profile.user = user
 			participant_profile.save()
 
+			if user.is_active:
+				login(request, user)
+				return HttpResponseRedirect(reverse('dashboard'))
+			else:
+				return render(request, 'main/paper-presentation/login.html', {'login_form_errors': 'Your account is disabled'})
 			return HttpResponseRedirect(reverse('user_login'))
 		else:
 			print(user_form.errors, participant_profile_form.errors)
@@ -62,9 +64,9 @@ def user_login(request):
 				return HttpResponseRedirect(reverse('dashboard'))
 
 			else:
-				return HttpResponse("Your account is disabled.")
+				return render(request, 'main/paper-presentation/login.html', {'login_form_errors': 'Your account is disabled'})
 		else:
-			return HttpResponse("Invalid Login Details Supplied.")
+			return render(request, 'main/paper-presentation/login.html', {'login_form_errors': 'Invalid Username/Password'})
 	else:
 		return render(request, 'main/paper-presentation/login.html', {})
 
@@ -107,7 +109,8 @@ def dashboard(request):
 			user_profile = StaffProfile.objects.get(user = request.user)
 			access_level = 2
 			abstracts_allotted = Abstract.objects.filter(staff=user_profile)
-			professors = ProfessorProfile.objects.all() 
+			professors = ProfessorProfile.objects.all()
+			#professors = ProfessorProfile.objects.filter(category_id__in=[category.id for category in user_profile.categories.all()]) 
 			assign_professor_form = AssignProfessorForm()
 			return render(request, 'main/paper-presentation/dashboard.html', {'user_profile': user_profile,
 														#'categories': categories,
@@ -208,9 +211,11 @@ def paper_review(request, pk):
 def assign_professor(request, pk):
 	abstract = get_object_or_404(Abstract, pk=pk)
 	if request.method == 'POST':
-		assign_professor_form = AssignProfessorForm(request.POST, instance=abstract)
-		if assign_professor_form.is_valid():
-			abstract = assign_professor_form.save()
-			abstract.save()
-			return HttpResponseRedirect(reverse('dashboard'))
+		professor_select = request.POST.get('professor')
+		print(professor_select)
+		professor = ProfessorProfile.objects.get(user_id=professor_select)
+		abstract = Abstract.objects.get(pk=pk)
+		abstract.professor = professor
+		abstract.save()
+		return HttpResponseRedirect(reverse('dashboard'))
 	return HttpResponseRedirect(reverse('dashboard'))

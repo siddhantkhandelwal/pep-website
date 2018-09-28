@@ -10,17 +10,22 @@
             {% csrf_token %}
             <h5>Sign In</h5>
             <br>
+            {% if login_form_errors %}
+                <div class="red-text">
+                    {{ login_form_errors }}
+                </div>
+            {% endif %}
             <div class="row">
-            <div class="input-field col s12">
-                <i class="material-icons prefix">account_circle</i>
-                <input type="text" name="username" id="username">
-                <label for="username">Username</label>
-            </div>
+                <div class="input-field col s12">
+                    <i class="material-icons prefix">account_circle</i>
+                    <input type="text" name="username" id="username" required>
+                    <label for="username">Username</label>
+                </div>
             </div>
             <div class="row">
             <div class="input-field col s12">
                 <i class="material-icons prefix">lock</i>
-                <input id="password" type="password" name="password">
+                <input id="password" type="password" name="password" required>
                 <label for="password">Password</label>
             </div>
             </div>
