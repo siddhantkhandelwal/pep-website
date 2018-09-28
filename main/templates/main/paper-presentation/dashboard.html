@@ -178,7 +178,7 @@
     {% if not abstracts_allotted %}
       <div class="row">
         <div class="col s12 m6">
-          <div class="card blue">
+          <div class="card blue hoverable">
             <div class="card-content white-text">
               <span class="card-title">No Abstracts as of now. Check back later.</span>
             </div>
@@ -196,7 +196,7 @@
         <div id="user-papers" class="col s12">
             {% for abstract in abstracts_allotted %}
               <div class="col s12 m6 l3 abstract-card">
-                <div class="card white">
+                <div class="card white hoverable">
                   <div class="card-content paper-title-card">
                     <div class="paper-title-card-div">
                       <span class="card-title paper-title-card-span">
@@ -243,6 +243,9 @@
                             <i class="material-icons center">edit</i>  
                             </a>
                           {% endif %}
+                          <a class="waves-effect waves-light btn blue white-text" href="/media/{{ abstract.document.name }}" target="_">
+                              <i class="material-icons center">arrow_downward</i>
+                          </a>
                         </div>
                       </div>
                       <div id="paper-modal-{{ forloop.counter }}" class="modal">
@@ -304,7 +307,7 @@
           <div id="user-abstracts" class="col s12">
                 {% for paper in papers %}
                   <div class="col s12 m6 l3">
-                    <div class="card white">
+                    <div class="card white hoverable">
                       <div class="card-content paper-title-card">
                         <span class="card-title">
                           {{ paper.abstract.title }}
@@ -592,7 +595,7 @@
     {% if not abstracts_allotted %}
       <div class="row">
         <div class="col s12 m6">
-          <div class="card blue">
+          <div class="card blue hoverable">
             <div class="card-content white-text">
               <span class="card-title">No Abstracts as of now. Check back later.</span>
             </div>
@@ -611,7 +614,7 @@
         <div id="user-papers" class="col s12">
             {% for abstract in abstracts_allotted %}
               <div class="col s12 m6 l3 abstract-card">
-                <div class="card white">
+                <div class="card white hoverable">
                   <div class="card-content paper-title-card">
                     <div class="paper-title-card-div">
                       <span class="card-title paper-title-card-span">
@@ -724,7 +727,7 @@
           <div id="user-abstracts" class="col s12">
                 {% for paper in papers %}
                   <div class="col s12 m6 l3">
-                    <div class="card white">
+                    <div class="card white hoverable">
                       <div class="card-content paper-title-card">
                         <span class="card-title">
                           {{ paper.abstract.title }}
