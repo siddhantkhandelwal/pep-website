@@ -1,3 +1,4 @@
+{% load staticfiles %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,7 +19,6 @@
     }
 
     .paper-title-card {
-      height: 300px;
       overflow: auto;
       display: flex;
       flex-direction: column;
@@ -35,8 +35,10 @@
 	}
 
     .paper-title-bottom {
+      margin-top: 30px;
       display: flex;
-      justify-content: space-around;
+      align-items: center;
+      justify-content: space-between;
     }
 
 	.author-info-card {
@@ -48,13 +50,13 @@
     .paper-title-bottom-btns {
       display: flex;
       align-items: center;
-      padding: 0px;
+      padding-left: 20px;
       justify-content: space-between;
-      flex-grow: 1;
     }
 
     .brand-logo {
       padding-left: 12px !important;
+      position: static !important;
     }
 
     .login-form {
@@ -89,6 +91,61 @@
         background: linear-gradient(45deg, #38b0ec 0%, #9870FC 100%) !important;
     }
 
+    .nav-wrapper {
+      display: flex;
+      /*flex-wrap: wrap;*/
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .right {
+      z-index: 999;
+    }
+
+    #pep-logo {
+      max-height: 40px;
+    }
+
+    #dashboard-title {
+      display: flex;
+      align-items: center;
+      padding-left: 10px;
+    }
+
+    .tabs .tab a{
+        color:#000;
+    } /*Black color to the text*/
+
+    .tabs .tab a:hover {
+        background-color:#eee;
+        color:#000;
+    } /*Text color on hover*/
+
+    .tabs .tab a.active {
+        background-color:rgba(0,0,255,0.05);
+        color:#000;
+    } /*Background and text color when a tab is active*/
+
+    .tabs .indicator {
+        background-color:rgba(0,0,255,0.5);
+    } /*Color of underline*/
+
+    #contact-content-right {
+      text-align: right;
+    }
+
+    #footer-row {
+      display: flex;
+    }
+    #user-papers {
+      display: flex;
+      flex-wrap: wrap;
+    }
+    .abstract-card {
+      width: auto !important;
+      margin-left: 0 !important;
+    }
+
     @media all and (min-width: 700px) {
         #register-card {
             width:700px;
@@ -102,6 +159,44 @@
         #login_card {
             margin-top: 10vh;
         }
+    }
+    @media all and (max-width: 600px) {
+      .brand-logo {
+        font-size: 20px !important;
+      }
+      #footer-row {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      .contact-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+      }
+      .paper-title-bottom {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+    }
+    @media all and (max-width: 260px) {
+      #dashboard-title {
+        display: none;
+      }
+      .nav-wrapper {
+        justify-content: center;
+      }
+    }
+    @media all and(max-width: 420px) {
+      .paper-title-bottom-btns {
+        padding: 0;
+      }
+    }
+    @media all and (max-width: 1000px) {
+      #user-papers {
+        justify-content: center;
+      }
     }
   </style>
 
@@ -119,7 +214,9 @@
     <header>
         <nav>
             <div class="nav-wrapper">
-              <a href="/dashboard" class="brand-logo left">Dashboard</a>
+              <a href="/dashboard" class="" id="dashboard-title">
+                <img src=" {% static 'main/paper-presentation/images/logo.jpg' %}" id="pep-logo">
+              </a>
               <ul class="right">
                   {% if access_level == 0%}
                     <li><a class="dropdown-trigger" href="#" data-target="dropdown2"><i class="material-icons center white-text">add</i></a></li>
@@ -148,16 +245,20 @@
   </main>
   <footer class="page-footer blue accent-3">
     <div class="container">
-      <div class="row">
-        <div class="col l6 s12">
+      <div class="row" id="footer-row">
+        <div class="col l6 s12 contact-content">
           <h4><a class="white-text" href="#">APOGEE 2018</a></h4>
           <ul>
             <li><a class="grey-text text-lighten-3" href="/paper-presentation">Paper Presentation Site</a></li>
             <li><a class="grey-text text-lighten-3" href="/">Think Again Conclave</a></li>
           </ul>
         </div>
-        <div class="col l4 offset-l2 s12">
-
+        <div id="contact-content-right" class="col l4 offset-l2 s12 contact-content">
+          <h4><a class="white-text" href="#">CONTACT</a></h4>
+          <ul>
+            <li><a class="grey-text text-lighten-3" href="/paper-presentation">Paper Presentation Site</a></li>
+            <li><a class="grey-text text-lighten-3" href="/">Think Again Conclave</a></li>
+          </ul>
         </div>
       </div>
     </div>

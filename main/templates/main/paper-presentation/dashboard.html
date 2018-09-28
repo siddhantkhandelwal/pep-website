@@ -28,13 +28,13 @@
 	  <div class="row">
     <div class="col s12">
       <ul class="tabs">
-		  <li class="tab col s3"><a class="blue-text" href="#user-papers">Abstracts</a></li>
+		  <li class="tab col s3 waves-effect"><a class="blue-text" href="#user-papers">Abstracts</a></li>
 		  <!-- <li class="tab col s3"><a class="active" href="#user-abstracts">Papers</a></li> -->
       </ul>
     </div>
     <div id="user-papers" class="col s12">
           {% for abstract in abstracts %}
-            <div class="col s12 m6 l3">
+            <div class="col s12 m6 l3 abstract-card">
               <div class="card white">
                 <div class="card-content paper-title-card">
 					<div class="paper-title-card-div">
@@ -42,18 +42,24 @@
 						{{ abstract.title }}
 					  </span>
 					  <span style="font-size: 12px;" class="grey-text">
-					 	{{ abstract.uid }} <br>
-					 	{{ abstract.status }} 
+					 	UID: {{ abstract.uid }}
+            <div id="status">
+              {% if abstract.status == 'AS' %}
+                  <i class="material-icons green-text">check</i>
+              {% else %}
+                  <i class="material-icons grey-text" style="opacity: 0.2">check</i>
+              {% endif %}
+            </div>
 					  </span>
 					</div>
 					<p class="grey-text"> {{ abstract.submission_date }}</p>
-                  <span class="card-text author-info-card">
+                  <div class="paper-title-bottom">
+                    <span >
                     {{ abstract.participant.author }}<br>
                     {% if abstract.participant.coauthor %}
                       {{ abstract.participant.coauthor }}
                     {% endif %}
                   </span>
-                  <div class="paper-title-bottom">
                     <!-- <p style="padding-right: 10px;">
                       UID: {{ abstract.uid }}<br>
                       Status: {{ abstract.status }}<br> 
