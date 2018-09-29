@@ -14,7 +14,7 @@ def about(request):
 
 def register(request):
 	if request.user.is_authenticated():
-		return HttpResponseRedirect(reverse('dashboard'))
+		return HttpResponseRedirect(reverse('main:dashboard'))
 	
 	colleges = College.objects.all()
 	
@@ -33,10 +33,10 @@ def register(request):
 
 			if user.is_active:
 				login(request, user)
-				return HttpResponseRedirect(reverse('dashboard'))
+				return HttpResponseRedirect(reverse('main:dashboard'))
 			else:
 				return render(request, 'main/paper-presentation/login.html', {'login_form_errors': 'Your account is disabled'})
-			return HttpResponseRedirect(reverse('user_login'))
+			return HttpResponseRedirect(reverse('main:user_login'))
 		else:
 			print(user_form.errors, participant_profile_form.errors)
 	else:
@@ -51,7 +51,7 @@ def register(request):
 
 def user_login(request):
 	if request.user.is_authenticated():
-		return HttpResponseRedirect(reverse('dashboard'))
+		return HttpResponseRedirect(reverse('main:dashboard'))
 	if request.method == 'POST':
 		username = request.POST.get('username')
 		password = request.POST.get('password')
@@ -61,7 +61,7 @@ def user_login(request):
 		if user:
 			if user.is_active:
 				login(request, user)
-				return HttpResponseRedirect(reverse('dashboard'))
+				return HttpResponseRedirect(reverse('main:dashboard'))
 
 			else:
 				return render(request, 'main/paper-presentation/login.html', {'login_form_errors': 'Your account is disabled'})
@@ -72,7 +72,7 @@ def user_login(request):
 
 def user_logout(request):
 	logout(request)
-	return HttpResponseRedirect(reverse('user_login'))
+	return HttpResponseRedirect(reverse('main:user_login'))
 
 @login_required
 def user_password_reset(request):
@@ -83,7 +83,7 @@ def user_password_reset(request):
 			user = password_reset_form.save(commit=False)
 			user.set_password(user.password)
 			user.save()
-			return HttpResponseRedirect(reverse('user_login'))
+			return HttpResponseRedirect(reverse('main:user_login'))
 	else:
 		password_reset_form = PasswordResetForm()
 	return render(request, 'main/paper-presentation/password-reset.html', {'password_reset_form': password_reset_form})
@@ -95,7 +95,7 @@ def edit_profile(request):
 		user_profile_form = ParticipantProfileForm(data=request.POST, instance=user)
 		if user_profile_form.is_valid():
 			user_profile = user_profile_form.save()
-			return HttpResponseRedirect(reverse('dashboard'))
+			return HttpResponseRedirect(reverse('main:dashboard'))
 	else:
 		user_profile_form = ParticipantProfileForm()
 	return render(request, 'main/paper-presentation/edit-profile.html', {'user_profile_form': user_profile_form})
@@ -157,7 +157,7 @@ def abstract_submission(request):
 				abstract.staff.add(staff)
 			abstract.document.name = str(abstract.uid) + '-' + abstract.title + '.' + abstract.document.name.split('.')[1]
 			abstract.save()
-			return HttpResponseRedirect(reverse('dashboard'))
+			return HttpResponseRedirect(reverse('main:dashboard'))
 	else:
 		abstract_form = AbstractForm()
 	return render(request, 'main/paper-presentation/abstract-upload.html', {'abstract_form': abstract_form})
@@ -171,7 +171,7 @@ def abstract_review(request, pk):
 			abstract = abstract_review_form.save(commit=False)
 			abstract.status = 'AC'
 			abstract.save()
-			return HttpResponseRedirect(reverse('dashboard'))
+			return HttpResponseRedirect(reverse('main:dashboard'))
 	else:
 		abstract_review_form = AbstractReviewForm()	
 	return render(request, 'main/paper-presentation/abstract-review.html', {'abstract_review_form': abstract_review_form,
@@ -186,7 +186,7 @@ def paper_submission(request):
 			paper = paper_form.save(commit=False)
 			paper.document.name = str(paper.abstract.uid) + '-' + paper.abstract.title + '.' + paper.document.name.split('.')[1]
 			paper.save()
-			return HttpResponseRedirect(reverse('dashboard'))
+			return HttpResponseRedirect(reverse('main:dashboard'))
 	else:
 		paper_form = PaperForm()
 	return render(request, 'main/paper-presentation/paper-upload.html', {'paper_form': paper_form})
@@ -201,7 +201,7 @@ def paper_review(request, pk):
 			paper = paper_review_form.save(commit=False)
 			paper.status = 'PC'
 			paper.save()
-			return HttpResponseRedirect(reverse('dashboard'))
+			return HttpResponseRedirect(reverse('main:dashboard'))
 	else:
 		paper_review_form = PaperReviewForm()
 	return render(request, 'main/paper-presentation/paper-review.html', {'paper_review_form': paper_review_form,
@@ -217,5 +217,5 @@ def assign_professor(request, pk):
 		abstract = Abstract.objects.get(pk=pk)
 		abstract.professor = professor
 		abstract.save()
-		return HttpResponseRedirect(reverse('dashboard'))
-	return HttpResponseRedirect(reverse('dashboard'))
+		return HttpResponseRedirect(reverse('main:dashboard'))
+	return HttpResponseRedirect(reverse('main:dashboard'))
