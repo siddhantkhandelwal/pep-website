@@ -1,7 +1,7 @@
 from django.conf.urls import url
 from . import views
 
-
+app_name="main"
 urlpatterns = [
 	url(r'^$', views.paper_presentation, name='paper_presentation'),
 	url(r'^accounts/register/$', views.register, name='register'),
