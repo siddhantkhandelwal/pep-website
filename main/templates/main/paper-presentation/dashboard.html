@@ -1,5 +1,5 @@
 {% extends 'main/paper-presentation/base.html' %} 
-{% load staticfiles %}
+{% load static %}
 {% block title %}
   {% if access_level is 1 %}
     {{ user_profile.display_name }} - {{ user_profile.category }}
