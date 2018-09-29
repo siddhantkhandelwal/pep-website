@@ -6,7 +6,7 @@
 {% block body %}  
     <div class="login-form col" style = "height: 100%; display: flex; justify-content: center">
         <div id = "login_card" class="row card-panel hoverable">  
-        <form class="col s12" id="login_form", method="post" action="/accounts/login/">
+        <form class="col s12" id="login_form", method="post" action="{% url 'main:user_login' %}">
             {% csrf_token %}
             <h5>Sign In</h5>
             <br>
@@ -35,7 +35,7 @@
             </button>
             </div>
             <div class="row">
-            <a class="waves-effect waves-light btn blue" href="{% url 'register' %}">Create Account<i class="material-icons right">add</i>
+            <a class="waves-effect waves-light btn blue" href="{% url 'main:register' %}">Create Account<i class="material-icons right">add</i>
             </a>
             </div>
         </form>

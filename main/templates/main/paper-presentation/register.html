@@ -6,7 +6,7 @@
 {% block body %}  
   <div class="login-form">
     <div id = "register-card" class="row card-panel hoverable"> 
-      <form class="col s12" id="user_form" method="post" action='/accounts/register/'>
+      <form class="col s12" id="user_form" method="post" action="{% url 'main:register' %}">
         {% csrf_token %}
         <h5>Register</h5>
         <br>

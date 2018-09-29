@@ -7,7 +7,7 @@
 {% block body %}
 	<div class="paper-upload">
 		<div class="row">
-		  	<form class="col s6" id="paper_submission" method="post" enctype="multipart/form-data" action="{% url 'paper_submission' %}">
+		  	<form class="col s6" id="paper_submission" method="post" enctype="multipart/form-data" action="{% url 'main:paper_submission' %}">
 		    {% csrf_token %}
 		    {{ paper_form.as_p }}
 		    <div class="row">
