@@ -103,7 +103,7 @@ def edit_profile(request):
 @login_required
 def dashboard(request):
 	if request.user.is_superuser:
-		return HttpResponseRedirect('/admin')
+		return HttpResponseRedirect('/paper-presentation/admin')
 	if not ParticipantProfile.objects.filter(user = request.user):
 		if StaffProfile.objects.filter(user = request.user):
 			user_profile = StaffProfile.objects.get(user = request.user)
