@@ -2,6 +2,7 @@ from django.conf.urls import url
 from . import views
 
 app_name="main"
+
 urlpatterns = [
 	url(r'^$', views.paper_presentation, name='paper_presentation'),
 	url(r'^accounts/register/$', views.register, name='register'),
@@ -9,7 +10,7 @@ urlpatterns = [
 	url(r'^accounts/logout/$', views.user_logout, name='user_logout'),
 	#url(r'^accounts/password-reset/$', views.user_password_reset, name='user_password_reset'),
 	#url(r'^accounts/edit-profile/$', views.edit_profile, name='edit_profile'),
-	url(r'^portal/$', views.dashboard, name='dashboard'),
+	url(r'^portal/$', views.portal, name='portal'),
 	url(r'^portal/abstract-submission/$', views.abstract_submission, name='abstract_submission'),
 	url(r'^portal/abstract-review/(?P<pk>\d+)/$', views.abstract_review, name='abstract_review'),
 	url(r'^portal/assign-professor/(?P<pk>\d+)/$', views.assign_professor, name='assign_professor'),

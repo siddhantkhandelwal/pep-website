@@ -221,7 +221,7 @@
     integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
     crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-  <title>Dashboard {% block title %}{% endblock %}</title>
+  <title>Portal {% block title %}{% endblock %}</title>
   <!--Let browser know website is optimized for mobile-->
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 </head>
@@ -229,7 +229,7 @@
     <header>
         <nav>
             <div class="nav-wrapper">
-              <a href="{% url 'main:dashboard' %}" class="" id="dashboard-title">
+              <a href="{% url 'main:portal' %}" class="" id="dashboard-title">
                 <img src=" {% static 'main/paper-presentation/images/logo.svg' %}" id="pep-logo">
               </a>
               <ul class="right">
@@ -243,9 +243,6 @@
               </ul>
               <ul id="dropdown1" class="dropdown-content">
                 <li><a href="{% url 'main:user_logout' %}" class="white-text">Logout</a></li>
-                <!--{% if user_profile.college %}
-                    <li><a href="/accounts/edit-profile">Edit Profile</a></li>
-                {% endif %}-->
               </ul>
               <ul id="dropdown2" class="dropdown-content">
                   <li><a href="{% url 'main:abstract_submission' %}" class="white-text">Add Abstract</a></li>
@@ -264,10 +261,7 @@
         <div class="col l6 s12 contact-content">
           <h4><a class="white-text" href="#">APOGEE 2019</a></h4>
           <ul>
-            <!--<img src="{% static 'main/paper-presentation/images/apogee-logo.jpg' %}">-->
             <li><a class="grey-text text-lighten-3">The Reality Roulette</a></li>
-            <!--<li><a class="grey-text text-lighten-3" href="/paper-presentation">Paper Presentation Site</a></li>
-            <li><a class="grey-text text-lighten-3" href="/">Think Again Conclave</a></li>-->
           </ul>
         </div>
         <div id="contact-content-right" class="col l4 offset-l2 s12 contact-content">

@@ -14,7 +14,7 @@ def about(request):
 
 def register(request):
 	if request.user.is_authenticated():
-		return HttpResponseRedirect(reverse('main:dashboard'))
+		return HttpResponseRedirect(reverse('main:portal'))
 	
 	colleges = College.objects.all()
 	
@@ -33,7 +33,7 @@ def register(request):
 
 			if user.is_active:
 				login(request, user)
-				return HttpResponseRedirect(reverse('main:dashboard'))
+				return HttpResponseRedirect(reverse('main:portal'))
 			else:
 				return render(request, 'main/paper-presentation/login.html', {'login_form_errors': 'Your account is disabled'})
 			return HttpResponseRedirect(reverse('main:user_login'))
@@ -51,7 +51,7 @@ def register(request):
 
 def user_login(request):
 	if request.user.is_authenticated():
-		return HttpResponseRedirect(reverse('main:dashboard'))
+		return HttpResponseRedirect(reverse('main:portal'))
 	if request.method == 'POST':
 		username = request.POST.get('username')
 		password = request.POST.get('password')
@@ -61,7 +61,7 @@ def user_login(request):
 		if user:
 			if user.is_active:
 				login(request, user)
-				return HttpResponseRedirect(reverse('main:dashboard'))
+				return HttpResponseRedirect(reverse('main:portal'))
 
 			else:
 				return render(request, 'main/paper-presentation/login.html', {'login_form_errors': 'Your account is disabled'})
@@ -95,31 +95,34 @@ def edit_profile(request):
 		user_profile_form = ParticipantProfileForm(data=request.POST, instance=user)
 		if user_profile_form.is_valid():
 			user_profile = user_profile_form.save()
-			return HttpResponseRedirect(reverse('main:dashboard'))
+			return HttpResponseRedirect(reverse('main:portal'))
 	else:
 		user_profile_form = ParticipantProfileForm()
 	return render(request, 'main/paper-presentation/edit-profile.html', {'user_profile_form': user_profile_form})
 
 @login_required
-def dashboard(request):
+def portal(request):
+	#import pdb
+	#pdb.set_trace()
 	if request.user.is_superuser:
+		#return HttpResponseRedirect('/admin')
 		return HttpResponseRedirect('/paper-presentation/admin')
-	if not ParticipantProfile.objects.filter(user = request.user):
-		if StaffProfile.objects.filter(user = request.user):
-			user_profile = StaffProfile.objects.get(user = request.user)
+	if not ParticipantProfile.objects.filter(user=request.user):
+		if StaffProfile.objects.filter(user=request.user):
+			user_profile = StaffProfile.objects.get(user=request.user)
 			access_level = 2
 			abstracts_allotted = Abstract.objects.filter(staff=user_profile)
 			professors = ProfessorProfile.objects.all()
 			#professors = ProfessorProfile.objects.filter(category_id__in=[category.id for category in user_profile.categories.all()]) 
 			assign_professor_form = AssignProfessorForm()
-			return render(request, 'main/paper-presentation/dashboard.html', {'user_profile': user_profile,
+			return render(request, 'main/paper-presentation/portal.html', {'user_profile': user_profile,
 														#'categories': categories,
 														'access_level': access_level,
 														'abstracts_allotted': abstracts_allotted,
 														'professors': professors,
 														'assign_professor_form': assign_professor_form})
 		else:	
-			user_profile = ProfessorProfile.objects.get(user = request.user)
+			user_profile = ProfessorProfile.objects.get(user=request.user)
 			access_level = 1
 			abstracts_allotted = Abstract.objects.filter(professor=user_profile)
 			papers_allotted = []
@@ -127,12 +130,13 @@ def dashboard(request):
 			for paper in papers:
 				if paper.abstract in abstracts_allotted:
 					papers_allotted.append(paper)
-					abstracts_allotted = abstracts_allotted.exclude(uid = paper.abstract.uid)
-			return render(request, 'main/paper-presentation/dashboard.html', {'user_profile': user_profile,
+					abstracts_allotted = abstracts_allotted.exclude(uid=paper.abstract.uid)
+			return render(request, 'main/paper-presentation/portal.html', {'user_profile': user_profile,
 														'abstracts_allotted': abstracts_allotted,
 														'papers_allotted': papers_allotted,
 														'access_level': access_level})
-	user_profile = ParticipantProfile.objects.get(user = request.user)
+	
+	user_profile = ParticipantProfile.objects.get(user=request.user)
 	participant_abstracts = Abstract.objects.filter(participant=user_profile)
 	participant_papers = []
 	for paper in Paper.objects.all():
@@ -140,10 +144,10 @@ def dashboard(request):
 			participant_papers.append(paper)
 			participant_abstracts = participant_abstracts.exclude(uid=paper.abstract.uid)
 	access_level = 0
-	return render(request, 'main/paper-presentation/dashboard.html', {'abstracts': participant_abstracts,
-																	  'papers': participant_papers,
-																	  'access_level': access_level,
-																	  'user_profile': user_profile})
+	return render(request, 'main/paper-presentation/portal.html', {'abstracts': participant_abstracts,
+																   'papers': participant_papers,
+																   'access_level': access_level,
+																   'user_profile': user_profile})
 
 @login_required
 def abstract_submission(request):
@@ -157,7 +161,7 @@ def abstract_submission(request):
 				abstract.staff.add(staff)
 			abstract.document.name = str(abstract.uid) + '-' + abstract.title + '.' + abstract.document.name.split('.')[1]
 			abstract.save()
-			return HttpResponseRedirect(reverse('main:dashboard'))
+			return HttpResponseRedirect(reverse('main:portal'))
 	else:
 		abstract_form = AbstractForm()
 	return render(request, 'main/paper-presentation/abstract-upload.html', {'abstract_form': abstract_form})
@@ -171,7 +175,7 @@ def abstract_review(request, pk):
 			abstract = abstract_review_form.save(commit=False)
 			abstract.status = 'AC'
 			abstract.save()
-			return HttpResponseRedirect(reverse('main:dashboard'))
+			return HttpResponseRedirect(reverse('main:portal'))
 	else:
 		abstract_review_form = AbstractReviewForm()	
 	return render(request, 'main/paper-presentation/abstract-review.html', {'abstract_review_form': abstract_review_form,
@@ -186,7 +190,7 @@ def paper_submission(request):
 			paper = paper_form.save(commit=False)
 			paper.document.name = str(paper.abstract.uid) + '-' + paper.abstract.title + '.' + paper.document.name.split('.')[1]
 			paper.save()
-			return HttpResponseRedirect(reverse('main:dashboard'))
+			return HttpResponseRedirect(reverse('main:portal'))
 	else:
 		paper_form = PaperForm()
 	return render(request, 'main/paper-presentation/paper-upload.html', {'paper_form': paper_form})
@@ -201,7 +205,7 @@ def paper_review(request, pk):
 			paper = paper_review_form.save(commit=False)
 			paper.status = 'PC'
 			paper.save()
-			return HttpResponseRedirect(reverse('main:dashboard'))
+			return HttpResponseRedirect(reverse('main:portal'))
 	else:
 		paper_review_form = PaperReviewForm()
 	return render(request, 'main/paper-presentation/paper-review.html', {'paper_review_form': paper_review_form,
@@ -212,10 +216,9 @@ def assign_professor(request, pk):
 	abstract = get_object_or_404(Abstract, pk=pk)
 	if request.method == 'POST':
 		professor_select = request.POST.get('professor')
-		print(professor_select)
 		professor = ProfessorProfile.objects.get(user_id=professor_select)
 		abstract = Abstract.objects.get(pk=pk)
 		abstract.professor = professor
 		abstract.save()
-		return HttpResponseRedirect(reverse('main:dashboard'))
-	return HttpResponseRedirect(reverse('main:dashboard'))
+		return HttpResponseRedirect(reverse('main:portal'))
+	return HttpResponseRedirect(reverse('main:portal'))
