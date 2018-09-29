@@ -74,7 +74,7 @@
                           {% else %}
                             <a class="waves-effect waves-light btn modal-trigger blue white-text" style="margin-right: 7px;" data-target="paper-modal-{{ forloop.counter }}">View Feedback</a>
                           {% endif %}
-                            <a class="waves-effect waves-light btn blue white-text" href="{% url media '{{ abstract.document.name }}' %}" target="_">
+                            <a class="waves-effect waves-light btn blue white-text" href="{% url media abstract.document.name %}" target="_">
                               <i class="material-icons center">arrow_downward</i>
                             </a>
   						          </div>
@@ -136,7 +136,7 @@
                             {% else %}
                               <a class="waves-effect waves-light btn modal-trigger blue white-text" data-target="paper-modal-{{ forloop.counter }}">View Feedback</a>
                             {% endif %}
-                              <a class="waves-effect waves-light btn blue white-text" href="{% url media '{{ abstract.document.name }}' %}" target="_">
+                              <a class="waves-effect waves-light btn blue white-text" href="{% url media abstract.document.name %}" target="_">
                                 <i class="material-icons center">insert_drive_file</i>
                               </a>
                           </div>
@@ -243,7 +243,7 @@
                             <i class="material-icons center">edit</i>  
                             </a>
                           {% endif %}
-                          <a class="waves-effect waves-light btn blue white-text" href="{% url media '{{ abstract.document.name }}' %}" target="_">
+                          <a class="waves-effect waves-light btn blue white-text" href="{% url media abstract.document.name %}" target="_">
                               <i class="material-icons center">arrow_downward</i>
                           </a>
                         </div>
@@ -278,7 +278,7 @@
                       <h4 class="blue-text text-lighten-1">{{ abstract.title }}</h4>
                       <h5 class="blue-text text-lighten-1">{{ abstract.category.name }}</h5>
                       <div class="row">
-                        <form method="post" class="col s12" action="{% url 'main:abstract_review' {{ abstract.uid }} %}">
+                        <form method="post" class="col s12" action="{% url 'main:abstract_review' abstract.uid %}">
                           {% csrf_token %}
                           <div class="row">
                             <div class="input-field col s12">
@@ -335,7 +335,7 @@
                             {% else %}
                               <a class="waves-effect waves-light btn modal-trigger blue white-text" data-target="paper-modal-{{ forloop.counter }}">View Feedback</a>
                             {% endif %}
-                              <a class="waves-effect waves-light btn blue white-text" href="{% url media '{{ abstract.document.name }}' %}" target="_">
+                              <a class="waves-effect waves-light btn blue white-text" href="{% url media abstract.document.name %}" target="_">
                                 <i class="material-icons center">insert_drive_file</i>
                               </a>
                           </div>
@@ -369,7 +369,7 @@
                             <h4 class="blue-text text-lighten-1">{{ abstract.title }}</h4>
                             <h5 class="blue-text text-lighten-1">{{ abstract.category.name }}</h5>
                             <div class="row">
-                              <form method="post" class="col s12" action="{% url 'main:assign_professor' {{ abstract.uid }} %}">
+                              <form method="post" class="col s12" action="{% url 'main:assign_professor' abstract.uid %}">
                                 {% csrf_token %}
                                 {{ assign_professor_form.as_p }}
                                 <div class="modal-footer">
@@ -658,7 +658,7 @@
                           {% else %}
                             <a class="waves-effect waves-light btn modal-trigger blue white-text" style="margin-right: 7px;" data-target="paper-modal-{{ forloop.counter }}">View Feedback</a>
                           {% endif %}
-                            <a class="waves-effect waves-light btn blue white-text" href="{% url media '{{ abstract.document.name }}' %}" target="_">
+                            <a class="waves-effect waves-light btn blue white-text" href="{% url media abstract.document.name %}" target="_">
                               <i class="material-icons center">arrow_downward</i>
                             </a>
                         </div>
@@ -693,7 +693,7 @@
                             <h4 class="blue-text text-lighten-1">{{ abstract.title }}</h4>
                             <h5 class="blue-text text-lighten-1">{{ abstract.category.name }}</h5>
                             <div class="row">
-                              <form method="post" class="col s12" action="{% url 'main:assign_professor' {{ abstract.uid }} %}">
+                              <form method="post" class="col s12" action="{% url 'main:assign_professor' abstract.uid %}">
                                 {% csrf_token %}
                                 <div class="input-field col s12">
                                   <select name="professor">
@@ -789,7 +789,7 @@
                             <h4 class="blue-text text-lighten-1">{{ abstract.title }}</h4>
                             <h5 class="blue-text text-lighten-1">{{ abstract.category.name }}</h5>
                             <div class="row">
-                              <form method="post" class="col s12" action="{% url 'main:assign_professor' {{ abstract.uid }} %}">
+                              <form method="post" class="col s12" action="{% url 'main:assign_professor' abstract.uid %}">
                                 {% csrf_token %}
                                 {{ assign_professor_form.as_p }}
                                 <div class="modal-footer">
