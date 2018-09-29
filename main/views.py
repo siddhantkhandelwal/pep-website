@@ -5,12 +5,12 @@ from django.contrib.auth import authenticate, login, logout
 from .models import Abstract, Paper, ParticipantProfile, ProfessorProfile, StaffProfile, College
 from django.contrib.auth.decorators import login_required
 
-
-def think_again(request):
-	return render(request, 'main/think-again.html', {})
-
+	
 def paper_presentation(request):
 	return render(request, 'main/paper-presentation/paper-presentation.html', {})
+
+def about(request):
+	return render(request, 'main/paper-presentation/about.html', {})
 
 def register(request):
 	if request.user.is_authenticated():

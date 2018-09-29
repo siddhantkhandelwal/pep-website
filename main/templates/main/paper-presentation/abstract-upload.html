@@ -8,7 +8,7 @@
 <div class="abstract_upload">
 	<div id="abstract-upload-card" class="row card-panel">
 		<div class="row">
-		  	<form class="col s12" id="abstract_submission" method="post" enctype="multipart/form-data" action="/abstract-submission/">
+		  	<form class="col s12" id="abstract_submission" method="post" enctype="multipart/form-data" action="{% url 'abstract_submission' %}">
 		    {% csrf_token %}
 		    {{ abstract_form.as_p }}
 		    <div class="row">

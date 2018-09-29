@@ -68,17 +68,8 @@
 						</div>
 						<div class="col-xs-10 text-right menu-1">
 							<ul>
-								<li><a href="/dashboard">Dashboard</a></li>
-								<li class="has-dropdown">
-									<a href="project.html">Event</a>
-									<ul class="dropdown">
-										<li><a href="#">Rules & Regulations</a></li>
-										<li><a href="#">Previous Editions</a></li>
-										<li><a href="#">Format</a></li>
-									</ul>
-								</li>
-								<li><a href="blog.html">About</a></li>
-								<li><a href="contact.html">Contact</a></li>
+								<li><a href="{% url 'dashboard' %}" class="DashButton">Dashboard</a></li>
+								<li class="has-dropdown"><a href="{% url 'about'%}">Event</a></li>
 								<li><a href="contact.html">APOGEE 2019</a></li>
 							</ul>
 						</div>
@@ -124,10 +115,9 @@
 				<div class="row">
 					<div class="col-md-12 tabulation animate-box">
 						<ul class="nav nav-tabs">
-							<li class="active"><a data-toggle="tab" href="#plan"><i class="flaticon-sketch"></i> The Event</a></li>
-							<li><a data-toggle="tab" href="#general"><i class="flaticon-architect-with-helmet"></i> General Constructing</a></li>
-							<li><a data-toggle="tab" href="#manage"><i class="flaticon-engineer"></i> Construction Management</a></li>
-							<li><a data-toggle="tab" href="#modeling"><i class="flaticon-skyline"></i> Building Modeling</a></li>
+							<li class="active"><a data-toggle="tab" href="#plan">The Event</a></li>
+							<li><a data-toggle="tab" href="#general"> Rules & Regulations</a></li>
+							<li><a data-toggle="tab" href="#modeling"> Prescribed Formats</a></li>
 						</ul>
 						<div class="tab-content">
 							<div id="plan" class="tab-pane fade in active">
@@ -151,37 +141,17 @@
 									</div>
 									<div class="col-md-6">
 										<div class="services-desc">
-											<p>A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth. Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+											<p>Rules of the Event</p>
 											<ul>
-												<li>It is a paradisematic country in which</li>
-												<li>Even the all-powerful Pointing has no control</li>
-												<li>When she reached the first hills of the Italic Mountains</li>
-												<li>Alphabet Village and the subline of her own road</li>
+												<li>A particular paper can be presented only in one category. Also, participants can present more than one paper. However, the abstracts should be submitted separately.</li>
+												<li>Only genuine and original paper abstracts should be uploaded. Abstracts found copied from any source like internet/ journals etc. will be disqualified. Plagiarized content will be strictly dealt with and would lead to participant's disqualification. In case of any discrepancy, organizers decision will be final and binding.</li>
 											</ul>
 										</div>
 									</div>
 								</div>
 						      
 						   </div>
-						   <div id="manage" class="tab-pane fade">
-						   	<div class="row">
-									<div class="col-md-6">
-										<div class="services-img" style="background-image: url(images/building-3.jpg);"></div>
-									</div>
-									<div class="col-md-6">
-										<div class="services-desc">
-											<p>A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth. Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-											<ul>
-												<li>It is a paradisematic country in which</li>
-												<li>Even the all-powerful Pointing has no control</li>
-												<li>When she reached the first hills of the Italic Mountains</li>
-												<li>Alphabet Village and the subline of her own road</li>
-											</ul>
-										</div>
-									</div>
-								</div>
-						   	
-						   </div>
+						  
 						   <div id="modeling" class="tab-pane fade">
 						   	<div class="row">
 									<div class="col-md-6">
@@ -283,34 +253,34 @@
 			<div class="overlay"></div>
 			<div class="container">
 				<div class="row no-gutter">
-					<div class="col-md-3 col-sm-6 aside-stretch text-center animate-box">
+					<div class="col-md-4 col-sm-4 aside-stretch text-center animate-box">
 						<div class="counter-entry">
 							<span class="icon icon-white"><i class="flaticon-skyline"></i></span>
 							<span class="colorlib-counter js-counter" data-from="0" data-to="1539" data-speed="5000" data-refresh-interval="50"></span>
-							<span class="colorlib-counter-label">Projects</span>
+							<span class="colorlib-counter-label">Participants</span>
 						</div>
 					</div>
-					<div class="col-md-3 col-sm-6 text-center animate-box">
+					<div class="col-md-4 col-sm-4 text-center animate-box">
 						<div class="counter-entry">
 							<span class="icon"><i class="flaticon-engineer"></i></span>
 							<span class="colorlib-counter js-counter" data-from="0" data-to="3653" data-speed="5000" data-refresh-interval="50"></span>
-							<span class="colorlib-counter-label">Employees</span>
+							<span class="colorlib-counter-label">Papers</span>
 						</div>
 					</div>
-					<div class="col-md-3 col-sm-6 text-center animate-box">
+					<div class="col-md-4 col-sm-4 text-center animate-box">
 						<div class="counter-entry">
 							<span class="icon"><i class="flaticon-architect-with-helmet"></i></span>
 							<span class="colorlib-counter js-counter" data-from="0" data-to="5987" data-speed="5000" data-refresh-interval="50"></span>
-							<span class="colorlib-counter-label">Constructor</span>
+							<span class="colorlib-counter-label">Professors</span>
 						</div>
 					</div>
-					<div class="col-md-3 col-sm-6 text-center animate-box">
+					<!--<div class="col-md-3 col-sm-6 text-center animate-box">
 						<div class="counter-entry">
 							<span class="icon"><i class="flaticon-worker"></i></span>
 							<span class="colorlib-counter js-counter" data-from="0" data-to="3999" data-speed="5000" data-refresh-interval="50"></span>
 							<span class="colorlib-counter-label">Partners</span>
 						</div>
-					</div>
+					</div>-->
 				</div>
 			</div>
 		</div>
@@ -573,7 +543,7 @@
 			</div>
 		</div>-->
 		<footer id="colorlib-footer">
-			<div class="contact-information">
+			<!--<div class="contact-information">
 				<div class="container">
 					<div class="row">
 						<div class="col-md-8 col-md-offset-2">
@@ -581,41 +551,41 @@
 								<div class="col-md-4 text-center">
 									<div class="info-wrap">
 										<span class="icon"><i class="icon-location4"></i></span>
-										<p>291 South 21th Street, <br> Suite 721 New York NY 10016</p>
+										<p>Atharv Tandon <br>Coordinator<br>Department of Paper Evaluation and Presentation</p>
 									</div>
 								</div>
 								<div class="col-md-4 text-center">
 									<div class="info-wrap">
 										<span class="icon"><i class="icon-world"></i></span>
-										<p><a href="#">info@example.com</a> <br> <a href="#">www.example.com</a></p>
+										<p><a href="mailto:pep@bits-apogee.org">pep@bits-apogee.org</a></p>
 									</div>
 								</div>
 								<div class="col-md-4 text-center">
 									<div class="info-wrap">
 										<span class="icon"><i class="icon-phone2"></i></span>
-										<p><a href="#">(001) 2345 6789</a> <br> <a href="#">(001) 9876 5432</a></p>
+										<p><a href="tel:+91-8209411724">+91-8209411724</a></p>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-			<div class="container">
+			</div>-->
+			<div class="container"><br><br>
 				<div class="row row-pb-md">
-					<div class="col-md-3 colorlib-widget">
-						<h4>About Complex</h4>
-						<p>Far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics</p>
+					<div class="col-md-5 colorlib-widget">
+						<h3 class="apogeeHead">APOGEE 2019</h3>
+						<p>In the heart of Pilani lies a fest that pushes the boundaries of student performance and creativity every year. From presenting papers and projects, to bringing into reality imaginative designs that the student mind conjures up, to the events that enthrall everyone who attends, APOGEE, BITS Pilani's technical fest, has always brought together the brightest minds in technology and engineering over the years, and this year, it promises to be bigger than ever.</p>
 						<p>
 							<ul class="colorlib-social-icons">
-								<li><a href="#"><i class="icon-twitter"></i></a></li>
-								<li><a href="#"><i class="icon-facebook"></i></a></li>
-								<li><a href="#"><i class="icon-linkedin"></i></a></li>
-								<li><a href="#"><i class="icon-dribbble"></i></a></li>
+								<!--<li><a href="#"><i class="icon-twitter"></i></a></li>-->
+								<li><a href="https://www.facebook.com/bitsapogee/"><i class="icon-facebook"></i></a></li>
+								<!--<li><a href="#"><i class="icon-linkedin"></i></a></li>-->
+								<li><a href="https://www.bits-apogee.org"><i class="icon-dribbble"></i></a></li>
 							</ul>
 						</p>
 					</div>
-					<div class="col-md-3 col-md-push-1 colorlib-widget">
+					<!--<div class="col-md-3 col-md-push-1 colorlib-widget">
 						<h4>Information</h4>
 						<p>
 							<ul class="colorlib-footer-links">
@@ -628,27 +598,15 @@
 								<li><a href="#"><i class="icon-check"></i> FAQ</a></li>
 							</ul>
 						</p>
-					</div>
+					</div>-->
 
-					<div class="col-md-3 colorlib-widget">
-						<h4>Instagram</h4>
-						<div class="instagram">
-							<a href="#" class="insta-img" style="background-image: url(images/building-1.jpg);"></a>
-							<a href="#" class="insta-img" style="background-image: url(images/building-2.jpg);"></a>
-							<a href="#" class="insta-img" style="background-image: url(images/building-3.jpg);"></a>
-							<a href="#" class="insta-img" style="background-image: url(images/building-4.jpg);"></a>
-							<a href="#" class="insta-img" style="background-image: url(images/building-5.jpg);"></a>
-							<a href="#" class="insta-img" style="background-image: url(images/building-6.jpg);"></a>
-						</div>
-					</div>
 
-					<div class="col-md-3 col-md-push-1 colorlib-widget">
+					<div class="col-md-3 col-md-push-3 colorlib-widget">
 						<h4>Contact Info</h4>
 						<ul class="colorlib-footer-links">
-							<li>291 South 21th Street, <br> Suite 721 New York NY 10016</li>
-							<li><a href="tel://1234567920"><i class="icon-phone"></i> + 1235 2355 98</a></li>
-							<li><a href="mailto:info@yoursite.com"><i class="icon-envelope"></i> info@yoursite.com</a></li>
-							<li><a href="http://luxehotel.com"><i class="icon-location4"></i> yourwebsite.com</a></li>
+							<li>Atharv Tandon<br>Coordinator<br></li>
+							<li><a href="tel:+91-8209411724"><i class="icon-phone"></i>+91-8209411724</a></li>
+							<li><a href="mailto:pep@bits-apogee.org"><i class="icon-envelope"></i>pep@bits-apogee.org</a></li>
 						</ul>
 					</div>
 				</div>
@@ -658,10 +616,7 @@
 					<div class="row">
 						<div class="col-md-12 text-center">
 							<p>
-								<small class="block">
-									<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-Copyright &copy;<script>document.write(new Date().getFullYear());</script> | Made with <i class="icon-heart3" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a> &amp; distributed by <a href="https://themewagon.com" target="_blank">ThemeWagon</a>
-<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+								<small class="block">Made with <i class="icon-heart3" aria-hidden="true"></i> by PEP
 								</small>
 							</p>
 						</div>

@@ -1,9 +1,10 @@
 <!DOCTYPE HTML>
+{% load staticfiles %}
 <html>
 	<head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Complex Template</title>
+	<title>Paper Presentation</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="description" content="" />
 	<meta name="keywords" content="" />
@@ -23,37 +24,36 @@
 	<link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,700" rel="stylesheet">
 	
 	<!-- Animate.css -->
-	<link rel="stylesheet" href="css/animate.css">
+	<link rel="stylesheet" href="{% static "main/paper-presentation/css/animate.css" %}">
 	<!-- Icomoon Icon Fonts-->
-	<link rel="stylesheet" href="css/icomoon.css">
+	<link rel="stylesheet" href="{% static "main/paper-presentation/css/icomoon.css" %}">
 	<!-- Bootstrap  -->
-	<link rel="stylesheet" href="css/bootstrap.css">
+	<link rel="stylesheet" href="{% static "main/paper-presentation/css/bootstrap.css" %}">
 
 	<!-- Magnific Popup -->
-	<link rel="stylesheet" href="css/magnific-popup.css">
+	<link rel="stylesheet" href="{% static "main/paper-presentation/css/magnific-popup.css" %}">
 
 	<!-- Flexslider  -->
-	<link rel="stylesheet" href="css/flexslider.css">
+	<link rel="stylesheet" href="{% static "main/paper-presentation/css/flexslider.css" %}">
 
 	<!-- Owl Carousel -->
-	<link rel="stylesheet" href="css/owl.carousel.min.css">
-	<link rel="stylesheet" href="css/owl.theme.default.min.css">
+	<link rel="stylesheet" href="{% static "main/paper-presentation/css/owl.carousel.min.css" %}">
+	<link rel="stylesheet" href="{% static "main/paper-presentation/css/owl.theme.default.min.css" %}">
 	
 	<!-- Flaticons  -->
-	<link rel="stylesheet" href="fonts/flaticon/font/flaticon.css">
+	<link rel="stylesheet" href="{% static "main/paper-presentation/fonts/flaticon/font/flaticon.css" %}">
 
 	<!-- Theme style  -->
-	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="{% static "main/paper-presentation/css/style.css" %}">
 
 	<!-- Modernizr JS -->
-	<script src="js/modernizr-2.6.2.min.js"></script>
+	<script src="{% static "main/paper-presentation/js/modernizr-2.6.2.min.js" %}"></script>
 	<!-- FOR IE9 below -->
 	<!--[if lt IE 9]>
 	<script src="js/respond.min.js"></script>
 	<![endif]-->
 
 	</head>
-	<body>
 		
 	<div class="colorlib-loader"></div>
 
@@ -63,24 +63,13 @@
 				<div class="container">
 					<div class="row">
 						<div class="col-xs-2">
-							<div id="colorlib-logo"><a href="index.html">Complex</a></div>
+							<div id="colorlib-logo"><a href="/paper-presentation">Paper Presentation</a></div>
 						</div>
 						<div class="col-xs-10 text-right menu-1">
 							<ul>
-								<li><a href="index.html">Home</a></li>
-								<li class="has-dropdown">
-									<a href="project.html">Projects</a>
-									<ul class="dropdown">
-										<li><a href="#">Commercial</a></li>
-										<li><a href="#">Apartment</a></li>
-										<li><a href="#">House</a></li>
-										<li><a href="#">Building</a></li>
-									</ul>
-								</li>
-								<li><a href="services.html">Services</a></li>
-								<li><a href="blog.html">Blog</a></li>
-								<li class="active"><a href="about.html">About</a></li>
-								<li><a href="contact.html">Contact</a></li>
+								<li><a href="{% url 'dashboard' %}" class="DashButton">Dashboard</a></li>
+								<li class="has-dropdown"><a href="{% url 'about'%}">Event</a></li>
+								<li><a href="contact.html">APOGEE 2019</a></li>
 							</ul>
 						</div>
 					</div>
@@ -94,10 +83,9 @@
 			   		<div class="overlay"></div>
 			   		<div class="container-fluid">
 			   			<div class="row">
-				   			<div class="col-md-8 col-sm-12 col-md-offset-2 slider-text">
+				   			<div class="col-md-8 col-sm-4 col-md-offset-2 slider-text">
 				   				<div class="slider-text-inner text-center">
-				   					<h1>About us</h1>
-				   					<h2><a href="index.html">Home</a> - About</h2>
+				   					<h1>The Event</h1>
 				   				</div>
 				   			</div>
 				   		</div>
@@ -112,9 +100,15 @@
 				<div class="row row-pb-lg">
 					<div class="col-md-6 animate-box">
 						<div class="about-desc">
-							<h3>About Complex</h3>
-							<p>The Big Oxmox advised her not to do so, because there were thousands of bad Commas, wild Question Marks and devious Semikoli, but the Little Blind Text didn’t listen. She packed her seven versalia, put her initial into the belt and made herself on the way.</p>
-							<p>A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.</p>
+							<h3>Paper Presentation</h3>
+							<p>The Paper Presentation event, held during APOGEE is a competition where participants get an opportunity to exhibit the results of their investigations or researches. This event has been an integral part of APOGEE since its inception in 1983 and has seen papers from diverse backgrounds of science, engineering, humanities and management being presented and evaluated. </p>
+
+							<p>The event aims to promote research among undergraduates and uphold the primary motive of our institute: “train young men and women able and eager to create and put into action such ideas, methods, techniques and information.”</p>
+
+							<h4>Rules of the Event</h4>
+
+							<p>A particular paper can be presented only in one category. Also, participants can present more than one paper. However, the abstracts should be submitted separately.</p>
+							<p>Only genuine and original paper abstracts should be uploaded. Abstracts found copied from any source like internet/ journals etc. will be disqualified. Plagiarized content will be strictly dealt with and would lead to participant's disqualification. In case of any discrepancy, organizers decision will be final and binding.</p>
 						</div>
 					</div>
 					<div class="col-md-6 animate-box">
@@ -123,39 +117,53 @@
 								<div class="panel panel-default">
 									<div class="panel-heading" role="tab" id="headingOne">
 										<h4 class="panel-title">
-										   <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Who we are
+										   <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Round One
 										   </a>
 										</h4>
 									</div>
 									<div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
 										<div class="panel-body">
-										   <p>Far far away, behind the word <strong>mountains</strong>, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
+									    <ul>
+										    <li>Participants have to upload their abstracts for screening in the appropriate format using the online portal.</li> 
+											<li>The prescribed format (hyperlink prescribed format) must be followed failing which may lead to disqualification of the participants. The deadline for abstract submission is <b>8th November 2018,11:59 PM.</b></li>
+											<li>The participants will receive comprehensive feedbacks about their abstracts and suggestions for improvement from a panel of distinguished professors of the concerned field. </li>
+										</ul>
 										</div>
 									</div>
 								</div>
 								<div class="panel panel-default">
 									<div class="panel-heading" role="tab" id="headingTwo">
 										<h4 class="panel-title">
-										   <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">What we do?
+										   <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">Round Two
 										   </a>
 										</h4>
 									</div>
 								 	<div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
 										<div class="panel-body">
-										   <p>Far far away, behind the word <strong>mountains</strong>, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
+											<ul>
+											    <li>Participants are supposed to submit their papers along with their abstracts in this round.</li>
+												<li>The submission of the same should be done using the online portal.</li>
+												<li>The prescribed format for them can be found here.</li>
+												<li>The papers will go through an intensive plagiarism check, failing which the paper will be disqualified.</li>
+												<li>The participants will be able to view the status of their abstracts and papers through the online portal.</li>
+											</ul>
 									 	</div>
 									</div>
 								</div>
                      	<div class="panel panel-default">
                          	<div class="panel-heading" role="tab" id="headingThree">
                              	<h4 class="panel-title">
-                                 <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">Why Choose us
+                                 <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">Round Three
                                  </a>
                              	</h4>
                          	</div>
                          	<div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
                              	<div class="panel-body">
-                                 <p>Far far away, behind the word <strong>mountains</strong>, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>	
+                             		<ul>
+		                                <li>This is the final round of the event and will be held during <b>APOGEE 2019 (28th-31st March, 2019)</b> at BITS Pilani.</li>
+										<li>Shortlisted students are expected to present their work on-stage using PowerPoint in front of a panel of judges.</li>
+										<li>Maximum Time Limit for the same is 8 minutes, which will be followed by a question answering session by the panel. Once all the participants have concluded their presentation, the judges will announce the winner.</li>
+									</ul>
                               </div>
                            </div>
                         </div>
@@ -163,7 +171,7 @@
                   </div>
 					</div>
 				</div>
-				<div class="row">
+				<!--<div class="row">
 					<div class="col-md-8 col-md-offset-2 text-center colorlib-heading animate-box">
 						<h2>Our Team</h2>
 						<p>Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life One day however a small line of blind text by the name</p>
@@ -202,11 +210,11 @@
 							</div>
 						</a>
 					</div>
-				</div>
+				</div>-->
 			</div>
 		</div>
 	
-		<div id="colorlib-subscribe">
+		<!--<div id="colorlib-subscribe">
 			<div class="overlay"></div>
 			<div class="container">
 				<div class="row">
@@ -234,9 +242,9 @@
 					</div>
 				</div>
 			</div>
-		</div>
+		</div>-->
 		<footer id="colorlib-footer">
-			<div class="contact-information">
+			<!--<div class="contact-information">
 				<div class="container">
 					<div class="row">
 						<div class="col-md-8 col-md-offset-2">
@@ -244,41 +252,41 @@
 								<div class="col-md-4 text-center">
 									<div class="info-wrap">
 										<span class="icon"><i class="icon-location4"></i></span>
-										<p>291 South 21th Street, <br> Suite 721 New York NY 10016</p>
+										<p>Atharv Tandon <br>Coordinator<br>Department of Paper Evaluation and Presentation</p>
 									</div>
 								</div>
 								<div class="col-md-4 text-center">
 									<div class="info-wrap">
 										<span class="icon"><i class="icon-world"></i></span>
-										<p><a href="#">info@example.com</a> <br> <a href="#">www.example.com</a></p>
+										<p><a href="mailto:pep@bits-apogee.org">pep@bits-apogee.org</a></p>
 									</div>
 								</div>
 								<div class="col-md-4 text-center">
 									<div class="info-wrap">
 										<span class="icon"><i class="icon-phone2"></i></span>
-										<p><a href="#">(001) 2345 6789</a> <br> <a href="#">(001) 9876 5432</a></p>
+										<p><a href="tel:+91-8209411724">+91-8209411724</a></p>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-			<div class="container">
+			</div>-->
+			<div class="container"><br><br>
 				<div class="row row-pb-md">
-					<div class="col-md-3 colorlib-widget">
-						<h4>About Complex</h4>
-						<p>Far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics</p>
+					<div class="col-md-5 colorlib-widget">
+						<h3 class="apogeeHead">APOGEE 2019</h3>
+						<p>In the heart of Pilani lies a fest that pushes the boundaries of student performance and creativity every year. From presenting papers and projects, to bringing into reality imaginative designs that the student mind conjures up, to the events that enthrall everyone who attends, APOGEE, BITS Pilani's technical fest, has always brought together the brightest minds in technology and engineering over the years, and this year, it promises to be bigger than ever.</p>
 						<p>
 							<ul class="colorlib-social-icons">
-								<li><a href="#"><i class="icon-twitter"></i></a></li>
-								<li><a href="#"><i class="icon-facebook"></i></a></li>
-								<li><a href="#"><i class="icon-linkedin"></i></a></li>
-								<li><a href="#"><i class="icon-dribbble"></i></a></li>
+								<!--<li><a href="#"><i class="icon-twitter"></i></a></li>-->
+								<li><a href="https://www.facebook.com/bitsapogee/"><i class="icon-facebook"></i></a></li>
+								<!--<li><a href="#"><i class="icon-linkedin"></i></a></li>-->
+								<li><a href="https://www.bits-apogee.org"><i class="icon-dribbble"></i></a></li>
 							</ul>
 						</p>
 					</div>
-					<div class="col-md-3 col-md-push-1 colorlib-widget">
+					<!--<div class="col-md-3 col-md-push-1 colorlib-widget">
 						<h4>Information</h4>
 						<p>
 							<ul class="colorlib-footer-links">
@@ -291,27 +299,15 @@
 								<li><a href="#"><i class="icon-check"></i> FAQ</a></li>
 							</ul>
 						</p>
-					</div>
+					</div>-->
 
-					<div class="col-md-3 colorlib-widget">
-						<h4>Instagram</h4>
-						<div class="instagram">
-							<a href="#" class="insta-img" style="background-image: url(images/building-1.jpg);"></a>
-							<a href="#" class="insta-img" style="background-image: url(images/building-2.jpg);"></a>
-							<a href="#" class="insta-img" style="background-image: url(images/building-3.jpg);"></a>
-							<a href="#" class="insta-img" style="background-image: url(images/building-4.jpg);"></a>
-							<a href="#" class="insta-img" style="background-image: url(images/building-5.jpg);"></a>
-							<a href="#" class="insta-img" style="background-image: url(images/building-6.jpg);"></a>
-						</div>
-					</div>
 
-					<div class="col-md-3 col-md-push-1 colorlib-widget">
+					<div class="col-md-3 col-md-push-3 colorlib-widget">
 						<h4>Contact Info</h4>
 						<ul class="colorlib-footer-links">
-							<li>291 South 21th Street, <br> Suite 721 New York NY 10016</li>
-							<li><a href="tel://1234567920"><i class="icon-phone"></i> + 1235 2355 98</a></li>
-							<li><a href="mailto:info@yoursite.com"><i class="icon-envelope"></i> info@yoursite.com</a></li>
-							<li><a href="http://luxehotel.com"><i class="icon-location4"></i> yourwebsite.com</a></li>
+							<li>Atharv Tandon<br>Coordinator<br></li>
+							<li><a href="tel:+91-8209411724"><i class="icon-phone"></i>+91-8209411724</a></li>
+							<li><a href="mailto:pep@bits-apogee.org"><i class="icon-envelope"></i>pep@bits-apogee.org</a></li>
 						</ul>
 					</div>
 				</div>
@@ -321,10 +317,7 @@
 					<div class="row">
 						<div class="col-md-12 text-center">
 							<p>
-								<small class="block">
-									<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-Copyright &copy;<script>document.write(new Date().getFullYear());</script> | Made with <i class="icon-heart3" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a> &amp; distributed by <a href="https://themewagon.com" target="_blank">ThemeWagon</a>
-<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+								<small class="block">Made with <i class="icon-heart3" aria-hidden="true"></i> by PEP
 								</small>
 							</p>
 						</div>
@@ -339,27 +332,27 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> | Mad
 	</div>
 	
 	<!-- jQuery -->
-	<script src="js/jquery.min.js"></script>
+	<script src="{% static "main/paper-presentation/js/jquery.min.js" %}"></script>
 	<!-- jQuery Easing -->
-	<script src="js/jquery.easing.1.3.js"></script>
+	<script src="{% static "main/paper-presentation/js/jquery.easing.1.3.js" %}"></script>
 	<!-- Bootstrap -->
-	<script src="js/bootstrap.min.js"></script>
+	<script src="{% static "main/paper-presentation/js/bootstrap.min.js" %}"></script>
 	<!-- Waypoints -->
-	<script src="js/jquery.waypoints.min.js"></script>
+	<script src="{% static "main/paper-presentation/js/jquery.waypoints.min.js" %}"></script>
 	<!-- Stellar Parallax -->
-	<script src="js/jquery.stellar.min.js"></script>
+	<script src="{% static "main/paper-presentation/js/jquery.stellar.min.js" %}"></script>
 	<!-- Flexslider -->
-	<script src="js/jquery.flexslider-min.js"></script>
+	<script src="{% static "main/paper-presentation/js/jquery.flexslider-min.js" %}"></script>
 	<!-- Owl carousel -->
-	<script src="js/owl.carousel.min.js"></script>
+	<script src="{% static "main/paper-presentation/js/owl.carousel.min.js" %}"></script>
 	<!-- Magnific Popup -->
-	<script src="js/jquery.magnific-popup.min.js"></script>
-	<script src="js/magnific-popup-options.js"></script>
+	<script src="{% static "main/paper-presentation/js/jquery.magnific-popup.min.js" %}"></script>
+	<script src="{% static "main/paper-presentation/js/magnific-popup-options.js" %}"></script>
 	<!-- Counters -->
-	<script src="js/jquery.countTo.js"></script>
+	<script src="{% static "main/paper-presentation/js/jquery.countTo.js" %}"></script>
 	<!-- Main -->
-	<script src="js/main.js"></script>
-
+	<script src="{% static "main/paper-presentation/js/main.js" %}"></script>
+	
 	</body>
 </html>
 

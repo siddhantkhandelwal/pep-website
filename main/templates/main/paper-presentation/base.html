@@ -16,12 +16,13 @@
 
     main {
     flex: 1 0 auto;
-    }
-
+    } 
     .paper-title-card {
       overflow: auto;
       display: flex;
       flex-direction: column;
+      width: 28em;
+      height: 16em;
       /*justify-content: space-between;*/
     }
 
@@ -41,8 +42,10 @@
 	}
 
     .paper-title-bottom {
-      margin-top: 30px;
+      //margin-top: 30px;
       display: flex;
+      position: absolute;
+      bottom:1em;
       align-items: center;
       justify-content: space-between;
     }
@@ -151,7 +154,7 @@
       width: auto !important;
       margin-left: 0 !important;
     }
-
+    
     @media all and (min-width: 700px) {
         #register-card {
             width:700px;
@@ -188,6 +191,9 @@
         flex-wrap: wrap;
         justify-content: center;
       }
+      #contact-content-right{
+        text-align: center;
+      }
     }
     @media all and (max-width: 260px) {
       #dashboard-title {
@@ -223,7 +229,7 @@
     <header>
         <nav>
             <div class="nav-wrapper">
-              <a href="/dashboard" class="" id="dashboard-title">
+              <a href="{% url 'dashboard' %}" class="" id="dashboard-title">
                 <img src=" {% static 'main/paper-presentation/images/logo.svg' %}" id="pep-logo">
               </a>
               <ul class="right">
@@ -236,14 +242,14 @@
                   {% endif %}
               </ul>
               <ul id="dropdown1" class="dropdown-content">
-                <li><a href="/accounts/logout" class="white-text">Logout</a></li>
+                <li><a href="{% url 'user_logout' %}" class="white-text">Logout</a></li>
                 <!--{% if user_profile.college %}
                     <li><a href="/accounts/edit-profile">Edit Profile</a></li>
                 {% endif %}-->
               </ul>
               <ul id="dropdown2" class="dropdown-content">
-                  <li><a href="/abstract-submission/" class="white-text">Add Abstract</a></li>
-                  <!--<li><a href="/paper-submission/" class="white-text">Add Paper</a></li>-->
+                  <li><a href="{% url 'abstract_submission' %}" class="white-text">Add Abstract</a></li>
+                  <!--<li><a href="{% url 'paper_submission' %}" class="white-text">Add Paper</a></li>-->
               </ul>
             </div>
         </nav>

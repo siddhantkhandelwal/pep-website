@@ -44,15 +44,15 @@
   					          <span style="font-size: 12px;" class="grey-text">
   					 	          UID: {{ abstract.uid }}
                         <div id="status">
-                          {% if abstract.status == 'AS' %}
-                              <i class="material-icons green-text">check</i>
-                          {% else %}
-                              <i class="material-icons grey-text" style="opacity: 0.2">check</i>
+                          {% if abstract.status == 'AC' %}
+                              <p>Abstract Checked
+                              <i class="material-icons green-text">check_circle</i></p>
                           {% endif %}
                         </div>
   					          </span>
   					        </div>
   					        <p class="grey-text"> {{ abstract.submission_date }}</p>
+                    <p class="grey-text"> {{ abstract.category }}</p>
                       <div class="paper-title-bottom">
                         <span>
                           {{ abstract.participant.author }}<br>
@@ -68,9 +68,9 @@
             						<!--<p>
                           Verdict: Hello
                         </p>-->
-  						          <div>
+  						          <div class="fright">
                           {% if not abstract.review %}
-                            <a class="btn disabled blue feedback-btn" style="margin-right: 7px;">Wait for Feedback</a>
+                            <a class="btn blue feedback-btn" style="margin-right: 7px;">Wait for Feedback</a>
                           {% else %}
                             <a class="waves-effect waves-light btn modal-trigger blue white-text" style="margin-right: 7px;" data-target="paper-modal-{{ forloop.counter }}">View Feedback</a>
                           {% endif %}
@@ -206,9 +206,9 @@
                         UID: {{ abstract.uid }}
                         <div id="status">
                           {% if abstract.status == 'AC' %}
-                              <i class="material-icons green-text">check</i>
+                              <i class="material-icons green-text">check_circle</i>
                           {% else %}
-                              <i class="material-icons grey-text" style="opacity: 0.2">check</i>
+                              <i class="material-icons grey-text" style="opacity: 0.2">check_circle</i>
                           {% endif %}
                         </div>
                       </span>
@@ -243,7 +243,7 @@
                             <i class="material-icons center">edit</i>  
                             </a>
                           {% endif %}
-                          <a class="waves-effect waves-light btn blue white-text" href="/media/{{ abstract.document.name }}" target="_">
+                          <a class="waves-effect waves-light btn blue white-text" href="{% url media '{{ abstract.document.name }}' %}" target="_">
                               <i class="material-icons center">arrow_downward</i>
                           </a>
                         </div>
@@ -335,7 +335,7 @@
                             {% else %}
                               <a class="waves-effect waves-light btn modal-trigger blue white-text" data-target="paper-modal-{{ forloop.counter }}">View Feedback</a>
                             {% endif %}
-                              <a class="waves-effect waves-light btn blue white-text" href="/media/{{ abstract.document.name }}" target="_">
+                              <a class="waves-effect waves-light btn blue white-text" href="{% url media '{{ abstract.document.name }}' %}" target="_">
                                 <i class="material-icons center">insert_drive_file</i>
                               </a>
                           </div>
@@ -429,7 +429,7 @@
                         <i class="material-icons center">edit</i>  
                         </a>
                       {% endif %}
-                    <a class="waves-effect waves-light btn blue white-text" href="/media/{{ abstract.document.name }}" target="_">
+                    <a class="waves-effect waves-light btn blue white-text" href="{% url media '{{ abstract.document.name }}' %}" target="_">
                       <i class="material-icons center">insert_drive_file</i>
                     </a>
                   </div>
@@ -528,7 +528,7 @@
                         <i class="material-icons center">edit</i>  
                         </a>
                       {% endif %}
-                    <a class="waves-effect waves-light btn blue white-text" href="/media/{{ paper.document.name }}" target="_">
+                    <a class="waves-effect waves-light btn blue white-text" href="{% url media '{{ paper.document.name }}' %}" target="_">
                       <i class="material-icons center">insert_drive_file</i>
                     </a>
                   </div>
@@ -624,9 +624,9 @@
                         UID: {{ abstract.uid }}
                         <div id="status">
                           {% if abstract.status == 'AC' %}
-                              <i class="material-icons green-text">check</i>
+                              <i class="material-icons green-text">check_circle</i>
                           {% else %}
-                              <i class="material-icons grey-text" style="opacity: 0.2">check</i>
+                              <i class="material-icons grey-text" style="opacity: 0.2">check_circle</i>
                           {% endif %}
                         </div>
                       </span>
