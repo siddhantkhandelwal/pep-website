@@ -30,6 +30,9 @@
 		display: inline !important;
 	}
 
+  #modal-rules-regulations{
+    line-height: 26px;
+  }
 
   .errorlist {
     color:red;
@@ -96,7 +99,7 @@
         justify-content: center;
     }
 
-    .nav-wrapper, .page-footer, .footer-copyright, .nav-wrapper .right .dropdown-content, .btn {
+    .nav-wrapper, .page-footer, .footer-copyright, .nav-wrapper .right .dropdown-content, .btn, #modal-rules-regulations{
         background: linear-gradient(45deg, #38b0ec 0%, #9870FC 100%) !important;
     }
 
@@ -233,21 +236,36 @@
                 <img src=" {% static 'main/paper-presentation/images/logo.svg' %}" id="pep-logo">
               </a>
               <ul class="right">
-                  {% if access_level == 0%}
-                    <li><a class="dropdown-trigger" href="#" data-target="dropdown2"><i class="material-icons center white-text">add</i></a></li>
-                  {% endif %}
-                  <!-- Dropdown Trigger -->
-                  {% if request.user.is_authenticated %}
-                    <li><a class="dropdown-trigger" href="#" data-target="dropdown1">{{ request.user.username }}<i class="material-icons right">arrow_drop_down</i></a></li>
-                  {% endif %}
+                {% if access_level == 0%}
+                  <li><a class="dropdown-trigger" href="#" data-target="dropdown2"><i class="material-icons center white-text">add</i></a></li>
+                {% endif %}
+                <!-- Dropdown Trigger -->
+                {% if request.user.is_authenticated %}
+                  <li><a class="dropdown-trigger" href="#" data-target="dropdown1">{{ request.user.username }}<i class="material-icons right">arrow_drop_down</i></a></li>
+                {% else %}
+                  <li><a data-target="modal-rules-regulations" class="modal-trigger">Rules &amp Regulations</a></li>
+                {% endif %}
+
               </ul>
               <ul id="dropdown1" class="dropdown-content">
+                <li><a data-target="modal-rules-regulations" class="modal-trigger white-text">Rules &amp Regulations</a></li>
+                <li class="divider" tabindex="-1"></li>
                 <li><a href="{% url 'main:user_logout' %}" class="white-text">Logout</a></li>
               </ul>
               <ul id="dropdown2" class="dropdown-content">
                   <li><a href="{% url 'main:abstract_submission' %}" class="white-text">Add Abstract</a></li>
                   <!--<li><a href="{% url 'main:paper_submission' %}" class="white-text">Add Paper</a></li>-->
               </ul>
+              <!-- Modal Structure -->
+              <div id="modal-rules-regulations" class="modal">
+                <div class="modal-content">
+                  <h4 align="center">Rules &amp Regulations</h4><br><br>
+                  <li>A particular paper can be presented only in one category. Also, participants can present more than one paper. However, the abstracts should be submitted separately.</li>
+                  <li>Only genuine and original paper abstracts should be uploaded. Abstracts found copied from any source like internet/ journals etc. will be disqualified. Plagiarized content will be strictly dealt with and would lead to participant's disqualification. In case of any discrepancy, organizers decision will be final and binding.</li><br><br>
+                  <u><a href="https://drive.google.com/file/d/0B0bolFCiF4UtMnN2ZjAwclpEeFdJVUhzY0RnY19UMWJiR1Rn/view?usp=sharing" target="_">Click here for Abstract Format</a><br></u>
+                  <u><a href="https://drive.google.com/a/bits-apogee.org/file/d/1mNk0fJHjQOFBAL2TihYvP7MlG6grAG_H/view?usp=drivesdk" target="_">Click here for Paper Format</a></u>
+                </div>
+              </div>
             </div>
         </nav>
     </header>
