@@ -105,7 +105,10 @@ class Abstract(models.Model):
 		self.file_name = 'documents/abstracts/' + self.uid + '-' + self.title
 	
 	def __str__(self):
-		return self.title + '-' + self.participant.author
+		if Abstract.objects.get(uid=self.uid) is not None:
+			return self.title + '-' + self.participant.author
+		else:
+			return 'Not Found'
 
 
 class Paper(models.Model):
