@@ -103,12 +103,12 @@ class Abstract(models.Model):
 
 	def return_file_path(self):
 		self.file_name = 'documents/abstracts/' + self.uid + '-' + self.title
-	
+
 	def __str__(self):
-		if Abstract.objects.get(uid=self.uid) is not None:
+		if Abstract.objects.get(uid=self.uid) and self.participant.author is not None:
 			return self.title + '-' + self.participant.author
 		else:
-			return 'Not Found'
+			return 'Abstract not found or author account deleted'
 
 
 class Paper(models.Model):
