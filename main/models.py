@@ -10,9 +10,6 @@ class Category(models.Model):
 	class Meta:
 		verbose_name_plural = 'Categories'
 
-	def __str__(self):
-		return self.name
-
 
 class College(models.Model):
 	name = models.CharField('College/University Name', max_length=500)
@@ -20,18 +17,11 @@ class College(models.Model):
 	class Meta:
 		ordering = ['name']
 
-	def __str__(self):
-		return self.name
-
-
 
 class StaffProfile(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE)
 	categories = models.ManyToManyField(Category)
 
-	def __str__(self):
-		return self.user.username
-	
 
 class ProfessorProfile(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -39,9 +29,6 @@ class ProfessorProfile(models.Model):
 	phone1 = models.BigIntegerField('Phone', null=True)
 	phone2 = models.BigIntegerField('Alternate Phone', null=True, blank=True)
 	category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True) 
-
-	def __str__(self):
-		return self.display_name + ' - ' + self.category.name
 	
 	class Meta:
 		ordering = ['category']
@@ -54,13 +41,7 @@ class ParticipantProfile(models.Model):
 	phone1 = models.BigIntegerField('Phone', null=True)
 	phone2 = models.BigIntegerField('Alternate Phone', null=True, blank=True)
 	college = models.ForeignKey(College, on_delete=models.SET_NULL, null=True, blank=True)
-	
-	def __str__(self):
-		if self.coauthor:
-			return self.user.username + ' - ' + self.author + ', ' + self.coauthor
-		else:
-			return self.user.username + ' - ' + self.author
-		
+			
 
 class Abstract(models.Model):
 	def generate_uid():
@@ -104,12 +85,6 @@ class Abstract(models.Model):
 	def return_file_path(self):
 		self.file_name = 'documents/abstracts/' + self.uid + '-' + self.title
 
-	def __str__(self):
-		if Abstract.objects.get(uid=self.uid) and self.participant.author is not None:
-			return self.title + '-' + self.participant.author
-		else:
-			return 'Abstract not found or author account deleted'
-
 
 class Paper(models.Model):
 	abstract = models.OneToOneField(Abstract, on_delete=models.CASCADE)
@@ -131,9 +106,6 @@ class Paper(models.Model):
 		max_length=4,
 		choices=verdict_choices,
 		null=True) 
-
-	def __str__(self):
-		return self.abstract.title + '-' + self.abstract.participant.author
 
 
 def uid(temp_uid):

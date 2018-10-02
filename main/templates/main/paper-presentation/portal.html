@@ -2,11 +2,11 @@
 {% load static %}
 {% block title %}
   {% if access_level is 1 %}
-    {{ user_profile.display_name }} - {{ user_profile.category }}
+    - {{ user_profile.display_name }}
   {% elif access_level is 0 %}      
-    {{ user_profile.author1 }}
+    - {{ user_profile.author }}
   {% elif access_level is 2 %}
-    {{ user_profile.user.username }}
+    - {{ user_profile.user.username }}
   {% endif%}
 {% endblock %}
 
@@ -52,7 +52,7 @@
   					          </span>
   					        </div>
   					        <p class="grey-text"> {{ abstract.submission_date }}</p>
-                    <p class="grey-text"> {{ abstract.category }}</p>
+                    <p class="grey-text"> {{ abstract.category.name }}</p>
                       <div class="paper-title-bottom">
                         <span>
                           {{ abstract.participant.author }}<br>
@@ -214,6 +214,7 @@
                       </span>
                     </div>
                     <p class="grey-text"> {{ abstract.submission_date }}</p>
+                    <p class="grey-text"> {{ abstract.category.name }}</p>
                       <div class="paper-title-bottom">
                         <span>
                           {{ abstract.participant.author }}<br>
@@ -434,6 +435,7 @@
                       </span>
                     </div>
                     <p class="grey-text"> {{ abstract.submission_date }}</p>
+                    <p class="grey-text"> {{ abstract.category.name }}</p>
                       <div class="paper-title-bottom">
                         <span>
                           {{ abstract.participant.author }}<br>
