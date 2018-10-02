@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Paper, ProfessorProfile, ParticipantProfile, Abstract, Category, College, StaffProfile
+from .models import Paper, ProfessorProfile, ParticipantProfile, Abstract, Category, College, StaffProfile, SupervisorProfile
 
 
 class ParticipantProfileAdmin(admin.ModelAdmin):
@@ -21,6 +21,23 @@ class CollegeAdmin(admin.ModelAdmin):
 
 class ProfessorProfileAdmin(admin.ModelAdmin):
 	list_display = ('display_name', 'category', 'phone1')
+
+
+class SupervisorProfileAdmin(admin.ModelAdmin):
+	list_display = ('user', 'allotted_categories', 'staff_allotted')
+
+	def staff_allotted(self, obj):
+		staff_allotted_list = []
+		for supervisor_category in obj.categories.all():
+			for staff in StaffProfile.objects.all():
+				for staff_category in staff.categories.all():
+					if supervisor_category == staff_category:
+						if staff not in staff_allotted_list:
+							staff_allotted_list.append(staff)
+		return staff_allotted_list
+
+	def allotted_categories(self, obj):
+		return ', '.join([category.name for category in obj.categories.all()])
 
 
 class StaffProfileAdmin(admin.ModelAdmin):
@@ -63,5 +80,6 @@ admin.site.register(Paper)
 admin.site.register(Abstract, AbstractAdmin)
 admin.site.register(ParticipantProfile, ParticipantProfileAdmin)
 admin.site.register(ProfessorProfile, ProfessorProfileAdmin)
+admin.site.register(SupervisorProfile, SupervisorProfileAdmin)
 admin.site.register(StaffProfile, StaffProfileAdmin)
 admin.site.register(College, CollegeAdmin)
