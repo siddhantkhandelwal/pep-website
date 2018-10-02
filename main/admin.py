@@ -40,10 +40,8 @@ class CategoryAdmin(admin.ModelAdmin):
 
 
 class AbstractAdmin(admin.ModelAdmin):
-	list_display = ('uid', 'title')
-	#list_display = ('uid', 'title', 'participant_author', 'participant_coauthor', 'professor_name', 'staff_handlers', 'status', 'college_name')
-
-	'''
+	list_display = ('uid', 'title', 'participant_author', 'participant_coauthor', 'professor_name', 'staff_handlers', 'status', 'college_name')
+	
 	def college_name(self, obj):
 		return obj.participant.college.name
 
@@ -58,7 +56,7 @@ class AbstractAdmin(admin.ModelAdmin):
 
 	def professor_name(self, obj):
 		return obj.professor.display_name
-	'''
+
 
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Paper)
