@@ -3,11 +3,10 @@
 
 ## To Do:
 - Back-end
-  - Displaying only logged in user's abstracts while submitting paper.
-  - Avoid Duplicate File uploads
+  - Make a proper delete procedure.
 
 - Front-End
-  - Main Site Content Upload
+  - Redesign the card system.
   
 ## How to run?
 #### Setting up the Development Environment
