@@ -1,3 +1,4 @@
+STAFF
 navleen.kaur - jzKfC2QN
 kishan.panpaliya - LEJub9Q8
 rohan.anand - CFdd6Z5w
@@ -13,6 +14,7 @@ abhilash.sabapathy - 6GHhNxgz
 ___________________________________________________
 
 
+SUPERVISORS
 anushka.jain - RwkfS7kK
 devesh.todarwal - FXdz7hqy
 rahul.sunder - ChN4vQfP
@@ -23,3 +25,14 @@ neelanchal.joshi - q9SqZEYM
 gauri.chaturvedi - sfUaT6cE
 jai.vashishtha - t6ZjwRNp
 aditya.dhingra - jn5cVdWx
+
+___________________________________________________
+
+
+PROFS
+
+BIO
+symantak.majumder - v5TjuT4F
+
+PHARM
+anupama.mittal - bnYYv59m

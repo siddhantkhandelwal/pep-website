@@ -72,7 +72,10 @@ class AbstractAdmin(admin.ModelAdmin):
 		return obj.participant.coauthor
 
 	def professor_name(self, obj):
-		return obj.professor.display_name
+		if obj.professor is not None:
+			return obj.professor.display_name
+		else:
+			return 'NA'
 
 
 admin.site.register(Category, CategoryAdmin)
