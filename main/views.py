@@ -131,37 +131,37 @@ def portal(request):
 				      												   'abstracts_allotted': abstracts_allotted,
 																	   'professors': professors,
 														               'assign_professor_form': assign_professor_form})
+	
+	elif StaffProfile.objects.filter(user=request.user):
+		user_profile = StaffProfile.objects.get(user=request.user)
+		access_level = 2
+		abstracts_allotted = Abstract.objects.filter(staff=user_profile)
+		professors = ProfessorProfile.objects.all()
+		#professors = ProfessorProfile.objects.filter(category_id__in=[category.id for category in user_profile.categories.all()]) 
+		assign_professor_form = AssignProfessorForm()
+		return render(request, 'main/paper-presentation/portal.html', {'user_profile': user_profile,
+													#'categories': categories,
+													'access_level': access_level,
+													'abstracts_allotted': abstracts_allotted,
+													'professors': professors,
+													'assign_professor_form': assign_professor_form})
+	
+	elif ProfessorProfile.objects.filter(user=request.user):	
+		user_profile = ProfessorProfile.objects.get(user=request.user)
+		access_level = 1
+		abstracts_allotted = Abstract.objects.filter(professor=user_profile)
+		papers_allotted = []
+		papers = Paper.objects.all()
+		for paper in papers:
+			if paper.abstract in abstracts_allotted:
+				papers_allotted.append(paper)
+				abstracts_allotted = abstracts_allotted.exclude(uid=paper.abstract.uid)
+		return render(request, 'main/paper-presentation/portal.html', {'user_profile': user_profile,
+													'abstracts_allotted': abstracts_allotted,
+													'papers_allotted': papers_allotted,
+													'access_level': access_level})
+
 	else:
-		
-		if not ParticipantProfile.objects.get(user=request.user):
-			if StaffProfile.objects.get(user=request.user):
-				user_profile = StaffProfile.objects.get(user=request.user)
-				access_level = 2
-				abstracts_allotted = Abstract.objects.filter(staff=user_profile)
-				professors = ProfessorProfile.objects.all()
-				#professors = ProfessorProfile.objects.filter(category_id__in=[category.id for category in user_profile.categories.all()]) 
-				assign_professor_form = AssignProfessorForm()
-				return render(request, 'main/paper-presentation/portal.html', {'user_profile': user_profile,
-															#'categories': categories,
-															'access_level': access_level,
-															'abstracts_allotted': abstracts_allotted,
-															'professors': professors,
-															'assign_professor_form': assign_professor_form})
-			else:	
-				user_profile = ProfessorProfile.objects.get(user=request.user)
-				access_level = 1
-				abstracts_allotted = Abstract.objects.filter(professor=user_profile)
-				papers_allotted = []
-				papers = Paper.objects.all()
-				for paper in papers:
-					if paper.abstract in abstracts_allotted:
-						papers_allotted.append(paper)
-						abstracts_allotted = abstracts_allotted.exclude(uid=paper.abstract.uid)
-				return render(request, 'main/paper-presentation/portal.html', {'user_profile': user_profile,
-															'abstracts_allotted': abstracts_allotted,
-															'papers_allotted': papers_allotted,
-															'access_level': access_level})
-		
 		user_profile = ParticipantProfile.objects.get(user=request.user)
 		participant_abstracts = Abstract.objects.filter(participant=user_profile)
 		participant_papers = []
@@ -171,9 +171,9 @@ def portal(request):
 				participant_abstracts = participant_abstracts.exclude(uid=paper.abstract.uid)
 		access_level = 0
 		return render(request, 'main/paper-presentation/portal.html', {'abstracts': participant_abstracts,
-																	   'papers': participant_papers,
-																	   'access_level': access_level,
-																	   'user_profile': user_profile})
+																		'papers': participant_papers,
+																		'access_level': access_level,
+																		'user_profile': user_profile})
 
 @login_required
 def abstract_submission(request):
