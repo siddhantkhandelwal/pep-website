@@ -7,7 +7,8 @@ from django.contrib.auth.decorators import login_required
 
 	
 def paper_presentation(request):
-	return render(request, 'main/paper-presentation/paper-presentation.html', {})
+	return HttpResponseRedirect(reverse('main:portal'))
+	#return render(request, 'main/paper-presentation/paper-presentation.html', {})
 
 def about(request):
 	return render(request, 'main/paper-presentation/about.html', {})
@@ -182,6 +183,9 @@ def abstract_submission(request):
 		abstract_form = AbstractForm(request.POST, request.FILES)
 		if abstract_form.is_valid():
 			abstract = abstract_form.save(commit=False)
+			if abstract.document.name.split('.')[1] != 'pdf':
+				return render(request, 'main/paper-presentation/abstract-upload.html', {'abstract_upload_form_errors': 'Only PDF file format is Supported',
+																						'abstract_form': abstract_form, })
 			abstract.participant = user_profile
 			for staff in StaffProfile.objects.filter(categories__in=[abstract.category]):
 				abstract.staff.add(staff)

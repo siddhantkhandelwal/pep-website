@@ -8,7 +8,8 @@
 	<div class="paper-upload">
 		<div class="row">
 		  	<form class="col s6" id="paper_submission" method="post" enctype="multipart/form-data" action="{% url 'main:paper_submission' %}">
-		    {% csrf_token %}
+				{% csrf_token %}
+				{{ abstract_upload_form_errors }}
 		    {{ paper_form.as_p }}
 		    <div class="row">
 		      <button class="btn waves-effect waves-light col blue" type="submit" name="action">Upload
