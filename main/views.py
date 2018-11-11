@@ -5,6 +5,10 @@ from django.contrib.auth import authenticate, login, logout
 from .models import Abstract, Paper, ParticipantProfile, ProfessorProfile, StaffProfile, College, SupervisorProfile
 from django.contrib.auth.decorators import login_required
 
+import sendgrid
+import os
+from sendgrid.helpers.mail import *
+
 	
 def paper_presentation(request):
 	return HttpResponseRedirect(reverse('main:portal'))
@@ -191,6 +195,19 @@ def abstract_submission(request):
 				abstract.staff.add(staff)
 			abstract.document.name = str(abstract.uid) + '-' + abstract.title + '.' + abstract.document.name.split('.')[1]
 			abstract.save()
+			
+			sg = sendgrid.SendGridAPIClient(apikey=os.environ.get('SENDGRID_API_KEY'))
+			from_email = Email("pep@bits-apogee.org")
+			to_email = Email(user_profile.user.email)
+			subject = "Paper Presentation Event"
+			msg = abstract.title + str(abstract.uid) + abstract.participant.author
+			content = Content("text/plain", msg)
+			mail = Mail(from_email, subject, to_email, content)
+			response = sg.client.mail.send.post(request_body=mail.get())
+			print(response.status_code)
+			print(response.body)
+			print(response.headers)
+			
 			return HttpResponseRedirect(reverse('main:portal'))
 	else:
 		abstract_form = AbstractForm()

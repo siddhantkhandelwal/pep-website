@@ -1,1 +1,2 @@
 Django==1.11
+sendgrid==5.6.0
