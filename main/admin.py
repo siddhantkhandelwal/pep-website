@@ -57,7 +57,7 @@ class CategoryAdmin(admin.ModelAdmin):
 
 
 class AbstractAdmin(admin.ModelAdmin):
-	list_display = ('uid', 'title', 'participant_author', 'participant_coauthor', 'professor_name', 'staff_handlers', 'status', 'college_name')
+	list_display = ('uid', 'title', 'category', 'participant_author', 'participant_coauthor', 'professor_name', 'staff_handlers', 'status', 'college_name')
 	
 	def college_name(self, obj):
 		return obj.participant.college.name
