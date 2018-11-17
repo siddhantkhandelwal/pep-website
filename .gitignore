@@ -14,3 +14,5 @@ db.sqlite3
 media
 *.swp
 /static/
+
+duplicate_abstracts_uid_list
