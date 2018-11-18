@@ -9,11 +9,13 @@ from django.contrib.auth.decorators import login_required
 # import os
 # from sendgrid.helpers.mail import *
 
-from . import upload_to_gdrive
 from pydrive.auth import GoogleAuth
 from pydrive.drive import GoogleDrive
 import sys
 import os
+import datetime
+from django.utils import timezone
+import pytz
 
 
 def paper_presentation(request):
@@ -310,9 +312,10 @@ def pepadmin(request):
 def upload_to_drive(request):
 
     global uploaded_files
-    global uploaded_files_path 
-    uploaded_files_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "uploaded_files")
-    
+    global uploaded_files_path
+    uploaded_files_path = os.path.join(os.path.dirname(
+        os.path.abspath(__file__)), "uploaded_files")
+
     with open(uploaded_files_path, "r+") as f:
         uploaded_files = f.read().splitlines()
 
@@ -333,28 +336,50 @@ def upload_to_drive(request):
 
     drive = GoogleDrive(gauth)  # authentication.
 
-    root_folder_name = 'PEP Portal'
-    root_folder_id = create_root_folder(drive, root_folder_name)
-    uploaded_files.append(root_folder_name)
+    try:
+        root_folder_name = 'PEP Portal'
+        root_folder_id = create_root_folder(drive, root_folder_name)
+        uploaded_files.append(root_folder_name)
 
-    category_folders_dict = create_category_folders(
-        drive, root_folder_id)
+        # category_folders_dict = create_category_folders(
+        #     drive, root_folder_id)
 
-    for category in Category.objects.all():
-        id = category_folders_dict[category.name]
-        print(id)
-        for abstract in Abstract.objects.filter(category=category):
-            if abstract.document.name.split("/")[2] not in uploaded_files:
-                file = drive.CreateFile(metadata={"title": abstract.document.name.split("/")[2],
-                                                  "parents": [{"kind": "drive#fileLink",
-                                                               "id": id}]})
-                file.SetContentFile(abstract.document.path)
-                file.Upload()
-                uploaded_files.append(file['title'])
-    
-    with open(uploaded_files_path, "w+") as f:
-        for uploaded_file in uploaded_files:
-            f.write(uploaded_file + '\n')
+        date_folder_name = 'Upto 15th Nov'
+        date_folder_id_upto_15th = create_folder(
+            drive, date_folder_name, root_folder_id)
+        uploaded_files.append(date_folder_name)
+
+        date_folder_name = 'After 15th Nov'
+        date_folder_id_after_15th = create_folder(
+            drive, date_folder_name, root_folder_id)
+        uploaded_files.append(date_folder_name)
+
+        category_folders_dict_upto_15th = create_category_folders(
+            drive, date_folder_id_upto_15th)
+
+        category_folders_dict_after_15th = create_category_folders(
+            drive, date_folder_id_after_15th)
+
+        for category in Category.objects.all():
+            # id = category_folders_dict[category.name]
+            for abstract in Abstract.objects.filter(category=category):
+                if abstract.document.name.split("/")[2] not in uploaded_files:
+                    
+                    if abstract.submission_date <= timezone.datetime(2018, 11, 15).replace(tzinfo=pytz.timezone('Asia/Kolkata')):
+                        id = category_folders_dict_upto_15th[category.name]
+                    else:
+                        id = category_folders_dict_after_15th[category.name]
+
+                    file = drive.CreateFile(metadata={"title": abstract.document.name.split("/")[2],
+                                                    "parents": [{"kind": "drive#fileLink",
+                                                                "id": id}]})
+                    file.SetContentFile(abstract.document.path)
+                    file.Upload()
+                    uploaded_files.append(file['title'])
+    finally: 
+        with open(uploaded_files_path, "w+") as f:
+            for uploaded_file in uploaded_files:
+                f.write(uploaded_file + '\n')
 
     return HttpResponseRedirect(reverse('main:pepadmin'))
 
@@ -396,7 +421,6 @@ def create_root_folder(drive, root_folder_name):
     if id == -1:
         create_folder(drive, root_folder_name)
         id = search_file_in_list(get_file_list(drive), root_folder_name)
-
     return id
 
 
@@ -404,8 +428,8 @@ def create_category_folders(drive, root_folder_id):
     category_folders_details = {}
     categories = Category.objects.all()
     for category in categories:
-        if category.name not in uploaded_files:
+        if root_folder_id + category.name not in uploaded_files:
             id = create_folder(drive, category.name, root_folder_id)
             category_folders_details[category.name] = id
-            uploaded_files.append(category.name)
+            uploaded_files.append(root_folder_id + category.name)
     return category_folders_details
