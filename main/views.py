@@ -367,14 +367,20 @@ def upload_to_drive(request):
         #     drive, root_folder_id)
 
         date_folder_name = 'Upto 15th Nov'
-        date_folder_id_upto_15th = create_folder(
-            drive, date_folder_name, root_folder_id)
-        uploaded_files.append(date_folder_name)
+        if date_folder_name not in uploaded_files:
+            date_folder_id_upto_15th = create_folder(
+                drive, date_folder_name, root_folder_id)
+            uploaded_files.append(date_folder_name + " - " + date_folder_id_upto_15th)
+        else:
+            date_folder_id_upto_15th = [entry.split(' - ')[2] for entry in uploaded_files if entry.contains('Upto 15th Nov - ')]
 
         date_folder_name = 'After 15th Nov'
-        date_folder_id_after_15th = create_folder(
-            drive, date_folder_name, root_folder_id)
-        uploaded_files.append(date_folder_name)
+        if date_folder_name not in uploaded_files:
+            date_folder_id_after_15th = create_folder(
+                drive, date_folder_name, root_folder_id)
+            uploaded_files.append(date_folder_name + "-" + date_folder_id_after_15th)
+        else:
+            date_folder_id_after_15th = [entry.split(' - ')[2] for entry in uploaded_files if entry.contains('After 15th Nov - ')]
 
         category_folders_dict_upto_15th = create_category_folders(
             drive, date_folder_id_upto_15th)
