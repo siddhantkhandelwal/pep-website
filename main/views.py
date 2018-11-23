@@ -16,6 +16,7 @@ import os
 import datetime
 from django.utils import timezone
 import pytz
+from django_file_md5 import calculate_md5
 
 
 def paper_presentation(request):
@@ -306,6 +307,27 @@ def assign_professor(request, pk):
 
 def pepadmin(request):
     return render(request, 'main/paper-presentation/pepadmin.html', {})
+
+
+@login_required
+def check_duplicate_abstracts(request):
+    abstracts = Abstract.objects.all()
+    
+    md5_dict = {}
+
+    for abstract in abstracts:
+        md5_dict[abstract.uid] = calculate_md5(abstract.document)
+    
+    rev_multiduct_md5_dict = {}
+
+    for uid, md5 in md5_dict.items():
+        rev_multiduct_md5_dict.setdefault(md5, set()).add(uid)
+    
+    response = []
+    
+    for uid_set in [uids for md5, uids in rev_multiduct_md5_dict.items() if len(uids) > 1]:
+        response.append(uid_set)
+    return HttpResponse(response) 
 
 
 @login_required

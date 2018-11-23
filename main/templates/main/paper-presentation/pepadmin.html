@@ -9,11 +9,15 @@
     <!-- <script src="main.js"></script> -->
 </head>
 <body>
-    <button> 
+    <button>
         <a href="{% url 'main:upload_to_drive' %}">
             Upload to Drive
         </a>
     </button>
-    {% comment %}<button href="{% url 'main:check_duplicates' %}">Check Duplicates</button>{% endcomment %}
+    <button> 
+        <a href="{% url 'main:check_duplicate_abstracts' %}">
+            Check Duplicates
+        </a>
+    </button>
 </body>
 </html>
