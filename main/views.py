@@ -17,7 +17,15 @@ import datetime
 from django.utils import timezone
 import pytz
 from django_file_md5 import calculate_md5
+from threading import Thread
 
+
+def start_new_thread(function):
+    def decorator(*args, **kwargs):
+        t = Thread(target = function, args=args, kwargs=kwargs)
+        t.daemon = True
+        t.start()
+    return decorator
 
 def paper_presentation(request):
     return HttpResponseRedirect(reverse('main:portal'))
@@ -329,87 +337,92 @@ def check_duplicate_abstracts(request):
         response.append(uid_set)
     return HttpResponse(response) 
 
-
 @login_required
-def upload_to_drive(request):
+def upload_to_drive(request, pk):
+    @start_new_thread
+    def upload_thread():
+        global uploaded_files
+        global uploaded_files_path
+        uploaded_files_path = os.path.join(os.path.dirname(
+            os.path.abspath(__file__)), "uploaded_files")
+        if pk==0:
+            with open(uploaded_files_path, "r+") as f:
+                uploaded_files = f.read().splitlines()
+        elif pk==1:
+            with open(uploaded_files_path, "r+") as f:
+                f.truncate()
+        gauth = GoogleAuth()
+        gauth.LoadCredentialsFile("creds.txt")
 
-    global uploaded_files
-    global uploaded_files_path
-    uploaded_files_path = os.path.join(os.path.dirname(
-        os.path.abspath(__file__)), "uploaded_files")
+        if gauth.credentials is None:
+            # Authenticate if they're not there
+            gauth.LocalWebserverAuth()
+        elif gauth.access_token_expired:
+            # Refresh them if expired
+            gauth.Refresh()
+        else:
+            # Initialize the saved creds
+            gauth.Authorize()
+        # Save the current credentials to a file
+        gauth.SaveCredentialsFile("creds.txt")
 
-    with open(uploaded_files_path, "r+") as f:
-        uploaded_files = f.read().splitlines()
+        drive = GoogleDrive(gauth)  # authentication.
 
-    gauth = GoogleAuth()
-    gauth.LoadCredentialsFile("creds.txt")
+        try:
+            root_folder_name = 'PEP Portal'
+            root_folder_id = create_root_folder(drive, root_folder_name)
+            uploaded_files.append(root_folder_name)
 
-    if gauth.credentials is None:
-        # Authenticate if they're not there
-        gauth.LocalWebserverAuth()
-    elif gauth.access_token_expired:
-        # Refresh them if expired
-        gauth.Refresh()
-    else:
-        # Initialize the saved creds
-        gauth.Authorize()
-    # Save the current credentials to a file
-    gauth.SaveCredentialsFile("creds.txt")
+            # category_folders_dict = create_category_folders(
+            #     drive, root_folder_id)
 
-    drive = GoogleDrive(gauth)  # authentication.
-
-    try:
-        root_folder_name = 'PEP Portal'
-        root_folder_id = create_root_folder(drive, root_folder_name)
-        uploaded_files.append(root_folder_name)
-
-        # category_folders_dict = create_category_folders(
-        #     drive, root_folder_id)
-
-        date_folder_name = 'Upto 15th Nov'
-        if date_folder_name not in uploaded_files:
+            date_folder_name = 'Upto 15th Nov'
+            # if date_folder_name not in uploaded_files:
             date_folder_id_upto_15th = create_folder(
                 drive, date_folder_name, root_folder_id)
             uploaded_files.append(date_folder_name + " - " + date_folder_id_upto_15th)
-        else:
-            date_folder_id_upto_15th = [entry.split(' - ')[2] for entry in uploaded_files if entry.contains('Upto 15th Nov - ')]
+            # else:
+                # date_folder_id_upto_15th = [entry.split(' - ')[2] for entry in uploaded_files if entry.contains('Upto 15th Nov - ')]
 
-        date_folder_name = 'After 15th Nov'
-        if date_folder_name not in uploaded_files:
+            date_folder_name = 'After 15th Nov'
+            # if date_folder_name not in uploaded_files:
             date_folder_id_after_15th = create_folder(
                 drive, date_folder_name, root_folder_id)
             uploaded_files.append(date_folder_name + "-" + date_folder_id_after_15th)
-        else:
-            date_folder_id_after_15th = [entry.split(' - ')[2] for entry in uploaded_files if entry.contains('After 15th Nov - ')]
+            # else:
+                # date_folder_id_after_15th = [entry.split(' - ')[2] for entry in uploaded_files if entry.contains('After 15th Nov - ')]
 
-        category_folders_dict_upto_15th = create_category_folders(
-            drive, date_folder_id_upto_15th)
+            category_folders_dict_upto_15th = create_category_folders(
+                drive, date_folder_id_upto_15th)
 
-        category_folders_dict_after_15th = create_category_folders(
-            drive, date_folder_id_after_15th)
+            category_folders_dict_after_15th = create_category_folders(
+                drive, date_folder_id_after_15th)
 
-        for category in Category.objects.all():
-            # id = category_folders_dict[category.name]
-            for abstract in Abstract.objects.filter(category=category):
-                if abstract.document.name.split("/")[2] not in uploaded_files:
-                    
-                    if abstract.submission_date <= timezone.datetime(2018, 11, 15).replace(tzinfo=pytz.timezone('Asia/Kolkata')):
-                        id = category_folders_dict_upto_15th[category.name]
-                    else:
-                        id = category_folders_dict_after_15th[category.name]
+            for category in Category.objects.all():
+                # id = category_folders_dict[category.name]
+                for abstract in Abstract.objects.filter(category=category):
+                    if abstract.document.name.split("/")[2] not in uploaded_files:
+                        if abstract.submission_date <= timezone.datetime(2018, 11, 17).replace(tzinfo=pytz.timezone('Asia/Kolkata')):
+                            id = category_folders_dict_upto_15th[category.name]
+                        else:
+                            id = category_folders_dict_after_15th[category.name]
 
-                    file = drive.CreateFile(metadata={"title": abstract.document.name.split("/")[2],
-                                                    "parents": [{"kind": "drive#fileLink",
-                                                                "id": id}]})
-                    file.SetContentFile(abstract.document.path)
-                    file.Upload()
-                    uploaded_files.append(file['title'])
-    finally: 
-        with open(uploaded_files_path, "w+") as f:
-            for uploaded_file in uploaded_files:
-                f.write(uploaded_file + '\n')
+                        file = drive.CreateFile(metadata={"title": abstract.document.name.split("/")[2],
+                                                        "parents": [{"kind": "drive#fileLink",
+                                                                    "id": id}]})
+                        file.SetContentFile(abstract.document.path)
+                        file.Upload()
+                        uploaded_files.append(file['title'])
+            return 'Task Completed'
+        except:
+            return 'Error'
+        finally: 
+            with open(uploaded_files_path, "w+") as f:
+                for uploaded_file in uploaded_files:
+                    f.write(uploaded_file + '\n')
 
-    return HttpResponseRedirect(reverse('main:pepadmin'))
+    response = upload_thread()
+    return render(request, 'main/paper-presentation/pepadmin.html', {'response': response})
 
 
 def get_file_list(drive):

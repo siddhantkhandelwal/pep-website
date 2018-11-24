@@ -9,9 +9,15 @@
     <!-- <script src="main.js"></script> -->
 </head>
 <body>
+    {{ response }}
     <button>
-        <a href="{% url 'main:upload_to_drive' %}">
+        <a href="{% url 'main:upload_to_drive' 0%}">
             Upload to Drive
+        </a>
+    </button>
+    <button>
+        <a href="{% url 'main:upload_to_drive' 1 %}">
+            Flush record and Upload to Drive
         </a>
     </button>
     <button> 
