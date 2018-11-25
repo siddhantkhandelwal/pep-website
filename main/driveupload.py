@@ -5,11 +5,12 @@ import os
 import datetime
 from django.utils import timezone
 import pytz
-from .models import Abstract, Paper, ParticipantProfile, ProfessorProfile, StaffProfile, College, SupervisorProfile, Category
+from models import Abstract, Paper, ParticipantProfile, ProfessorProfile, StaffProfile, College, SupervisorProfile, Category
 
 def upload_thread(pk):
         global uploaded_files
         global uploaded_files_path
+	uploaded_files = []
         uploaded_files_path = os.path.join(os.path.dirname(
             os.path.abspath(__file__)), "uploaded_files")
         if pk==0:
@@ -138,6 +139,6 @@ def create_category_folders(drive, root_folder_id):
             uploaded_files.append(root_folder_id + category.name)
     return category_folders_details
 
-if __name__ == "__main__":
+def execute():
     upload_thread(1)
     print("Starting Execution")
