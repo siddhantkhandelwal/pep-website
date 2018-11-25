@@ -2,7 +2,7 @@ from django.shortcuts import render, reverse, get_object_or_404, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from .forms import UserForm, AbstractForm, PaperForm, AbstractReviewForm, PaperReviewForm, ParticipantProfileForm, PasswordResetForm, AssignProfessorForm
 from django.contrib.auth import authenticate, login, logout
-from .models import Abstract, Paper, ParticipantProfile, ProfessorProfile, StaffProfile, College, SupervisorProfile, Category
+from main.models import Abstract, Paper, ParticipantProfile, ProfessorProfile, StaffProfile, College, SupervisorProfile, Category
 from django.contrib.auth.decorators import login_required
 
 # import sendgrid
@@ -18,14 +18,16 @@ from django.utils import timezone
 import pytz
 from django_file_md5 import calculate_md5
 from threading import Thread
-from driveupload import upload_thread
+from main.driveupload import upload_thread
+
 
 def start_new_thread(function):
     def decorator(*args, **kwargs):
-        t = Thread(target = function, args=args, kwargs=kwargs)
+        t = Thread(target=function, args=args, kwargs=kwargs)
         t.daemon = True
         t.start()
     return decorator
+
 
 def paper_presentation(request):
     return HttpResponseRedirect(reverse('main:portal'))
@@ -136,6 +138,7 @@ def edit_profile(request):
 
 @login_required
 def portal(request):
+
     if request.user.is_superuser:
         # return HttpResponseRedirect('/admin')
         return HttpResponseRedirect('/paper-presentation/admin')
@@ -215,6 +218,9 @@ def portal(request):
 
 @login_required
 def abstract_submission(request):
+
+    return HttpResponseRedirect(reverse('main:portal'))
+
     if request.method == 'POST':
         user_profile = ParticipantProfile.objects.get(user=request.user)
         abstract_form = AbstractForm(request.POST, request.FILES)
@@ -320,26 +326,27 @@ def pepadmin(request):
 @login_required
 def check_duplicate_abstracts(request):
     abstracts = Abstract.objects.all()
-    
+
     md5_dict = {}
 
     for abstract in abstracts:
         md5_dict[abstract.uid] = calculate_md5(abstract.document)
-    
+
     rev_multiduct_md5_dict = {}
 
     for uid, md5 in md5_dict.items():
         rev_multiduct_md5_dict.setdefault(md5, set()).add(uid)
-    
+
     response = []
-    
+
     for uid_set in [uids for md5, uids in rev_multiduct_md5_dict.items() if len(uids) > 1]:
         response.append(uid_set)
-    return HttpResponse(response) 
+    return HttpResponse(response)
+
 
 @login_required
 def upload_to_drive(request, pk):
-    
+
     response = upload_thread(pk)
     return render(request, 'main/paper-presentation/pepadmin.html', {'response': response})
 
