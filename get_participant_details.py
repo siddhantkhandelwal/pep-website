@@ -20,17 +20,21 @@ def action():
     csv_file = currentPath + "/participant_details.csv"
 
     for abstract in Abstract.objects.all():
-        data = {'UID': abstract.uid,
-                'Title': abstract.title,
-                'Category': abstract.category.name,
-                'Submission Date': abstract.submission_date,
-                'Author': abstract.participant.author,
-                'Co-Author': abstract.participant.coauthor,
-                'Phone': abstract.participant.phone1,
-                'Alternate Phone': abstract.participant.phone2,
-                'College': abstract.participant.college.name,
-                'Email': abstract.participant.user.email}
-        dict_data.append(data)
+        if abstract:
+            if abstract.participant is None:
+                continue
+            else:
+                data = {'UID': abstract.uid,
+                    'Title': abstract.title,
+                    'Category': abstract.category.name,
+                    'Submission Date': abstract.submission_date,
+                    'Author': abstract.participant.author,
+                    'Co-Author': abstract.participant.coauthor,
+                    'Phone': abstract.participant.phone1,
+                    'Alternate Phone': abstract.participant.phone2,
+                    'College': abstract.participant.college.name,
+                    'Email': abstract.participant.user.email}
+                dict_data.append(data)
 
     WriteDictToCSV(csv_file, csv_columns, dict_data)
 
