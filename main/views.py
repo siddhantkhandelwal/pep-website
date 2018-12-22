@@ -1,14 +1,12 @@
 from django.shortcuts import render, reverse, get_object_or_404, redirect
 from django.http import HttpResponse, HttpResponseRedirect
-from .forms import UserForm, AbstractForm, PaperForm, AbstractReviewForm, PaperReviewForm, ParticipantProfileForm, PasswordResetForm, AssignProfessorForm
+from .forms import UserForm, AbstractForm, PaperForm, AbstractReviewForm, PaperReviewForm, ParticipantProfileForm, AssignProfessorForm
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
 from main.models import Abstract, Paper, ParticipantProfile, ProfessorProfile, StaffProfile, College, SupervisorProfile, Category
 from django.contrib.auth.decorators import login_required
-
-# import sendgrid
-# import os
-# from sendgrid.helpers.mail import *
-
+from django.core.mail import send_mail
+from django.conf import settings
 from pydrive.auth import GoogleAuth
 from pydrive.drive import GoogleDrive
 import sys
@@ -106,20 +104,51 @@ def user_logout(request):
     return HttpResponseRedirect(reverse('main:user_login'))
 
 
-@login_required
 def user_password_reset(request):
     if request.method == 'POST':
-        user = request.user
-        password_reset_form = PasswordResetForm(
-            data=request.POST, instance=user)
-        if password_reset_form.is_valid():
-            user = password_reset_form.save(commit=False)
-            user.set_password(user.password)
+        check_email = request.POST.get('email')
+        check_username = request.POST.get('username')
+        user = User.objects.get(username=check_username)
+        if user is not None and user.email == check_email:
+            new_password = User.objects.make_random_password()
+            subject = 'Paper Presentation APOGEE - Password Reset'
+            message = 'Your new password for username ' + \
+                user.username + ' is: ' + new_password
+            message += '\n\n\nRegards,\nAtharva Tandon\nCoordinator,\nDepartment of Paper Evaluation and Presentation\n\nAPOGEE 2019 | BITS Pilani | +91 8209411724'
+            email_from = settings.EMAIL_HOST_USER
+            recipient_list = [check_email, ]
+            send_mail(subject, message, email_from, recipient_list)
+            user.set_password(new_password)
             user.save()
-            return HttpResponseRedirect(reverse('main:user_login'))
+            return render(request, 'main/paper-presentation/password-reset.html', {'status': "Check your email for new password"})
+        else:
+            return render(request, 'main/paper-presentation/password-reset.html', {'status': "No Account associated with " + check_username})
     else:
-        password_reset_form = PasswordResetForm()
-    return render(request, 'main/paper-presentation/password-reset.html', {'password_reset_form': password_reset_form})
+        return render(request, 'main/paper-presentation/password-reset.html', {})
+
+
+@login_required
+def user_password_change(request):
+    if request.method == 'POST':
+        check_email = request.POST.get('email')
+        old_password = request.POST.get('old_password')
+        new_password = request.POST.get('new_password')
+        user = request.user
+        if user.check_password(old_password) and user.email == check_email:
+            user.set_password(new_password)
+            user.save()
+            subject = 'Paper Presentation APOGEE - Password Change'
+            message = 'Your password for username ' + user.username + ' was changed'
+            message += '\n\n\nRegards,\nAtharva Tandon\nCoordinator,\nDepartment of Paper Evaluation and Presentation\n\nAPOGEE 2019 | BITS Pilani | +91 8209411724'
+            email_from = settings.EMAIL_HOST_USER
+            recipient_list = [check_email, ]
+            send_mail(subject, message, email_from, recipient_list)
+            logout(request)
+            return HttpResponseRedirect(reverse('main:index'))
+        else:
+            return render(request, 'main/paper-presentation/password-change.html', {'status': 'Incorrect Email/Old Password'})
+    else:
+        return render(request, 'main/paper-presentation/password-change.html', {})
 
 
 @login_required

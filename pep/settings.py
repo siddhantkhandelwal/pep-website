@@ -79,15 +79,15 @@ try:
     from config import *
 
     DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'pep_portal',
-        'USER': 'pep_portal',
-        'PASSWORD': 'pepportal',
-        'HOST': 'localhost',
-        'PORT': '3306',
-        'OPTIONS': {'charset': 'utf8mb4'}
-       }
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'pep_portal',
+            'USER': 'pep_portal',
+            'PASSWORD': 'pepportal',
+            'HOST': 'localhost',
+            'PORT': '3306',
+            'OPTIONS': {'charset': 'utf8mb4'}
+        }
     }
 except:
 
@@ -117,7 +117,6 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
 
@@ -139,3 +138,9 @@ MEDIA_URL = '/pep-media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 LOGIN_URL = "main:user_login"
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'pep@bits-apogee.org'
+EMAIL_HOST_PASSWORD = 'quidagis?'
+EMAIL_PORT = 587

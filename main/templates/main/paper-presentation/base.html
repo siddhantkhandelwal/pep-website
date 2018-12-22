@@ -1,13 +1,14 @@
 {% load staticfiles %}
-	<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
+
 <head>
   <!-- Compiled and minified CSS -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
   <style>
-    
+
     body {
     display: flex;
     min-height: 100vh;
@@ -219,59 +220,65 @@
   </style>
 
   <!-- Compiled and minified JavaScript -->
-    <script
-    src="https://code.jquery.com/jquery-3.3.1.min.js"
-    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
     crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
   <title>Portal {% block title %}{% endblock %}</title>
   <!--Let browser know website is optimized for mobile-->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
-<body>
-    <header>
-        <nav>
-            <div class="nav-wrapper">
-              <a href="{% url 'main:portal' %}" class="" id="dashboard-title">
-                <img src=" {% static 'main/paper-presentation/images/logo.png' %}" id="pep-logo">
-              </a>
-              <ul class="right">
-                {% if access_level == 0%}
-                  <li><a class="dropdown-trigger" href="#" data-target="dropdown2"><i class="material-icons center white-text">add</i></a></li>
-                {% endif %}
-                <!-- Dropdown Trigger -->
-                {% if request.user.is_authenticated %}
-                  <li><a class="dropdown-trigger" href="#" data-target="dropdown1">{{ request.user.username }}<i class="material-icons right">arrow_drop_down</i></a></li>
-                {% else %}
-                  <li><a data-target="modal-rules-regulations" class="modal-trigger">Rules &amp Regulations</a></li>
-                {% endif %}
 
-              </ul>
-              <ul id="dropdown1" class="dropdown-content">
-                <li><a data-target="modal-rules-regulations" class="modal-trigger white-text">Rules &amp Regulations</a></li>
-                <li class="divider" tabindex="-1"></li>
-                <li><a href="{% url 'main:user_logout' %}" class="white-text">Logout</a></li>
-              </ul>
-              <ul id="dropdown2" class="dropdown-content">
-                  <li><a href="{% url 'main:abstract_submission' %}" class="white-text">Add Abstract</a></li>
-                  <!--<li><a href="{% url 'main:paper_submission' %}" class="white-text">Add Paper</a></li>-->
-              </ul>
-              <!-- Modal Structure -->
-              <div id="modal-rules-regulations" class="modal">
-                <div class="modal-content">
-                  <h4 align="center">Rules &amp Regulations</h4><br><br>
-                  <li>A particular paper can be presented only in one category. Also, participants can present more than one paper. However, the abstracts should be submitted separately.</li>
-                  <li>Only genuine and original paper abstracts should be uploaded. Abstracts found copied from any source like internet/ journals etc. will be disqualified. Plagiarized content will be strictly dealt with and would lead to participant's disqualification. In case of any discrepancy, organizers decision will be final and binding.</li><br><br>
-                  <u><a href="https://drive.google.com/file/d/0B0bolFCiF4UtMnN2ZjAwclpEeFdJVUhzY0RnY19UMWJiR1Rn/view?usp=sharing" target="_">Click here for Abstract Format</a><br></u>
-                  <u><a href="https://drive.google.com/a/bits-apogee.org/file/d/1mNk0fJHjQOFBAL2TihYvP7MlG6grAG_H/view?usp=drivesdk" target="_">Click here for Paper Format</a></u><br>
-                  <div class="red-text">
-                    Note: Only PDF file Format is Supported<br>
-                  </div>
-                </div>
-              </div>
+<body>
+  <header>
+    <nav>
+      <div class="nav-wrapper">
+        <a href="{% url 'main:portal' %}" class="" id="dashboard-title">
+          <img src=" {% static 'main/paper-presentation/images/logo.png' %}" id="pep-logo">
+        </a>
+        <ul class="right">
+          {% if access_level == 0%}
+          <li><a class="dropdown-trigger" href="#" data-target="dropdown2"><i class="material-icons center white-text">add</i></a></li>
+          {% endif %}
+          <!-- Dropdown Trigger -->
+          {% if request.user.is_authenticated %}
+          <li><a class="dropdown-trigger" href="#" data-target="dropdown1">{{ request.user.username }}<i class="material-icons right">arrow_drop_down</i></a></li>
+          {% else %}
+          <li><a data-target="modal-rules-regulations" class="modal-trigger">Rules &amp Regulations</a></li>
+          {% endif %}
+
+        </ul>
+        <ul id="dropdown1" class="dropdown-content">
+          <li><a data-target="modal-rules-regulations" class="modal-trigger white-text">Rules &amp Regulations</a></li>
+          <li class="divider" tabindex="-1"></li>
+          <li><a href="{% url 'main:user_password_change' %}" class="white-text">Change Password</a></li>
+          <li><a href="{% url 'main:user_logout' %}" class="white-text">Logout</a></li>
+        </ul>
+        <ul id="dropdown2" class="dropdown-content">
+          <li><a href="{% url 'main:abstract_submission' %}" class="white-text">Add Abstract</a></li>
+          <!--<li><a href="{% url 'main:paper_submission' %}" class="white-text">Add Paper</a></li>-->
+        </ul>
+        <!-- Modal Structure -->
+        <div id="modal-rules-regulations" class="modal">
+          <div class="modal-content">
+            <h4 align="center">Rules &amp Regulations</h4><br><br>
+            <li>A particular paper can be presented only in one category. Also, participants can present more than one
+              paper. However, the abstracts should be submitted separately.</li>
+            <li>Only genuine and original paper abstracts should be uploaded. Abstracts found copied from any source
+              like internet/ journals etc. will be disqualified. Plagiarized content will be strictly dealt with and
+              would lead to participant's disqualification. In case of any discrepancy, organizers decision will be
+              final and binding.</li><br><br>
+            <u><a href="https://drive.google.com/file/d/0B0bolFCiF4UtMnN2ZjAwclpEeFdJVUhzY0RnY19UMWJiR1Rn/view?usp=sharing"
+                target="_">Click here for Abstract Format</a><br></u>
+            <u><a href="https://drive.google.com/a/bits-apogee.org/file/d/1mNk0fJHjQOFBAL2TihYvP7MlG6grAG_H/view?usp=drivesdk"
+                target="_">Click here for Paper Format</a></u><br>
+            <div class="red-text">
+              Note: Only PDF file Format is Supported<br>
             </div>
-        </nav>
-    </header>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
   <main>
     {% block body%}
     {% endblock %}
@@ -299,63 +306,64 @@
     </div>
     <div class="footer-copyright">
       <div class="container">
-      <a class="grey-text text-lighten-4">Made with &hearts; by PEP</a>
+        <a class="grey-text text-lighten-4">Made with &hearts; by PEP</a>
       </div>
     </div>
   </footer>
   <script type="text/javascript">
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
       var elems = document.querySelectorAll('.modal');
       var instances = M.Modal.init(elems, {});
       $(".dropdown-trigger").dropdown();
-	  $('.tabs').tabs();
+      $('.tabs').tabs();
     });
 
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
       var elems = document.querySelectorAll('.dropdown-trigger');
       var instances = M.Dropdown.init(elems, options);
     });
 
 
-    document.addEventListener('DOMContentLoaded', function() {
-    var elems = document.querySelectorAll('select');
-    var instances = M.FormSelect.init(elems, {});
-  });
+    document.addEventListener('DOMContentLoaded', function () {
+      var elems = document.querySelectorAll('select');
+      var instances = M.FormSelect.init(elems, {});
+    });
 
     function validateEmail(email) {
-        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        return re.test(String(email).toLowerCase());
+      var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      return re.test(String(email).toLowerCase());
     }
 
     document.getElementById("user_form").onsubmit = function (e) {
-        var email = document.getElementById("id_email").value,
-            phone = document.getElementById("id_phone1").value;
-            //altphone = document.getElementById("id_phone2").value;
+      var email = document.getElementById("id_email").value,
+        phone = document.getElementById("id_phone1").value;
+      //altphone = document.getElementById("id_phone2").value;
 
-        if (!validateEmail(email)) {
-            document.getElementById("front_email_err").innerHTML = "Enter a valid email address";
-            e.preventDefault();
-        }
-        else {
-            document.getElementById("front_email_err").innerHTML = "";
-        }
-        
-        if (phone.length != 10) {
-            document.getElementById("front_phone_err").innerHTML = "Enter a valid phone number";
-            e.preventDefault();
-        }
-        else {
-            document.getElementById("front_phone_err").innerHTML = "";
-        }
-        
-        // if (altphone.length != 10) {
-        //     document.getElementById("front_altphone_err").innerHTML = "Enter a valid phone number";
-        //     e.preventDefault();
-        // }
-        // else {
-        //     document.getElementById("front_altphone_err").innerHTML = "";
-        // }
+      if (!validateEmail(email)) {
+        document.getElementById("front_email_err").innerHTML = "Enter a valid email address";
+        e.preventDefault();
+      }
+      else {
+        document.getElementById("front_email_err").innerHTML = "";
+      }
+
+      if (phone.length != 10) {
+        document.getElementById("front_phone_err").innerHTML = "Enter a valid phone number";
+        e.preventDefault();
+      }
+      else {
+        document.getElementById("front_phone_err").innerHTML = "";
+      }
+
+      // if (altphone.length != 10) {
+      //     document.getElementById("front_altphone_err").innerHTML = "Enter a valid phone number";
+      //     e.preventDefault();
+      // }
+      // else {
+      //     document.getElementById("front_altphone_err").innerHTML = "";
+      // }
     }
   </script>
 </body>
+
 </html>
