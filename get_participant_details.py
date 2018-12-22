@@ -7,7 +7,7 @@ from django.utils.encoding import smart_str
 
 
 def WriteDictToCSV(csv_file, csv_columns, dict_data):
-    with open(csv_file, u'w') as csvfile:
+    with open(csv_file, 'wb') as csvfile:
         writer = csv.DictWriter(csvfile, fieldnames=csv_columns)
         writer.writeheader()
         for data in dict_data:
@@ -21,7 +21,7 @@ def action():
                    smart_str(u'Alternate Phone'), smart_str(u'College')]
     dict_data = []
 
-    csv_file = u"participant_details.csv"
+    csv_file = 'participant_details.csv'
 
     for abstract in Abstract.objects.all():
         if abstract:
@@ -43,9 +43,9 @@ def action():
     WriteDictToCSV(csv_file, csv_columns, dict_data)
 
 
-if __name__ == u'__main__':
+if __name__ == '__main__':
     import django
-    os.environ.setdefault(u'DJANGO_SETTINGS_MODULE', u'pep.settings')
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'pep.settings')
     django.setup()
     from main.models import ParticipantProfile, Abstract
     action()
