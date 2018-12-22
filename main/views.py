@@ -144,7 +144,7 @@ def user_password_change(request):
             recipient_list = [check_email, ]
             send_mail(subject, message, email_from, recipient_list)
             logout(request)
-            return HttpResponseRedirect(reverse('main:index'))
+            return HttpResponseRedirect(reverse('main:portal'))
         else:
             return render(request, 'main/paper-presentation/password-change.html', {'status': 'Incorrect Email/Old Password'})
     else:
