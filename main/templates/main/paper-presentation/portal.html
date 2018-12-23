@@ -45,16 +45,23 @@
   					          </span>
   					          <span style="font-size: 12px;" class="grey-text">
   					 	          UID: {{ abstract.uid }}
-                        <div id="status">
+                        {% comment %}
+                         <div id="status">
                           {% if abstract.status == 'AC' %}
                               <p>Abstract Checked
                               <i class="material-icons green-text">check_circle</i></p>
                           {% endif %}
                         </div>
+                        {% endcomment %}
   					          </span>
   					        </div>
   					        <p class="grey-text"> {{ abstract.submission_date }}</p>
                     <p class="grey-text"> {{ abstract.category.name }}</p>
+                    {% if abstract.verdict == 'Abstract Rejected' %}
+                      <p class="red-text">{{ abstract.verdict }}</p>
+                    {% elif abstract.verdict == 'Abstract Selected' %}
+                      <p class="green-text">{{ abstract.verdict }}</p>
+                    {% endif %}
                       <div class="paper-title-bottom">
                         <span>
                           {{ abstract.participant.author }}<br>
@@ -206,6 +213,7 @@
                       </span>
                       <span style="font-size: 12px;" class="grey-text">
                         UID: {{ abstract.uid }}
+                        {% comment %}
                         <div id="status">
                           {% if abstract.status == 'AC' %}
                               <i class="material-icons green-text">check_circle</i>
@@ -213,6 +221,7 @@
                               <i class="material-icons grey-text" style="opacity: 0.2">check_circle</i>
                           {% endif %}
                         </div>
+                      {% endcomment %}
                       </span>
                     </div>
                     <p class="grey-text"> {{ abstract.submission_date }}</p>
@@ -322,7 +331,7 @@
                             {{ paper.abstract.participant.coauthor }}
                           {% endif %}
                           {% if abstract.professor %}
-                            Professor: {{ abstract.professor.display_name }}
+                             {{ abstract.professor.display_name }}
                           {% else %}
                             <a class="waves-effect btn-flat modal-trigger blue-text" data-target="assign-professor-modal-{{ forloop.counter }}">Assign Professor</a>
                           {% endif %}
@@ -427,6 +436,7 @@
                       </span>
                       <span style="font-size: 12px;" class="grey-text">
                         UID: {{ abstract.uid }}
+                        {% comment %}
                         <div id="status">
                           {% if abstract.status == 'AC' %}
                               <i class="material-icons green-text">check_circle</i>
@@ -434,10 +444,16 @@
                               <i class="material-icons grey-text" style="opacity: 0.2">check_circle</i>
                           {% endif %}
                         </div>
+                        {% endcomment %}
                       </span>
                     </div>
                     <p class="grey-text"> {{ abstract.submission_date }}</p>
                     <p class="grey-text"> {{ abstract.category.name }}</p>
+                    {% if abstract.verdict == 'Abstract Rejected' %}
+                      <p class="red-text">{{ abstract.verdict }}</p>
+                    {% elif abstract.verdict == 'Abstract Selected' %}
+                      <p class="green-text">{{ abstract.verdict }}</p>
+                    {% endif %}
                       <div class="paper-title-bottom">
                         <span>
                           {{ abstract.participant.author }}<br>
@@ -445,7 +461,7 @@
                             {{ abstract.participant.coauthor }}<br>
                           {% endif %}
                           {% if abstract.professor %}
-                            Professor: {{ abstract.professor.display_name }}
+                             {{ abstract.professor.display_name }}
                           {% else %}
                             <a class="waves-effect btn-flat modal-trigger blue-text" data-target="assign-professor-modal-{{ forloop.counter }}">Assign Professor</a>
                           {% endif %}
@@ -545,7 +561,7 @@
                             {{ paper.abstract.participant.coauthor }}
                           {% endif %}
                           {% if abstract.professor %}
-                            Professor: {{ abstract.professor.display_name }}
+                             {{ abstract.professor.display_name }}
                           {% else %}
                             <a class="waves-effect btn-flat modal-trigger blue-text" data-target="assign-professor-modal-{{ forloop.counter }}">Assign Professor</a>
                           {% endif %}
@@ -651,6 +667,7 @@
                       </span>
                       <span style="font-size: 12px;" class="grey-text">
                         UID: {{ abstract.uid }}
+                        {% comment %}
                         <div id="status">
                           {% if abstract.status == 'AC' %}
                               <i class="material-icons green-text">check_circle</i>
@@ -658,6 +675,7 @@
                               <i class="material-icons grey-text" style="opacity: 0.2">check_circle</i>
                           {% endif %}
                         </div>
+                        {% endcomment %}
                       </span>
                     </div>
                     <p class="grey-text"> {{ abstract.submission_date }}</p>
@@ -665,6 +683,11 @@
                     {% for staff in staff_allotted_list %}
                       <p class="grey-text">{{ staff.user.username }}</p>
                     {% endfor %}
+                    {% if abstract.verdict == 'Abstract Rejected' %}
+                      <p class="red-text">{{ abstract.verdict }}</p>
+                    {% elif abstract.verdict == 'Abstract Selected' %}
+                      <p class="green-text">{{ abstract.verdict }}</p>
+                    {% endif %}
                       <div class="paper-title-bottom">
                         <span>
                           {{ abstract.participant.author }}<br>
@@ -672,8 +695,8 @@
                             {{ abstract.participant.coauthor }}<br>
                           {% endif %}
                           {% if abstract.professor %}
-                            Professor: {{ abstract.professor.display_name }}
-                            <a class="waves-effect btn-flat modal-trigger blue-text" data-target="assign-professor-modal-{{ forloop.counter }}">Re-assign Professor</a>
+                             {{ abstract.professor.display_name }}<br>
+                            <a class="modal-trigger blue-text" data-target="assign-professor-modal-{{ forloop.counter }}">Re-assign Professor</a>
                           {% else %}
                             <a class="waves-effect btn-flat modal-trigger blue-text" data-target="assign-professor-modal-{{ forloop.counter }}">Assign Professor</a>
                           {% endif %}
@@ -773,7 +796,7 @@
                             {{ paper.abstract.participant.coauthor }}
                           {% endif %}
                           {% if abstract.professor %}
-                            Professor: {{ abstract.professor.display_name }}
+                             {{ abstract.professor.display_name }}
                           {% else %}
                             <a class="waves-effect btn-flat modal-trigger blue-text" data-target="assign-professor-modal-{{ forloop.counter }}">Assign Professor</a>
                           {% endif %}

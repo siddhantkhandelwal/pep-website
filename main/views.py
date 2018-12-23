@@ -153,7 +153,6 @@ def user_password_change(request):
 
 @login_required
 def portal(request):
-
     if request.user.is_superuser:
         # return HttpResponseRedirect('/admin')
         return HttpResponseRedirect('/paper-presentation/admin')

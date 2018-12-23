@@ -85,11 +85,10 @@ class Abstract(models.Model):
 	staff = models.ManyToManyField(StaffProfile)
 	review = models.TextField(null=True, blank=True)
 	verdict_choices = (
-		('ASel', 'Abstract Selected'),
-		('ARej', 'Abstract Rejected'),
-		('AMod', 'Acceptable after changes'))
+		('Abstract Selected', 'Abstract Selected'),
+		('Abstract Rejected', 'Abstract Rejected'))
 	verdict = models.CharField(
-		max_length=4,
+		max_length=20,
 		choices=verdict_choices,
 		null=True,
 		blank=True)
