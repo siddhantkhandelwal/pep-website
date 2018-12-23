@@ -7,9 +7,9 @@ Password Reset
 {% block body %}
 <div class="login-form col" style="height: 100%; display: flex; justify-content: center">
   <div id="login_card" class="row card-panel hoverable">
-    <form class="col s12" id="login_form" , method="post" action="{% url 'main:user_password_reset' %}">
+    <form class="col s12" id="login_form" , method="post" action="{% url 'main:user_trouble_logging_in' %}">
       {% csrf_token %}
-      <h5>Password Reset</h5>
+      <h5>Forgot Username/Password</h5>
       <br>
       {% if status %}
       <div class="blue-text">
@@ -18,22 +18,17 @@ Password Reset
       {% endif %}
       <div class="row">
         <div class="input-field col s12">
-          <i class="material-icons prefix">account_circle</i>
-          <input type="text" name="username" id="username" required>
-          <label for="username">Username</label>
-        </div>
-      </div>
-      <div class="row">
-        <div class="input-field col s12">
           <i class="material-icons prefix">email</i>
           <input type="email" name="email" id="email" required>
           <label for="email">Email</label>
         </div>
       </div>
       <div class="row" style="display: flex; justify-content: center; margin-top: 20px">
-        <button class="btn waves-effect waves-light col blue" type="submit" name="submit">Reset Password
-          <i class="material-icons right">arrow_forward</i>
+        <button class="btn waves-effect waves-light col blue" type="submit" name="submit">Send Mail
         </button>
+      </div>
+      <div class="row" style="display: flex; justify-content: center; margin-top: 20px">
+          <a href="{% url 'main:user_login' %}">Head back to Login</a>
       </div>
     </form>
   </div>

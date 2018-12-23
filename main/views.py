@@ -104,27 +104,27 @@ def user_logout(request):
     return HttpResponseRedirect(reverse('main:user_login'))
 
 
-def user_password_reset(request):
+def user_trouble_logging_in(request):
     if request.method == 'POST':
         check_email = request.POST.get('email')
-        check_username = request.POST.get('username')
-        user = User.objects.get(username=check_username)
-        if user is not None and user.email == check_email:
-            new_password = User.objects.make_random_password()
-            subject = 'Paper Presentation APOGEE - Password Reset'
-            message = 'Your new password for username ' + \
-                user.username + ' is: ' + new_password
-            message += '\n\n\nRegards,\nAtharva Tandon\nCoordinator,\nDepartment of Paper Evaluation and Presentation\n\nAPOGEE 2019 | BITS Pilani | +91 8209411724'
-            email_from = settings.EMAIL_HOST_USER
-            recipient_list = [check_email, ]
-            send_mail(subject, message, email_from, recipient_list)
-            user.set_password(new_password)
-            user.save()
-            return render(request, 'main/paper-presentation/password-reset.html', {'status': "Check your email for new password"})
+        users = User.objects.filter(email=check_email)
+        if users is not None:
+            for user in users:
+                new_password = User.objects.make_random_password()
+                subject = 'Paper Presentation APOGEE - Password Reset'
+                message = 'Your new password for username ' + \
+                    user.username + ' is: ' + new_password
+                message += '\n\n\nRegards,\nAtharva Tandon\nCoordinator,\nDepartment of Paper Evaluation and Presentation\n\nAPOGEE 2019 | BITS Pilani | +91 8209411724'
+                email_from = settings.EMAIL_HOST_USER
+                recipient_list = [check_email, ]
+                send_mail(subject, message, email_from, recipient_list)
+                user.set_password(new_password)
+                user.save()
+            return render(request, 'main/paper-presentation/user-trouble-logging-in.html', {'status': "Check your email for new password"})
         else:
-            return render(request, 'main/paper-presentation/password-reset.html', {'status': "No Account associated with " + check_username})
+            return render(request, 'main/paper-presentation/user-trouble-logging-in.html', {'status': "No Account associated with " + check_email})
     else:
-        return render(request, 'main/paper-presentation/password-reset.html', {})
+        return render(request, 'main/paper-presentation/user-trouble-logging-in.html', {})
 
 
 @login_required
@@ -149,20 +149,6 @@ def user_password_change(request):
             return render(request, 'main/paper-presentation/password-change.html', {'status': 'Incorrect Email/Old Password'})
     else:
         return render(request, 'main/paper-presentation/password-change.html', {})
-
-
-@login_required
-def edit_profile(request):
-    if request.method == 'POST':
-        user = request.user
-        user_profile_form = ParticipantProfileForm(
-            data=request.POST, instance=user)
-        if user_profile_form.is_valid():
-            user_profile = user_profile_form.save()
-            return HttpResponseRedirect(reverse('main:portal'))
-    else:
-        user_profile_form = ParticipantProfileForm()
-    return render(request, 'main/paper-presentation/edit-profile.html', {'user_profile_form': user_profile_form})
 
 
 @login_required
