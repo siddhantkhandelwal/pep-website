@@ -1,7 +1,7 @@
 # Paper Presentation Portal
 
 Built for Paper Evaluation and Presentation Event, APOGEE 2019.
-[Live!](https://bits-apogee.org/paper-presentation/admin/)
+[Live!](https://bits-apogee.org/paper-presentation/)
 
 ## Development
 
