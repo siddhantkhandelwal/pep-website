@@ -7,10 +7,10 @@ from django.conf import settings
 
 
 def abstracts_results_announcement(arg):
-    if arg==0:
-        feedback_dir = 'main/Feedback'
-    else:
+    if arg=='0':
         feedback_dir = 'main/Feedback-tests'
+    else:
+        feedback_dir = 'main/Feedback'
         
     with open(os.path.join(os.path.abspath(feedback_dir), 'results'), 'r') as f:
         for data in f:
