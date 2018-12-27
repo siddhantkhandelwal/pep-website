@@ -1,0 +1,18 @@
+Congratulations {{ abstract.participant.author }}!
+
+Your abstract titled {{ abstract.title }} in the category {{ abstract.category.name }} has been selected for the next round of Paper Presentation 2019.
+
+In this round, you will have to submit your paper by 17th February 2019. You would have to upload the paper on the portal. Click here to see the format for the paper. The participants shortlisted after this round will present their paper during APOGEE 2019 - The Reality Roulette
+
+Feedback for abstract:  As an attempt to promote undergraduate research, we have introduced the system of feedback to help you improve and refine your paper and give proper direction to first time participants. PFA the feedback for your abstract as well.
+
+To add value to the competition and help the students get international recognition for their study, we have collaborated with SpringerPublications. The winners from each category will be given access to E-books worth 100 euros.
+
+Looking forward to your participation.
+
+Warm regards,
+
+Atharva Tandon
+Coordinator, Department of Paper Evaluation and Presentation
+APOGEE 2019 | BITS Pilani | +91-8209411724
+    

@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from main.models import Abstract, Paper, ParticipantProfile, ProfessorProfile, StaffProfile, College, SupervisorProfile, Category
 from django.contrib.auth.decorators import login_required
-from django.core.mail import send_mail
+from django.core.mail import send_mail, EmailMultiAlternatives
 from django.conf import settings
 from pydrive.auth import GoogleAuth
 from pydrive.drive import GoogleDrive
@@ -17,6 +17,7 @@ import pytz
 from django_file_md5 import calculate_md5
 from threading import Thread
 from main.driveupload import upload_thread
+from django.template.loader import get_template
 
 
 def start_new_thread(function):

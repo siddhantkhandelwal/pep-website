@@ -1,0 +1,13 @@
+Hello {{ abstract.participant.author }}!
+
+Thank you for submitting your abstract for Paper Presentation 2019. However, we regret to inform you that your abstract titled {{ abstract.title }} in the category {{ abstract.category.name }} has not been selected for the next round. We highly appreciate your interest in research work and wish you the best for all your future endeavours.
+
+Do check our website and Facebook page for other competitions. Hope to see you in APOGEE 2019 - The Reality Roulette
+
+Feedback for abstract:  As an attempt to promote undergraduate research, we have introduced the system of feedback to help you improve and refine your paper and give proper direction to first time participants. PFA the feedback for your abstract as well. 
+
+Regards,
+Atharva Tandon
+Coordinator, Department of Paper Evaluation and Presentation
+APOGEE 2019 | BITS Pilani | +91-8209411724
+    
