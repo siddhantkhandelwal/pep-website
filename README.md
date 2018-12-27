@@ -1,6 +1,7 @@
 # Paper Presentation Portal
 
 Built for Paper Evaluation and Presentation Event, APOGEE 2019.
+Description on [blog post](https://siddhantkhandelwal.github.io/paper-presentation-portal/)
 [Live!](https://bits-apogee.org/paper-presentation/)
 
 ## Development
