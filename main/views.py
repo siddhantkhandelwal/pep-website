@@ -7,8 +7,8 @@ from main.models import Abstract, Paper, ParticipantProfile, ProfessorProfile, S
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail, EmailMultiAlternatives
 from django.conf import settings
-from pydrive.auth import GoogleAuth
-from pydrive.drive import GoogleDrive
+# from pydrive.auth import GoogleAuth
+# from pydrive.drive import GoogleDrive
 import sys
 import os
 import datetime
