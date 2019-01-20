@@ -1,6 +1,6 @@
 from django.shortcuts import render, reverse, get_object_or_404, redirect
 from django.http import HttpResponse, HttpResponseRedirect
-from .forms import UserForm, AbstractForm, PaperForm, AbstractReviewForm, PaperReviewForm, ParticipantProfileForm, AssignProfessorForm
+from .forms import UserForm, AbstractForm, PaperForm, AbstractReviewForm, PaperReviewForm, ParticipantProfileForm, AssignProfessorForm, AbstractReUploadForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from main.models import Abstract, Paper, ParticipantProfile, ProfessorProfile, StaffProfile, College, SupervisorProfile, Category
@@ -290,18 +290,28 @@ def abstract_review(request, pk):
 @login_required
 def paper_submission(request):
     user_profile = ParticipantProfile.objects.get(user=request.user)
+    abstract = ''
     if request.method == 'POST':
         paper_form = PaperForm(request.POST, request.FILES)
-        if paper_form.is_valid():
+        abstract_re_upload_form = AbstractReUploadForm(request.POST, request.FILES, instance=abstract)
+        if paper_form.is_valid() and abstract_re_upload_form.is_valid():
             paper = paper_form.save(commit=False)
+            if paper.document.name.split('.')[1] != 'pdf' or abstract_re_upload_form.document.name.split('.')[1] != 'pdf':
+                return render(request, 'main/paper-presentation/paper-upload.html', {'paper_upload_form_errors': 'Only PDF file format is Supported',
+                                                                                     'paper_form': paper_form,
+                                                                                     'abstract_re_upload_form': abstract_re_upload_form})
             paper.document.name = str(paper.abstract.uid) + '-' + \
                 paper.abstract.title + '.' + \
                 paper.document.name.split('.')[1]
+            abstract.document.name = str(
+                paper.abstract.uid) + '-' + paper.abstract.title + '.' + abstract.document.name.split('.')[1]
             paper.save()
             return HttpResponseRedirect(reverse('main:portal'))
     else:
         paper_form = PaperForm()
-    return render(request, 'main/paper-presentation/paper-upload.html', {'paper_form': paper_form})
+        abstract_re_upload_form = AbstractReUploadForm()
+    return render(request, 'main/paper-presentation/paper-upload.html', {'paper_form': paper_form,
+                                                                         'abstract_re_upload_form': abstract_re_upload_form})
 
 
 @login_required

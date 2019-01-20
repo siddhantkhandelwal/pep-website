@@ -39,6 +39,10 @@ class PaperForm(forms.ModelForm):
         model = Paper
         fields = ('document', 'abstract')
 
+class AbstractReUploadForm(forms.ModelForm):
+    class Meta:
+        model = Abstract
+        fields = ('document',)
 
 class AbstractReviewForm(forms.ModelForm):
     class Meta:
