@@ -67,16 +67,9 @@ class ParticipantProfile(models.Model):
 			
 
 class Abstract(models.Model):
-	def generate_uid():
-		random.seed(datetime.now())
-		temp_uid = random.randint(0, 1000)
-		while(uid(temp_uid) == False):
-			temp_uid = random.randint(0, 1000)
-		return temp_uid
-	
 	title = models.CharField('Abstract Title', max_length=200)
 	submission_date = models.DateTimeField('Date Submitted', auto_now_add=True)
-	uid = models.IntegerField('UID', primary_key=True, default=generate_uid)
+	uid = models.IntegerField('UID', primary_key=True, default='generate_uid')
 	participant = models.ForeignKey(ParticipantProfile, on_delete=models.SET_NULL, null=True)
 	file_name = ''
 	document = models.FileField(upload_to='documents/abstracts/' + file_name)
@@ -109,13 +102,20 @@ class Abstract(models.Model):
 
 	def return_file_path(self):
 		self.file_name = 'documents/abstracts/' + self.uid + '-' + self.title
-
+	
+	def generate_uid():
+		random.seed(datetime.now())
+		temp_uid = random.randint(0, 1000)
+		while(uid(temp_uid) == False):
+			temp_uid = random.randint(0, 1000)
+		return temp_uid
 
 class Paper(models.Model):
 	abstract = models.OneToOneField(Abstract, on_delete=models.CASCADE)
 	submission_date = models.DateTimeField('Date Submitted', auto_now_add=True)
 	document = models.FileField(upload_to='documents/papers/')
-	review = models.TextField(null=True)
+	file_name = ''
+	review = models.TextField(null=True, blank=True)
 	status_choices = (
 		('PS', 'Paper Submitted'),
 		('PC', 'Paper Checked'),
@@ -125,16 +125,22 @@ class Paper(models.Model):
 		choices=status_choices,
 		default='PS')
 	verdict_choices = (
-		('PSel', 'Abstract Selected'),
-		('PRej', 'Abstract Rejected'))
+		('Paper Selected', 'Paper Selected'),
+		('Paper Rejected', 'Paper Rejected'))
 	verdict = models.CharField(
-		max_length=4,
+		max_length=14,
 		choices=verdict_choices,
-		null=True) 
+		null=True,
+		blank=True)
+
+	class Meta:
+		ordering = ['abstract__uid']
+
+	def return_file_path(self):
+		self.file_name = 'documents/paper/' + self.abstract.uid + '-' + self.abstract.title
 
 	def __str__(self):
 		return self.abstract.title
-
 
 def uid(temp_uid):
 	abstracts = Abstract.objects.all()
