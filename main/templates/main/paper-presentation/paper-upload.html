@@ -1,26 +1,27 @@
-{% extends 'main/paper-presentation/base.html' %} 
+{% extends 'main/paper-presentation/base.html' %}
 {% load staticfiles %}
 {% block title %}
-  Upload Paper
+Upload Paper
 {% endblock %}
 
 {% block body %}
 <div class="abstract_upload">
 	<div id="abstract-upload-card" class="row card-panel">
 		<div class="row">
-		  	<form class="col s12" id="paper_submission" method="post" enctype="multipart/form-data" action="{% url 'main:paper_submission' %}">
+			<form class="col s12" id="paper_submission" method="post" enctype="multipart/form-data" action="{% url 'main:paper_submission' %}">
 				{% csrf_token %}
 				{{ paper_form.as_p }}
 				{{ abstract_re_upload_form.as_p }}
-		    <div class="row">
-		      <button class="btn waves-effect waves-light col blue" type="submit" name="action">Upload
-		        <i class="material-icons right">arrow_upward</i>
-		      </button>
+				<div class="row">
+					<button class="btn waves-effect waves-light col blue" type="submit" name="action">Upload
+						<i class="material-icons right">arrow_upward</i>
+					</button>
 				</div>
 				<div class="red-text">
 					{{ paper_upload_form_errors }}
+					{{ abstract_re_upload_form_errors }}
 				</div>
-		  </form>
+			</form>
 		</div>
 	</div>
 </div>

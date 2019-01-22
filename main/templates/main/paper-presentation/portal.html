@@ -14,13 +14,13 @@
 
 {% block body %}
   {% if access_level is 0 %}
-    {% if not abstracts and not papers%}
+    {% if not papers%}
       <div class="row">
         <div class="col s12 m6">
           <div class="card blue">
             <div class="card-content white-text">
-              <span class="card-title">No Abstract Submitted</span>
-              <p>Click on the + button on the navigation bar to add an Abstract<!--or Paper-->
+              <span class="card-title">Please Submit Paper</span>
+              <p>Click on the + button on the navigation bar to add a Paper
               </p>
             </div>
           </div>
@@ -30,11 +30,11 @@
   	  <div class="row">
         <div class="col s12">
           <ul class="tabs">
-  		      <li class="tab col s3 waves-effect"><a class="blue-text" href="#user-papers">Abstracts</a></li>
+  		      <!--<li class="tab col s3 waves-effect"><a class="blue-text" href="#user-papers">Abstracts</a></li>-->
   		      <li class="tab col s3"><a class="active" href="#user-abstracts">Papers</a></li>
           </ul>
         </div>
-        <div id="user-papers" class="col s12">
+        {%comment%}<div id="user-papers" class="col s12">
             {% for abstract in abstracts %}
               <div class="col s12 m6 l3 abstract-card">
                 <div class="card white">
@@ -45,14 +45,14 @@
   					          </span>
   					          <span style="font-size: 12px;" class="grey-text">
   					 	          UID: {{ abstract.uid }}
-                        {% comment %}
+                        
                          <div id="status">
                           {% if abstract.status == 'AC' %}
                               <p>Abstract Checked
                               <i class="material-icons green-text">check_circle</i></p>
                           {% endif %}
                         </div>
-                        {% endcomment %}
+                        
   					          </span>
   					        </div>
   					        <p class="grey-text"> {{ abstract.submission_date }}</p>
@@ -118,7 +118,7 @@
                 </div>
               </div>
             {% endfor %}
-  	      </div>
+  	      </div>{% endcomment %}
           <div id="user-abstracts" class="col s12">
                 {% for paper in papers %}
                   <div class="col s12 m6 l3 abstract-card">
@@ -163,11 +163,6 @@
                             Verdict: Hello
                           </p>-->
                           <div class="fright">
-                            {% if not paper.abstract.review %}
-                              <a class="btn blue feedback-btn" style="margin-right: 7px;">Wait for Feedback</a>
-                            {% else %}
-                              <a class="waves-effect waves-light btn modal-trigger blue white-text" style="margin-right: 7px;" data-target="paper-modal-{{ forloop.counter }}">View Feedback</a>
-                            {% endif %}
                               <a class="waves-effect waves-light btn blue white-text" href="/pep-media/{{ paper.document.name }}" target="_">
                                 <i class="material-icons center">arrow_downward</i>
                               </a>
@@ -366,11 +361,6 @@
                             Status: {{ paper.status }}<br> 
                           </p>
                           <div class="paper-title-bottom-btns">
-                            {% if not paper.review %}
-                              <a class="btn disabled blue feedback-btn">Wait for Feedback</a>
-                            {% else %}
-                              <a class="waves-effect waves-light btn modal-trigger blue white-text" data-target="paper-modal-{{ forloop.counter }}">View Feedback</a>
-                            {% endif %}
                               <a class="waves-effect waves-light btn blue white-text" href="/pep-media/{{ paper.document.name }}" target="_">
                                 <i class="material-icons center">insert_drive_file</i>
                               </a>
@@ -596,11 +586,6 @@
                             Status: {{ paper.status }}<br> 
                           </p>
                           <div class="paper-title-bottom-btns">
-                            {% if not paper.review %}
-                              <a class="btn disabled blue feedback-btn">Wait for Feedback</a>
-                            {% else %}
-                              <a class="waves-effect waves-light btn modal-trigger blue white-text" data-target="paper-modal-{{ forloop.counter }}">View Feedback</a>
-                            {% endif %}
                               <a class="waves-effect waves-light btn blue white-text" href="/pep-media/{{ paper.document.name }}" target="_">
                                 <i class="material-icons center">insert_drive_file</i>
                               </a>
@@ -831,11 +816,6 @@
                             Status: {{ paper.status }}<br> 
                           </p>
                           <div class="paper-title-bottom-btns">
-                            {% if not paper.review %}
-                              <a class="btn disabled blue feedback-btn">Wait for Feedback</a>
-                            {% else %}
-                              <a class="waves-effect waves-light btn modal-trigger blue white-text" data-target="paper-modal-{{ forloop.counter }}">View Feedback</a>
-                            {% endif %}
                               <a class="waves-effect waves-light btn blue white-text" href="/pep-media/{{ paper.document.name }}" target="_">
                                 <i class="material-icons center">insert_drive_file</i>
                               </a>

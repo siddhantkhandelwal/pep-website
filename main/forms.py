@@ -37,7 +37,13 @@ class PaperForm(forms.ModelForm):
 
     class Meta:
         model = Paper
-        fields = ('document', 'abstract')
+        fields = ('abstract','document',)
+
+class PaperAbstractNewForm(forms.ModelForm):
+
+    class Meta:
+        model = Paper
+        fields = ('document',)
 
 class AbstractReUploadForm(forms.ModelForm):
     class Meta:
@@ -51,7 +57,6 @@ class AbstractReviewForm(forms.ModelForm):
         widgets = {
             'review': forms.Textarea(attrs={'cols': 80, 'rows': 3}),
         }
-
 
 class PaperReviewForm(forms.ModelForm):
     class Meta:

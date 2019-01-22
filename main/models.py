@@ -102,12 +102,12 @@ class Abstract(models.Model):
 
 	def return_file_path(self):
 		self.file_name = 'documents/abstracts/' + self.uid + '-' + self.title
-	
+
 	def generate_uid():
 		random.seed(datetime.now())
-		temp_uid = random.randint(0, 1000)
+		temp_uid = random.randint(1000, 2000)
 		while(uid(temp_uid) == False):
-			temp_uid = random.randint(0, 1000)
+			temp_uid = random.randint(1000, 2000)
 		return temp_uid
 
 class Paper(models.Model):
@@ -143,7 +143,7 @@ class Paper(models.Model):
 		return self.abstract.title
 
 def uid(temp_uid):
-	abstracts = Abstract.objects.all()
-	for abstract in abstracts:
-		if abstract.uid == temp_uid:
-			return False
+		abstracts = Abstract.objects.all()
+		for abstract in abstracts:
+			if abstract.uid == temp_uid:
+				return False
