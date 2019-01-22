@@ -29,4 +29,6 @@ urlpatterns = [
         views.paper_submission, name='paper_submission'),
     url(r'^portal/paper-review/(?P<pk>\d+)/$',
         views.paper_review, name='paper_review'),
+    url(r'^portal/paper-abstract-submission/$',
+        views.paper_abstract_submission, name='paper_abstract_submission'),
 ]
