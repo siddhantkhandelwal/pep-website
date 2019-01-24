@@ -231,24 +231,49 @@ def portal(request):
                                                                        'user_profile': user_profile})
 
 
+def generate_uid():
+    random.seed(datetime.now())
+    temp_uid = random.randint(1000, 2000)
+    while(valid_uid(temp_uid) == False):
+        temp_uid = random.randint(1000, 2000)
+    return temp_uid
+
+
+def valid_uid(temp_uid):
+    abstracts = Abstract.objects.all()
+    for abstract in abstracts:
+        if abstract.uid == temp_uid:
+            return False
+
+
 @login_required
-def abstract_submission(request,flag=0):
+def abstract_submission(request, flag=0):
     if request.method == 'POST':
         user_profile = ParticipantProfile.objects.get(user=request.user)
         abstract_form = AbstractForm(request.POST, request.FILES)
         if abstract_form.is_valid():
             abstract = abstract_form.save(commit=False)
             if abstract.document.name.split('.')[1] != 'pdf':
-                return render(request, 'main/paper-presentation/abstract-upload.html', {'abstract_upload_form_errors': 'Only PDF file format is Supported',
-                                                                                        'abstract_form': abstract_form, })
+                if flag == 1:
+                    abstract_form = AbstractForm()
+                    abstract_form.fields["document"].label = "Abstract"
+                    paper_form = PaperAbstractNewForm()
+                    paper_form.fields["document"].label = "Paper"
+                    return render(request, 'main/paper-presentation/abstract-upload.html', {'abstract_form_errors': 'Only PDF file format is Supported',
+                                                                                            'abstract_form': abstract_form,
+                                                                                            'paper_form': paper_form})
+                else:
+                    return render(request, 'main/paper-presentation/abstract-upload.html', {'abstract_upload_form_errors': 'Only PDF file format is Supported',
+                                                                                            'abstract_form': abstract_form, })
 
             abstract.participant = user_profile
             for staff in StaffProfile.objects.filter(categories__in=[abstract.category]):
                 abstract.staff.add(staff)
             abstract.document.name = str(
                 abstract.uid) + '-' + abstract.title + '.' + abstract.document.name.split('.')[1]
+            abstract.uid = generate_uid()
             abstract.save()
-            if flag==1:
+            if flag == 1:
                 return abstract
             else:
                 return HttpResponseRedirect(reverse('main:portal'))
@@ -281,13 +306,14 @@ def paper_submission(request):
         paper_form = PaperForm(request.POST, request.FILES)
         if paper_form.is_valid():
             abstract = paper_form.cleaned_data['abstract']
-            abstract_re_upload_form = AbstractReUploadForm(request.POST, request.FILES, instance=abstract)
+            abstract_re_upload_form = AbstractReUploadForm(
+                request.POST, request.FILES, instance=abstract)
             paper = paper_form.save(commit=False)
             if abstract_re_upload_form.is_valid():
                 if paper.document.name.split('.')[1] != 'pdf' or abstract_re_upload_form.cleaned_data['document'].name.split('.')[1] != 'pdf':
                     return render(request, 'main/paper-presentation/paper-upload.html', {'paper_upload_form_errors': 'Only PDF file format is Supported',
-                                                                                        'paper_form': paper_form,
-                                                                                        'abstract_re_upload_form': abstract_re_upload_form})
+                                                                                         'paper_form': paper_form,
+                                                                                         'abstract_re_upload_form': abstract_re_upload_form})
                 abstract = abstract_re_upload_form.save(commit=False)
                 abstract.document.name = str(
                     abstract.uid) + 'A' + '-' + abstract.title + '.' + abstract.document.name.split('.')[1]
@@ -296,17 +322,26 @@ def paper_submission(request):
                     paper.document.name.split('.')[1]
                 abstract.save()
                 paper.save()
+            else:
+                return render(request, 'main/paper-presentation/paper-upload.html', {'paper_form_errors': paper_form.errors,
+                                                                                     'abstract_re_upload_form_errors': abstract_re_upload_form.errors})
             return HttpResponseRedirect(reverse('main:portal'))
+        else:
+            return render(request, 'main/paper-presentation/paper-upload.html', {'paper_form_errors': paper_form.errors, })
     else:
         abstracts = Abstract.objects.filter(participant=user_profile)
         if not abstracts:
             abstract_form = AbstractForm()
-            paper_form = PaperAbstractNewForm()    
+            abstract_form.fields["document"].label = "Abstract"
+            paper_form = PaperAbstractNewForm()
+            paper_form.fields["document"].label = "Paper"
             return render(request, 'main/paper-presentation/abstract-and-paper-upload.html', {'paper_form': paper_form,
-                                                                                 'abstract_form': abstract_form})
+                                                                                              'abstract_form': abstract_form})
         paper_form = PaperForm()
         paper_form.fields["abstract"].queryset = abstracts
+        paper_form.fields["document"].label = "Paper"
         abstract_re_upload_form = AbstractReUploadForm()
+        abstract_re_upload_form.fields["document"].label = "Abstract"
     return render(request, 'main/paper-presentation/paper-upload.html', {'paper_form': paper_form,
                                                                          'abstract_re_upload_form': abstract_re_upload_form})
 
@@ -328,20 +363,33 @@ def paper_review(request, pk):
                                                                          'abstract': abstract,
                                                                          'paper': paper})
 
+
 @login_required
 def paper_abstract_submission(request):
     if request.method == 'POST':
         abstract = abstract_submission(request, 1)
         paper_form = PaperAbstractNewForm(request.POST, request.FILES)
         if paper_form.is_valid():
+            if paper_form.cleaned_data['documents'].name.split('.')[1] != 'pdf':
+                abstract_form = AbstractForm()
+                abstract_form.fields["document"].label = "Abstract"
+                paper_form = PaperAbstractNewForm()
+                paper_form.fields["document"].label = "Paper"
+                return render(request, 'main/paper-presentation/abstract-upload.html', {'abstract_form_errors': 'Only PDF file format is Supported',
+                                                                                        'abstract_form': abstract_form,
+                                                                                        'paper_form': paper_form})
             paper = paper_form.save(commit=False)
             paper.document.name = str(paper.abstract.uid) + 'P' + '-' + \
-                    paper.abstract.title + '.' + \
-                    paper.document.name.split('.')[1]
+                paper.abstract.title + '.' + \
+                paper.document.name.split('.')[1]
             paper.abstract = abstract
             paper.save()
+        else:
+            return render(request, 'main/paper-presentation/abstract-upload.html', {'abstract_form_errors': abstract_form.errors,
+                                                                                    'paper_form_errors': paper_form.errors})
         return HttpResponseRedirect(reverse('main:portal'))
-        
+
+
 def assign_professor(request, pk):
     abstract = get_object_or_404(Abstract, pk=pk)
     if request.method == 'POST':

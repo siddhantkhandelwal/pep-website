@@ -22,7 +22,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('title', models.CharField(max_length=200, verbose_name='Abstract Title')),
                 ('submission_date', models.DateTimeField(auto_now_add=True, verbose_name='Date Submitted')),
-                ('uid', models.IntegerField(default=main.models.Abstract.generate_uid, primary_key=True, serialize=False, verbose_name='UID')),
+                ('uid', models.IntegerField(primary_key=True, serialize=False, verbose_name='UID')),
                 ('document', models.FileField(upload_to='documents/abstracts/')),
                 ('review', models.TextField(blank=True, null=True)),
                 ('verdict', models.CharField(blank=True, choices=[('ASel', 'Abstract Selected'), ('ARej', 'Abstract Rejected'), ('AMod', 'Acceptable after changes')], max_length=4, null=True)),

@@ -19,7 +19,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='abstract',
             name='uid',
-            field=models.IntegerField(default=b'generate_uid', primary_key=True, serialize=False, verbose_name=b'UID'),
+            field=models.IntegerField(primary_key=True, serialize=False, verbose_name=b'UID'),
         ),
         migrations.AlterField(
             model_name='paper',
