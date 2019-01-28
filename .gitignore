@@ -16,3 +16,5 @@ media
 /static/
 
 duplicate_abstracts_uid_list
+pep-env
+.vscode
