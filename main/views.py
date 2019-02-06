@@ -18,6 +18,8 @@ from django_file_md5 import calculate_md5
 from threading import Thread
 from main.driveupload import upload_thread
 from django.template.loader import get_template
+import random
+from datetime import datetime
 
 
 def start_new_thread(function):
@@ -266,12 +268,12 @@ def abstract_submission(request, flag=0):
                     return render(request, 'main/paper-presentation/abstract-upload.html', {'abstract_upload_form_errors': 'Only PDF file format is Supported',
                                                                                             'abstract_form': abstract_form, })
 
+            abstract.uid = generate_uid()
             abstract.participant = user_profile
             for staff in StaffProfile.objects.filter(categories__in=[abstract.category]):
                 abstract.staff.add(staff)
             abstract.document.name = str(
                 abstract.uid) + '-' + abstract.title + '.' + abstract.document.name.split('.')[1]
-            abstract.uid = generate_uid()
             abstract.save()
             if flag == 1:
                 return abstract
@@ -370,7 +372,7 @@ def paper_abstract_submission(request):
         abstract = abstract_submission(request, 1)
         paper_form = PaperAbstractNewForm(request.POST, request.FILES)
         if paper_form.is_valid():
-            if paper_form.cleaned_data['documents'].name.split('.')[1] != 'pdf':
+            if paper_form.cleaned_data['document'].name.split('.')[1] != 'pdf':
                 abstract_form = AbstractForm()
                 abstract_form.fields["document"].label = "Abstract"
                 paper_form = PaperAbstractNewForm()
@@ -379,10 +381,10 @@ def paper_abstract_submission(request):
                                                                                         'abstract_form': abstract_form,
                                                                                         'paper_form': paper_form})
             paper = paper_form.save(commit=False)
+            paper.abstract = abstract
             paper.document.name = str(paper.abstract.uid) + 'P' + '-' + \
                 paper.abstract.title + '.' + \
                 paper.document.name.split('.')[1]
-            paper.abstract = abstract
             paper.save()
         else:
             return render(request, 'main/paper-presentation/abstract-upload.html', {'abstract_form_errors': abstract_form.errors,
