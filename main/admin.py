@@ -78,8 +78,29 @@ class AbstractAdmin(admin.ModelAdmin):
 			return 'NA'
 
 
+class PaperAdmin(admin.ModelAdmin):
+	list_display = ('uid', 'title', 'category', 'participant_author', 'participant_coauthor', 'professor_name', 'staff_handlers', 'status', 'verdict', 'college_name')
+	
+	def college_name(self, obj):
+		return obj.abstract.participant.college.name
+
+	def staff_handlers(self, obj):
+		return [staff.user.username for staff in obj.abstract.staff.all()]
+
+	def participant_author(self, obj):
+		return obj.abstract.participant.author
+
+	def participant_coauthor(self, obj):
+		return obj.abstract.participant.coauthor
+
+	def professor_name(self, obj):
+		if obj.professor is not None:
+			return obj.abstract.professor.display_name
+		else:
+			return 'NA'
+
 admin.site.register(Category, CategoryAdmin)
-admin.site.register(Paper)
+admin.site.register(Paper, PaperAdmin)
 admin.site.register(Abstract, AbstractAdmin)
 admin.site.register(ParticipantProfile, ParticipantProfileAdmin)
 admin.site.register(ProfessorProfile, ProfessorProfileAdmin)
