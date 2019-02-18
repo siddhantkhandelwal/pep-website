@@ -170,7 +170,6 @@ def portal(request):
                     if supervisor_category == staff_category:
                         if staff not in staff_allotted_list:
                             staff_allotted_list.append(staff)
-        print(staff_allotted_list)
 
         abstracts_allotted = []
         for abstract in Abstract.objects.filter(staff__in=staff_allotted_list):
@@ -304,6 +303,8 @@ def abstract_review(request, pk):
 @login_required
 def paper_submission(request):
     user_profile = ParticipantProfile.objects.get(user=request.user)
+    abstract_re_upload_form = AbstractReUploadForm()
+    abstract_re_upload_form.fields["document"].label = "Abstract"
     if request.method == 'POST':
         paper_form = PaperForm(request.POST, request.FILES)
         if paper_form.is_valid():
@@ -329,7 +330,9 @@ def paper_submission(request):
                                                                                      'abstract_re_upload_form_errors': abstract_re_upload_form.errors})
             return HttpResponseRedirect(reverse('main:portal'))
         else:
-            return render(request, 'main/paper-presentation/paper-upload.html', {'paper_form_errors': paper_form.errors, })
+            return render(request, 'main/paper-presentation/paper-upload.html', {'paper_form_errors': paper_form.errors, 
+                                                                                 'paper_form': paper_form,
+                                                                                 'abstract_re_upload_form': abstract_re_upload_form})
     else:
         abstracts = Abstract.objects.filter(participant=user_profile)
         if not abstracts:
