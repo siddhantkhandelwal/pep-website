@@ -26,7 +26,8 @@ def get_details():
     csv_file = 'outstation_participant_details.csv'
 
     participants_list = []
-    for participant in ParticipantProfile.objects.all().exclude(college__name="BIRLA INSTITUTE OF TECHNOLOGY & SCIENCE PILANI"):
+    participants_profile_list = ParticipantProfile.objects.all().exclude(college__name__contains="BIRLA INSTITUTE OF TECHNOLOGY & SCIENCE PILANI")
+    for participant in participants_profile_list:
         if participant is None:
             continue
         else:
