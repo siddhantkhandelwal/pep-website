@@ -83,7 +83,7 @@
                           {% else %}
                             <a class="waves-effect waves-light btn modal-trigger blue white-text" style="margin-right: 7px;" data-target="paper-modal-{{ forloop.counter }}">View Feedback</a>
                           {% endif %}
-                            <a class="waves-effect waves-light btn blue white-text" href="/pep-media/{{ abstract.document.name }}" target="_">
+                            <a class="waves-effect waves-light btn blue white-text" href="/pep-media/documents/abstracts/{{ abstract.document.name[18:] }}" target="_">
                               <i class="material-icons center">arrow_downward</i>
                             </a>
   						          </div>
@@ -163,7 +163,7 @@
                             Verdict: Hello
                           </p>-->
                           <div class="fright">
-                              <a class="waves-effect waves-light btn blue white-text" href="/pep-media/{{ paper.document.name }}" target="_">
+                              <a class="waves-effect waves-light btn blue white-text" href="/pep-media/{{ paper.abstract.document.name }}" target="_">
                                 <i class="material-icons center">arrow_downward</i>
                               </a>
                           </div>

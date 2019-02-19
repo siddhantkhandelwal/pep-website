@@ -22,6 +22,7 @@ import random
 from datetime import datetime
 
 
+
 def start_new_thread(function):
     def decorator(*args, **kwargs):
         t = Thread(target=function, args=args, kwargs=kwargs)
@@ -272,7 +273,7 @@ def abstract_submission(request, flag=0):
             for staff in StaffProfile.objects.filter(categories__in=[abstract.category]):
                 abstract.staff.add(staff)
             abstract.document.name = str(
-                abstract.uid) + '-' + abstract.title + '.' + abstract.document.name.split('.')[1]
+                abstract.uid).encode('utf-8') + '-' + abstract.title + '.' + abstract.document.name.split('.')[1]
             abstract.save()
             if flag == 1:
                 return abstract
@@ -319,8 +320,8 @@ def paper_submission(request):
                                                                                          'abstract_re_upload_form': abstract_re_upload_form})
                 abstract = abstract_re_upload_form.save(commit=False)
                 abstract.document.name = str(
-                    abstract.uid) + 'A' + '-' + abstract.title + '.' + abstract.document.name.split('.')[1]
-                paper.document.name = str(paper.abstract.uid) + 'P' + '-' + \
+                    abstract.uid).encode('utf-8') + 'A' + '-' + abstract.title + '.' + abstract.document.name.split('.')[1]
+                paper.document.name = str(paper.abstract.uid).encode('utf-8') + 'P' + '-' + \
                     paper.abstract.title + '.' + \
                     paper.document.name.split('.')[1]
                 abstract.save()
@@ -385,7 +386,7 @@ def paper_abstract_submission(request):
                                                                                         'paper_form': paper_form})
             paper = paper_form.save(commit=False)
             paper.abstract = abstract
-            paper.document.name = str(paper.abstract.uid) + 'P' + '-' + \
+            paper.document.name = str(paper.abstract.uid).encode('utf-8') + 'P' + '-' + \
                 paper.abstract.title + '.' + \
                 paper.document.name.split('.')[1]
             paper.save()
