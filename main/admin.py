@@ -82,7 +82,7 @@ class AbstractAdmin(admin.ModelAdmin):
 
 
 class PaperAdmin(admin.ModelAdmin):
-    list_display = ('abstract', 'title', 'document', 'category', 'participant_author',
+    list_display = ('abstract', 'title', 'document', 'category', 'participant_author', 'participant_email',
                     'participant_coauthor', 'professor_name', 'staff_handlers', 'status', 'verdict', 'college_name')
 
     def title(self, obj):
@@ -108,6 +108,9 @@ class PaperAdmin(admin.ModelAdmin):
             return obj.abstract.professor.display_name
         else:
             return 'NA'
+
+    def participant_email(self, obj):
+        return obj.abstract.participant.user.email
 
 
 admin.site.register(Category, CategoryAdmin)
