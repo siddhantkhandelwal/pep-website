@@ -83,6 +83,7 @@ class AbstractAdmin(admin.ModelAdmin):
 
 class PaperAdmin(admin.ModelAdmin):
     list_display = ('abstract', 'title', 'document', 'category', 'participant_author', 'participant_email',
+                    'participant_phone', 'participant_alternate_phone',
                     'participant_coauthor', 'professor_name', 'staff_handlers', 'status', 'verdict', 'college_name')
 
     def title(self, obj):
@@ -111,6 +112,12 @@ class PaperAdmin(admin.ModelAdmin):
 
     def participant_email(self, obj):
         return obj.abstract.participant.user.email
+
+    def participant_phone(self, obj):
+        return obj.abstract.participant.phone1
+
+    def participant_alternate_phone(self, obj):
+        return obj.abstract.participant.phone2
 
 
 admin.site.register(Category, CategoryAdmin)
