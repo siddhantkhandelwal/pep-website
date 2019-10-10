@@ -2,13 +2,6 @@
 
 - Built for Paper Evaluation and Presentation Event, APOGEE 2019.
 - Description on [blog post](https://siddhantkhandelwal.github.io/paper-presentation-portal/)
-- [Live!](https://bits-apogee.org/paper-presentation/)
-
-## Development
-
-- Django
-- SQL
-- Nginx Server (Thanks, Department of Visual Media)
 
 ### Setting up the Development Environment
 
